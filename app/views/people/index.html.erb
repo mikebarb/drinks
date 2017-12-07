@@ -1,0 +1,36 @@
+<p id="notice"><%= notice %></p>
+
+<h1>People</h1>
+
+<input type="text" id="myInput" onkeyup="myFunctionPeople()" placeholder="Filter name list .." title="Type in characters to reduce name list">
+<div id="showAdd" onclick="addPerson();" style="display: none;">Put Add Person Button here</div>
+<ul id="myUL">
+    <% @people.each do |person| %>
+      <li><%= link_to person.name, new_order_path(person) %></li>
+    <% end %>
+</ul>
+
+<h1>Original Listing</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @people.each do |person| %>
+      <tr>
+        <td><%= person.name %></td>
+        <td><%= link_to 'Show', person %></td>
+        <td><%= link_to 'Edit', edit_person_path(person) %></td>
+        <td><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Person', new_person_path %>

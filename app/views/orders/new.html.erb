@@ -1,0 +1,64 @@
+<h1> Create order for selected person</h1>
+
+  <h2>Name: <%= @person.name %></h2>
+  <h2 id=myDrinkName>Drink: </h2>
+
+  <h3>List of available drinks</h3>
+  
+  <input type="text" id="myInput" onkeyup="myFunctionDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
+
+  <ul id="myUL">
+    <% @drinks.each do |drink| %>
+      <li id=<%= drink.id %> onclick="addDrink(this);"><%= drink.name %></li>
+    <% end %>
+  </ul>
+
+<%= form_for(@order) do |f| %>
+  <% if @order.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@order.errors.count, "error") %> prohibited this order from being saved:</h2>
+
+      <ul>
+      <% @order.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="field" style="display: none;">
+    <%= f.label :person_id %>
+    <%= f.text_field :person_id %>
+  </div>
+  
+  
+  <div class="field" style="display: none;">
+    <%= f.label :drink_id %>
+    <%= f.text_field :drink_id %>
+  </div>
+
+  <div class="field" style="display: none;">
+    <%= f.label :quantity %>
+    <%= f.number_field :quantity %>
+  </div>
+
+  <div class="field" style="display: none;">
+    <%= f.label :status %>
+    <%= f.text_field :status %>
+  </div>
+
+  <div class="field" style="display: none;">
+    <%= f.label :day %>
+    <%= f.date_select :day %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+
+<% end %>
+
+<div class="actions">
+  <%= link_to 'Cancel', people_path %>
+</div>
