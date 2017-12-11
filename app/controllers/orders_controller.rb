@@ -66,6 +66,9 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
+        @person = Person.find(@order.person_id)
+        @drink = Drink.find(@order.drink_id)
+        ActionCable.server.broadcast("neworder_channel", message: [@order, @person.name, @drink.name])
         format.html { redirect_to people_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -80,7 +83,57 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1.json
   def update
     respond_to do |format|
+      myOrderId = params[:id]
+      #logger.debug "myOrderId: " + myOrderId
+      myUpdateFields = {}
+      myUpdateFields = order_params
+      myChangedFields = {}
+      person_name = drink_name = ""
+      #logger.debug "myUpdateFields: " + myUpdateFields.inspect
+      day_db = @order.day
+      #logger.debug "day_db: " + day_db.inspect
+      if (myUpdateFields["day(1i)"]) then
+        #logger.debug "there is a day field requested in the update parameters"
+        day_update = Date.new myUpdateFields["day(1i)"].to_i, myUpdateFields["day(2i)"].to_i, myUpdateFields["day(3i)"].to_i
+        #logger.debug "day_update: " + day_update.inspect
+        if(day_update) then   # is it even present in requested updates
+          #logger.debug "day change requested"
+          if (day_db != day_update) then   # detect if it actually changed
+            myChangedFields["day"] = day_update        
+          end
+        end
+      end
+      #logger.debug "myChangedFields: " + myChangedFields.inspect
+      #logger.debug "****************** "
+      myUpdateFields.each {|k,v| 
+        #logger.debug k + ": " + v.inspect + " db value: " + @order[k].inspect
+        #my_string.include? "cde"
+        if (k.include? "day" ) then
+          #logger.debug "day is found"
+          #day_db = @order.day
+          #date = Date.new event["date(1i)"].to_i, event["date(2i)"].to_i, event["date(3i)"].to_i
+          #day_update = Date.new myUpdateFields["day(1i)"].to_i, myUpdateFields["day(1i)"].to_i, myUpdateFields["day(1i)"].to_i
+          next
+        end
+        #logger.debug "just after the detecting day processing"
+        if (@order[k].to_s != v.to_s) then
+          myChangedFields[k] = v
+          if (k == "person_id") then
+            #logger.debug "this will need to get the name of the person"
+            person_name = Person.find(v).name
+            #logger.debug "person_name: " + person_name
+          end
+          if (k == "drink_id") then
+            #logger.debug "this will need to get the name of the drink"
+            drink_name = Drink.find(v).name
+            #logger.debug "drink_name: " + drink_name
+          end
+        end
+      }
+      #logger.debug "myChangedFields: " + myChangedFields.inspect
       if @order.update(order_params)
+        ActionCable.server.broadcast("updateorder_channel", 
+                    message: [myOrderId, myChangedFields, person_name, drink_name])
         format.html { redirect_to shop_orders_path, notice: 'Order was successfully updated.' }
         format.json { render :show, status: :ok, location: @order }
       else
@@ -95,6 +148,9 @@ class OrdersController < ApplicationController
   def destroy
     @order.destroy
     respond_to do |format|
+      ActionCable.server.broadcast("destroyorder_channel", message: @order.id) 
+      #ActionCable.server.broadcast("updateorder_channel", 
+      #              message: [myOrderId, myChangedFields, person_name, drink_name])
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
       format.json { head :no_content }
     end

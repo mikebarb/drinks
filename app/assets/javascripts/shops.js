@@ -7,6 +7,138 @@
 //  selectStatus();
 //});
 
+App.updateorder = App.cable.subscriptions.create("DestroyorderChannel", {  
+  received: function(data) {
+    console.log("destroyorders.js - entered ws received function");
+    console.dir(data);
+    var eleTableBody =  document.getElementById("orders");
+    console.dir(eleTableBody);
+    if (eleTableBody) {
+        // this element is defined
+        //alert("element with id=orders exists on this page");
+        var order_id = data.message;
+        console.log("order_id: " + order_id);
+        //check if this record is already present 
+        // This will be the case for the sender.
+        var eleOrderTableRow = document.getElementById(order_id);
+        console.dir(eleOrderTableRow);
+        if(eleOrderTableRow) {
+            //is present so can update state (or anything else).
+            //alert("This order entry is present - now update on screen");
+            // drop through to remainer of the function.            
+        }else{
+            // entry must be in the table - update only
+            // thus if we get to here, there is an error.
+            //alert("Error - this order entry is not present on this page!");
+            return;
+        }
+        // Simply delete this table row
+        console.dir(eleOrderTableRow);
+        eleOrderTableRow.parentNode.removeChild(eleOrderTableRow);
+    }
+    return;
+  }
+});
+
+
+App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {  
+  received: function(data) {
+    console.log("updateorders.js - entered ws received function");
+    console.dir(data);
+    var eleTableBody =  document.getElementById("orders");
+    console.dir(eleTableBody);
+    if (eleTableBody) {
+        // this element is defined
+        //alert("element with id=orders exists on this page");
+        var order_id = data.message[0];
+        console.log("order_id: " + order_id);
+        //check if this record is already present 
+        // This will be the case for the sender.
+        var eleOrderTableRow = document.getElementById(order_id);
+        console.dir(eleOrderTableRow);
+        if(eleOrderTableRow) {
+            //is present so can update state (or anything else).
+            //alert("This order entry is present - now update on screen");
+            // drop through to remainer of the function.            
+        }else{
+            // entry must be in the table - update only
+            // thus if we get to here, there is an error.
+            alert("Error - this order entry is not present on this page!");
+            return;
+        }      
+        var eletds = eleOrderTableRow.getElementsByTagName("td");
+        var updatedFields = data.message[1];
+        Object.keys(updatedFields).forEach(function(key) {
+            console.log("updatedField: " + key +  ": " +updatedFields[key]);
+            if ( key == "status") {eletds[4].innerHTML = updatedFields["status"];}
+            if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
+            if ( key == "drink_id") {eletds[2].innerHTML = data.message[3];}
+            if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
+            if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
+        });
+        selectStatus();  
+    }
+    return;
+  }
+});
+
+App.neworder = App.cable.subscriptions.create("NeworderChannel", {  
+  received: function(data) {
+    console.log("neworders.js - entered ws received function");
+    console.dir(data);
+    var eleTableBody =  document.getElementById("orders");
+    console.dir(eleTableBody);
+    if (eleTableBody) {
+        // this element is defined
+        //alert("element with id=orders exists on this page");
+        var order_id = data.message[0].id;
+        //console.log("order_id: " + order_id);
+        //check if this record is already present 
+        // This will be the case for the sender.
+        var eleOrderTableRow = document.getElementById(order_id);
+        //console.dir(eleOrderTableRow);
+        if(eleOrderTableRow) {
+            //already there, do nothing.
+            //alert("This order entry is already present!!!");
+            return;
+        }else{
+            //alert("This order entry is not present");
+        }      
+        var person_name = data.message[1];
+        //var person_id = data.message[0].person_id;
+        var drink_name = data.message[2];
+        //var drink_id = data.message[0].drink_id;
+        var created_at = data.message[0].created_at;
+        var status = data.message[0].status;
+        var day = data.message[0].day;
+        var quantity = data.message[0].quantity;
+
+        var hf = "";    //HtmlFragment - short name
+        hf = hf + "<td>" + order_id + "</td>";
+        hf = hf + "<td>" + person_name + "</td>";
+        hf = hf + "<td>" + drink_name + "</td>";
+        hf = hf + "<td>" + quantity + "</td>";
+        hf = hf + "<td>" + status + "</td>";
+        hf = hf + '<td id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
+        hf = hf + '<td id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
+        hf = hf + '<td id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
+        hf = hf + "<td>" + day + "</td>";
+        hf = hf + "<td>" + created_at + "</td>";
+        hf = hf + '<td><a href="/orders/' + order_id + '/edit">Edit</a></td>';
+        hf = hf + '<td onclick="destroyOrder(this);">Destroy</td>';
+
+        //console.log("hf: " + hf);
+        var eletr = document.createElement("tr");
+        eletr.setAttribute("id", order_id );
+        eletr.innerHTML = hf;
+        //console.dir(eletr);
+        eleTableBody.appendChild(eletr);
+        selectStatus();  
+    }
+    return;
+  }
+});
+
 // this function displays the orders based on the checkbox selections.
 function selectStatus(){
     var thisStatus;
@@ -80,7 +212,8 @@ function destroyOrder(el){
         dataType: 'json',
         success: function(){
             console.log("ajax destroy successfull: " + myorder_id);
-            eleTr.parentElement.removeChild(eleTr);
+            var eleTrParent = eleTr.parentElement; 
+            if (eleTrParent) {eleTrParent.removeChild(eleTr);}
         },
         error: function(){
             console.log("orders ajax deletion failed" + myorder_id);
