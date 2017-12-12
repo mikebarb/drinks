@@ -24,5 +24,11 @@ class ShopsController < ApplicationController
     logger.debug "@statusList: " + @statusList.inspect
   end
   
+  # GET /shops/print
+  # GET /shops/print.json
+  def print
+    # this controller simply triggers a simply page 
+    # used for printing lables
+  end  
   
 end

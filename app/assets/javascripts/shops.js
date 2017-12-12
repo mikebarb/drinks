@@ -7,7 +7,7 @@
 //  selectStatus();
 //});
 
-App.updateorder = App.cable.subscriptions.create("DestroyorderChannel", {  
+App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
   received: function(data) {
     console.log("destroyorders.js - entered ws received function");
     console.dir(data);
@@ -86,6 +86,8 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
   received: function(data) {
     console.log("neworders.js - entered ws received function");
     console.dir(data);
+    var person_name = data.message[1];
+    var drink_name = data.message[2];
     var eleTableBody =  document.getElementById("orders");
     console.dir(eleTableBody);
     if (eleTableBody) {
@@ -104,9 +106,9 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         }else{
             //alert("This order entry is not present");
         }      
-        var person_name = data.message[1];
+        //var person_name = data.message[1];
         //var person_id = data.message[0].person_id;
-        var drink_name = data.message[2];
+        //var drink_name = data.message[2];
         //var drink_id = data.message[0].drink_id;
         var created_at = data.message[0].created_at;
         var status = data.message[0].status;
@@ -134,6 +136,17 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         //console.dir(eletr);
         eleTableBody.appendChild(eletr);
         selectStatus();  
+    }
+    console.log("Abount to process printlabel - first check if on correct page");
+    var eleDivPrint =  document.getElementById("printlabel");
+    console.dir(eleDivPrint);
+    if (eleDivPrint) {
+        console.log("About to process printing on new record created.");
+        var thisContent = person_name + "<br>" + drink_name;
+        eleDivPrint.innerHTML = thisContent;
+        // do printing here
+        window.print();
+        eleDivPrint.innerHTML = thisContent + "<br><b>Print Sent</b>";
     }
     return;
   }
