@@ -2,10 +2,31 @@
 // All this logic will automatically be available in application.js.
 // You can use CoffeeScript in this file: http://coffeescript.org/
 /* global $*/
+/* global cloudprint */
 
 //$(document).ready( function () {
 //  selectStatus();
 //});
+
+
+
+window.onload = function() {
+  console.log("window.onload function called");
+  var elePrintLable =  document.getElementById("printlabel");
+  console.dir(elePrintLable);
+  if (elePrintLable) {
+    console.log("In window.onload for print screen");
+    var gadget = new cloudprint.Gadget();
+    console.log("just called cloudprint.Gaget()");
+    console.dir(gadget);
+    gadget.setPrintButton(
+    cloudprint.Gadget.createDefaultPrintButton("print_button_container")); // div id to contain the button
+    //gadget.setPrintDocument("[document mimetype]", "[document title]", "[document content]", "[encoding] (optional)");
+    gadget.setPrintDocument("url", "Test Page",
+    "https://static.googleusercontent.com/media/www.google.com/en//landing/cloudprint/testpage.pdf"
+    );
+  }
+}
 
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
   received: function(data) {
@@ -145,8 +166,8 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         var thisContent = person_name + "<br>" + drink_name;
         eleDivPrint.innerHTML = thisContent;
         // do printing here
-        window.print();
-        eleDivPrint.innerHTML = thisContent + "<br><b>Print Sent</b>";
+        //###window.print();
+        //###eleDivPrint.innerHTML = thisContent + "<br><b>Print Sent</b>";
     }
     return;
   }
@@ -258,8 +279,8 @@ function counterSubmitOrder() {
             console.log(data);
             eleMyPersonId.innerHTML = "";
             eleMyDrinkId.innerHTML = "";
-            document.getElementById("myPersonName").innerHTML = "";
-            document.getElementById("myDrinkName").innerHTML = "";
+            document.getElementById("myPersonName").innerHTML = "Name:";
+            document.getElementById("myDrinkName").innerHTML = "Drink:";
             submitOrderCheck();
             document.getElementById("personInput").value = "";
             document.getElementById("drinkInput").value = "";
@@ -275,7 +296,9 @@ function counterSubmitOrder() {
     return;
 }
 
-
+// This function checks the name and drinks field to see if they are popluatated.
+// If so, then displays the submit order button
+// If not, then the button is hidden.
 function submitOrderCheck(){
     console.log("submitOrderCheck: called");
     var pid = document.getElementById("myPersonId").innerHTML;
@@ -406,7 +429,7 @@ function counterSelectPerson(el){
     // Now update the filter field to make it this person
     // That shortens the list to see the drinks list
     // User can expand again if need be - reenter filter.
-    document.getElementById("personInput").value = name;
+    //** enables filter entry ** document.getElementById("personInput").value = name;
     counterFilterPeople();
     submitOrderCheck();
 }

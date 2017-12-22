@@ -2,32 +2,44 @@
 
 <h1>Place your drink orders</h1>
 
-<h2 id=myPersonName>Name: </h2>
-<h2 id=myPersonId style="display: none;"></h2>
-<h2 id=myDrinkName>Drink: </h2>
-<h2 id=myDrinkId style="display: none;"></h2>
-<div id="submitOrder" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
+<div class="displaybox floating-box">
+    <h2 id=myPersonName>Name: </h2>
+    <h2 id=myPersonId style="display: none;"></h2>
+</div>    
+<div class="displaybox floating-box">
+    <h2 id=myDrinkName>Drink: </h2>
+    <h2 id=myDrinkId style="display: none;"></h2>
+</div>
+<div class="floating-box-button">
+    <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
+    <hr class=seperator />
+</div>
 
-<h2>Select person</h2>
+<div class="selectbox floating-box">
+    <h2>Select person</h2>
+    <input type="text" id="personInput" onkeyup="counterFilterPeople()" placeholder="Shorten displayed names by keying in meaningful characters .." title="Type in characters to reduce name list">
+    <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
+    <ul id="myPeopleUL">
+        <% @people.each do |person| %>
+            <li id=<%= person.id %> onclick="counterSelectPerson(this);"><%= person.name %></li>
+        <% end %>
+    </ul>
+</div>
 
-<input type="text" id="personInput" onkeyup="counterFilterPeople()" placeholder="Shorten displayed names by keying in meaningful characters .." title="Type in characters to reduce name list">
-<div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
-<ul id="myPeopleUL">
-    <% @people.each do |person| %>
-        <li id=<%= person.id %> onclick="counterSelectPerson(this);"><%= person.name %></li>
-    <% end %>
-</ul>
+<div class="selectbox floating-box">
+    <h2>Select drink</h2>
+    
+    <input type="text" id="drinkInput" class="filter" onkeyup="counterDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
+    
+    <ul id="myDrinksUL">
+        <% @drinks.each do |drink| %>
+            <li id=<%= drink.id %> onclick="counterSelectDrink(this);"><%= drink.name %></li>
+        <% end %>
+    </ul>
+</div>
 
-<h2>Select drink</h2>
-
-<input type="text" id="drinkInput" onkeyup="counterDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
-
-<ul id="myDrinksUL">
-    <% @drinks.each do |drink| %>
-        <li id=<%= drink.id %> onclick="counterSelectDrink(this);"><%= drink.name %></li>
-    <% end %>
-</ul>
-
+<div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
+<br>
 <%= link_to 'Display Orders', shop_orders_path %>
 
 

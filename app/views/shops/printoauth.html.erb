@@ -1,8 +1,4 @@
-<% flash.each do |key, value| %>
-  <div class="alert"><%= value %></div>
-<% end %>
-
-<h1>Printer Page</h1>
+<h1>Printer Page - oauth</h1>
 
 <div id="printlabel">
   This is a place holder only.
@@ -11,8 +7,6 @@
 <br>
 <% if @authorize_url then %>
     <div id="authorize">
-      <p>You do not have a google cloud printer connected.</p>
-      <p> If you wish to print, please follow the appropriate steps </p>
       <%= link_to 'Authorise connecting your printer', @authorize_url %>
     </div>
 <% end %>
