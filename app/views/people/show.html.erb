@@ -4,6 +4,14 @@
   <strong>Name:</strong>
   <%= @person.name %>
 </p>
+<p>
+  <strong>lastdrinkid:</strong>
+  <%= @person.lastdrinkid %>
+</p>
+<p>
+  <strong>lastdrinktime:</strong>
+  <%= @person.lastdrinktime %>
+</p>
 
 <%= link_to 'Edit', edit_person_path(@person) %> |
 <%= link_to 'Back', people_path %>

@@ -53,6 +53,20 @@
   border: 1px solid #ddd;
   margin-bottom: 0px;
 }
+.colourgrey {
+    color: grey;
+}
+#setbackgroundimage {
+  background-image: url(/assets/IMG_2284.JPG);
+  background-repeat:no-repeat;
+  background-size:100%,100%;
+}
+
+.hideMe {
+     background-color: yellow;
+     display: none;
+}
+
 
 #myUL {
   list-style-type: none;

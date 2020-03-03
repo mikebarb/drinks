@@ -1,0 +1,65 @@
+<h1 id="neworders" >Brewster</h1>
+
+<table>    
+  <tbody id="sumorders">
+    <% @drinks.each do |drink| %>
+      <tr  id=<%= "d" + drink.id.to_s %>>
+        <td><%= drink.name %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<hr/>
+
+
+<table>
+  <thead>
+    <tr>
+      <th style="display: none;">Id</th>
+      <th>Person</th>
+      <th>Drink</th>
+      <th style="display: none;">Quantity</th>
+      <th>Status</th>
+      <th>To New</th>
+      <th>To Ready</th>
+      <th>To Done</th>
+    </tr>
+  </thead>
+
+  <tbody id="orders">
+    <% @orders.each do |order| %>
+      <tr id=<%= order.id %>>
+        <td style="display: none;"><%= order.id %></td>
+        <td><%= order.person.name %></td>
+        <td><%= order.drink.name %></td>
+        <td style="display: none;"><%= order.quantity %></td>
+        <td><%= order.status %></td>
+        <td id="<%= order.id %>_new" onclick="orderUpdate(this);">To new</td>
+        <td id="<%= order.id %>_ready" onclick="orderUpdate(this);">To ready</td>
+        <td id="<%= order.id %>_done" onclick="orderUpdate(this);">To done</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<div id="statusSelect">
+  <b>Show: </b>
+  <% @statusList.each do |sl| %>
+    <% if sl.status == "new" then %>
+      <input id=<%= sl.status %> type="checkbox" checked onclick="selectStatus();" > <%= sl.status %>
+    <% else %>
+      <input id=<%= sl.status %> type="checkbox" unchecked onclick="selectStatus();" > <%= sl.status %>
+    <% end %>
+  <% end %>
+</div>
+<br>
+<%= link_to 'Create Orders for People (Counter View)', shop_counter_path %><br>
+<%= link_to 'Orders to be made (Brewster View)', shop_new_path %><br>
+<%= link_to 'Orders Ready for Pickup (Public Viewable Monitor)', shop_ready_path %><br>
+<%= link_to 'Show all order details', shop_orders_path %><br>
+<script type="text/javascript">
+    selectStatus();
+</script>

@@ -67,6 +67,10 @@ class OrdersController < ApplicationController
     respond_to do |format|
       if @order.save
         @person = Person.find(@order.person_id)
+        @person.lastdrinkid = @order.drink_id
+        @person.lastdrinktime = Time.now
+        logger.debug "Just before save @person: " + @person.inspect
+        @person.save
         @drink = Drink.find(@order.drink_id)
         ActionCable.server.broadcast("neworder_channel", message: [@order, @person.name, @drink.name])
         format.html { redirect_to people_path, notice: 'Order was successfully created.' }

@@ -10,8 +10,11 @@
     <script src = "https://www.google.com/cloudprint/client/cpgadget.js">
 </script>
   </head>
-
-  <body>
+  <% if @statusList == ["ready"] then %>
+    <body id="setbackgroundimage">
+  <% else %>
+    <body>
+  <% end %>
     <%= yield %>
   </body>
 </html>

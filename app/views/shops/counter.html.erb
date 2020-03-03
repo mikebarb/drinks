@@ -21,7 +21,11 @@
     <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
     <ul id="myPeopleUL">
         <% @people.each do |person| %>
-            <li id=<%= person.id %> onclick="counterSelectPerson(this);"><%= person.name %></li>
+            <% if person.lastdrinkid then %> 
+                <li id=<%= person.id %> lastdrink="<%= person.lastdrinkid %>" onclick="counterSelectPerson(this);"><%= person.name %></li>
+            <% else %>
+                <li id=<%= person.id %> onclick="counterSelectPerson(this);"><%= person.name %></li>
+            <% end %>
         <% end %>
     </ul>
 </div>
@@ -33,13 +37,20 @@
     
     <ul id="myDrinksUL">
         <% @drinks.each do |drink| %>
-            <li id=<%= drink.id %> onclick="counterSelectDrink(this);"><%= drink.name %></li>
+            <li id=<%= "d" + drink.id.to_s %> onclick="counterSelectDrink(this);"><%= drink.name %></li>
         <% end %>
     </ul>
 </div>
 
 <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
 <br>
-<%= link_to 'Display Orders', shop_orders_path %>
+<%= link_to 'Orders to be made (Brewster View)', shop_new_path %><br>
+<%= link_to 'Orders Ready for Pickup (Public Viewable Monitor)', shop_ready_path %><br>
+<%= link_to 'Show all order details', shop_orders_path %><br>
+<%= link_to 'Add new drinks', drinks_path %><br>
+
+
+
+
 
 

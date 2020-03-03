@@ -12,6 +12,7 @@
 
 window.onload = function() {
   console.log("window.onload function called");
+  countDrinks();
   var elePrintLable =  document.getElementById("printlabel");
   console.dir(elePrintLable);
   if (elePrintLable) {
@@ -28,6 +29,7 @@ window.onload = function() {
   }
 }
 
+// Web Socket receives a new message - existing order is deleted.
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
   received: function(data) {
     console.log("destroyorders.js - entered ws received function");
@@ -61,7 +63,8 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
   }
 });
 
-
+// Web Socket receives a new message - existing order updated, generally
+// a status change.
 App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {  
   received: function(data) {
     console.log("updateorders.js - entered ws received function");
@@ -103,6 +106,7 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
   }
 });
 
+// Web Socket receives a new message - new order generated.
 App.neworder = App.cable.subscriptions.create("NeworderChannel", {  
   received: function(data) {
     console.log("neworders.js - entered ws received function");
@@ -135,8 +139,8 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         var status = data.message[0].status;
         var day = data.message[0].day;
         var quantity = data.message[0].quantity;
-
         var hf = "";    //HtmlFragment - short name
+        if(document.getElementById("allorders")){
         hf = hf + "<td>" + order_id + "</td>";
         hf = hf + "<td>" + person_name + "</td>";
         hf = hf + "<td>" + drink_name + "</td>";
@@ -149,14 +153,32 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         hf = hf + "<td>" + created_at + "</td>";
         hf = hf + '<td><a href="/orders/' + order_id + '/edit">Edit</a></td>';
         hf = hf + '<td onclick="destroyOrder(this);">Destroy</td>';
-
+        }
+        if(document.getElementById("readyorders")){
+        hf = hf + '<td style="display: none;">' + order_id + "</td>";
+        hf = hf + "<td>" + person_name + "</td>";
+        hf = hf + "<td>" + drink_name + "</td>";
+        hf = hf + '<td style="display: none;">' + quantity + "</td>";
+        hf = hf + '<td style="display: none;">' + status + "</td>";
+        }
+        if(document.getElementById("neworders")){
+        hf = hf + '<td style="display: none;">' + order_id + "</td>";
+        hf = hf + "<td>" + person_name + "</td>";
+        hf = hf + "<td>" + drink_name + "</td>";
+        hf = hf + '<td style="display: none;">' + quantity + "</td>";
+        hf = hf + '<td>' + status + "</td>";
+        hf = hf + '<td id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
+        hf = hf + '<td id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
+        hf = hf + '<td id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
+        }    
         //console.log("hf: " + hf);
         var eletr = document.createElement("tr");
         eletr.setAttribute("id", order_id );
         eletr.innerHTML = hf;
         //console.dir(eletr);
         eleTableBody.appendChild(eletr);
-        selectStatus();  
+        selectStatus(); 
+        countDrinks();
     }
     console.log("Abount to process printlabel - first check if on correct page");
     var eleDivPrint =  document.getElementById("printlabel");
@@ -199,6 +221,7 @@ function selectStatus(){
     }
 }
 
+// This function is called when a status update is requested.
 function orderUpdate(el){
     $(el).css('background-color', '#359');
     //console.log("orderUpdate called." + el.id);
@@ -223,7 +246,8 @@ function orderUpdate(el){
             //console.log("orders ajax update done");
             $(el).css('background-color', '#ffffff');
             el.parentElement.children[4].innerHTML = newStatus;
-            selectStatus();   
+            selectStatus();
+            countDrinks();
         },
         error: function(){
             //console.log("orders ajax update failed");
@@ -248,6 +272,7 @@ function destroyOrder(el){
             console.log("ajax destroy successfull: " + myorder_id);
             var eleTrParent = eleTr.parentElement; 
             if (eleTrParent) {eleTrParent.removeChild(eleTr);}
+            countDrinks();
         },
         error: function(){
             console.log("orders ajax deletion failed" + myorder_id);
@@ -286,6 +311,9 @@ function counterSubmitOrder() {
             document.getElementById("drinkInput").value = "";
             counterFilterPeople();
             counterDrinks();
+            // need to update last drink id for this person in the browser
+            document.getElementById(person_id).setAttribute("lastdrink", drink_id);
+            document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
         },
         error: function(){
             console.log("orders ajax update failed");
@@ -341,6 +369,9 @@ function counterFilterPeople() {
     }
 }
 
+// When the user keys into the filter field a name that is not in the list
+// then this person can be added by clicking the "add person" button.
+// This function is called to add person to the database.
 function counterAddPerson() {
     var person_id;
     var name = document.getElementById("personInput").value;
@@ -381,8 +412,6 @@ function counterAddPerson() {
 }
 
 // This function filters the selectable drinks
-// Also displays the "add name" button if nothing shows from filter.
-// This then allows another function to add this name to the people database.
 function counterDrinks() {
     var input, filter, ul, li, a, i;
     input = document.getElementById("drinkInput");
@@ -406,9 +435,10 @@ function counterDrinks() {
 function counterSelectDrink(el){
     var name, id;
     name = el.innerHTML;
-    id = el.id;
+    id = el.id.substring(1);  // remove the d prefix
     console.log('counterAddDrink:' + name + " id: " + id);
     document.getElementById("myDrinkName").innerHTML = "Drink: " + name;
+    document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
     document.getElementById("myDrinkId").innerHTML = id;
     submitOrderCheck();
     //<input type="text" name="order[drink_id]" id="order_drink_id">
@@ -420,11 +450,23 @@ function counterSelectDrink(el){
 // It displays the name of the person selected and 
 // populates the form field with the person_id 
 function counterSelectPerson(el){
-    var name, id;
+    var name, id, lastdrinkid;
     name = el.innerHTML;
     id = el.id;
+    console.dir(el);
     console.log('counterSelectPerson:' + name + " id: " + id);
-    document.getElementById("myPersonName").innerHTML = "Name: " + name; 
+    lastdrinkid = el.getAttribute("lastdrink");
+    console.log('counterSelectPerson:' + name + " lastdrinkid: " + lastdrinkid);
+    if (lastdrinkid) {
+        var eldrink = document.getElementById("d" + lastdrinkid);
+        var drinkname = eldrink.innerHTML;
+        var drinkid = eldrink.id;
+        console.log ("drink element - drinkname: " + drinkname + " drinkid: " + drinkid);
+        counterSelectDrink(eldrink);
+        document.getElementById("myDrinkName").setAttribute("class", "colourgrey");
+    }else{
+        document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
+    }document.getElementById("myPersonName").innerHTML = "Name: " + name; 
     document.getElementById("myPersonId").innerHTML = id;
     // Now update the filter field to make it this person
     // That shortens the list to see the drinks list
@@ -432,4 +474,45 @@ function counterSelectPerson(el){
     //** enables filter entry ** document.getElementById("personInput").value = name;
     counterFilterPeople();
     submitOrderCheck();
+}
+
+// This function counts the drinks typesin the orders
+function countDrinks() {
+    console.log("countDrinks called");
+    var drinktable = document.getElementById("sumorders");
+    if(drinktable){
+        var  i, row, drink_name, status;
+        var counts = {};
+        var ordertable = document.getElementById("orders");
+        var orderrows = ordertable.getElementsByTagName("tr");
+        for (i = 0; i < orderrows.length; i++) {
+            row = orderrows[i];
+            status = row.children[4].innerHTML;
+            if (status == "new") {
+                drink_name = row.children[2].innerHTML;
+                if (counts[drink_name]){
+                    counts[drink_name] = counts[drink_name] + 1;
+                }else{
+                    counts[drink_name] = 1;
+                }
+            }
+        }
+        // Now update drink quantities in drink table
+        console.dir(counts);
+        var drinkrows = drinktable.getElementsByTagName("tr");
+        for (i = 0; i < drinkrows.length; i++) {
+            row = drinkrows[i];
+            var this_drink_name = row.children[0].innerHTML;
+            var this_drink_count = counts[this_drink_name]; 
+            if (this_drink_count) {
+                console.log("this_drink_name: " + this_drink_name + " : " + this_drink_count);
+                row.children[1].innerHTML = this_drink_count;
+                row.removeAttribute("class", "hideMe");
+            } else {
+                row.children[1].innerHTML = "";
+                row.setAttribute("class", "hideMe");
+            }
+          
+        }
+    }
 }

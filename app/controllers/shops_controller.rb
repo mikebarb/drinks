@@ -11,7 +11,7 @@ class ShopsController < ApplicationController
   # GET /shops/orders.json
   def orders
     @orders = Order
-              .where("status != ?", "completed")
+              .where("status != ?", "done")
               .includes(:person, :drink)
               .order(:id)
  
@@ -19,7 +19,44 @@ class ShopsController < ApplicationController
     
     @statusList = Order
               .select(:status)
-              .where("status != ?", "completed")
+              .distinct
+    logger.debug "@statusList: " + @statusList.inspect
+  end
+
+  # GET /shops/ready
+  # GET /shops/ready.json
+  def ready
+    @orders = Order
+              .where("status != ?", "done")
+              .includes(:person, :drink)
+              .order(:id)
+ 
+    logger.debug "@orders: " + @orders.inspect
+    
+    @statusList = ["ready"]
+    logger.debug "@statusList: " + @statusList.inspect
+  end
+
+  # GET /shops/new
+  # GET /shops/new.json
+  def new
+    @orders = Order
+              .where("status != ?", "done")
+              .includes(:person, :drink)
+              .order(:id)
+    logger.debug "@orders: " + @orders.inspect
+
+    @drinks = Drink.all
+    logger.debug "@drinks: " + @drinks.inspect
+
+    @orderscount = Order.group(:drink_id).count
+              #.where("status == ?", "new")
+              #.includes(:drink)
+              
+    logger.debug "@orderscount" + @orderscount.inspect
+
+    @statusList = Order
+              .select(:status)
               .distinct
     logger.debug "@statusList: " + @statusList.inspect
   end
@@ -41,11 +78,7 @@ class ShopsController < ApplicationController
     logger.debug "count: " + count.inspect
     client_id = "269084671189-flp3v3aoifa6apfio4mcgh16ck3sq909.apps.googleusercontent.com"
     client_secret = "cyHu8PqkWpgc0TsClH1fHkcw"
-    #client_url = "https://drinks-micmac.c9users.io/shops/print"
     client_redirect_url = "https://drinks-micmac.c9users.io/shops/print"
-    #client_token_url = '/o/oauth2/auth'
-    #client_site = 'https://accounts.google.com'
-    #client_authorize_url = '/o/oauth2/auth'
     printer_id = '148e56bc-0d7a-642b-9ce3-ba973c3244e9'
     mycode = params[:code]
     logger.debug "mycode: " + mycode.inspect
@@ -57,11 +90,6 @@ class ShopsController < ApplicationController
         logger.debug "client reloaded: " + client.inspect
         myfile.close
     end
-    #if(client && !client.access_token_valid?) then
-    #    logger.debug "***all set up ready for printing"
-    #    flash[:notice] = "All set up ready for printing."
-    #    render and return
-    #end
     if(!client) then
       client = CloudPrint::Client.new(client_id: client_id,
                                     client_secret: client_secret
@@ -149,77 +177,6 @@ class ShopsController < ApplicationController
     ###logger.debug "myprinter: " + my_printer.inspect
     ###my_printer.print(content: "<h1>This is a test print from the controller</h1>",
     ###                 content_type: "text/html")
-  end  
-
-  # GET /shops/printoauth
-  # GET /shops/printoauth.json
-  def print2
-    # this controller simply triggers a simple page 
-    # used for printing lables.
-    # This page listens for and processes websocket streamed info.
-    logger.debug "-----------------------------------------------------"
-    logger.debug "entering shops controller"
-    logger.debug "parms: " + params.inspect
-    #logger.debug "-----------------------------------------------------"
-    # Store in session parametes stuff that needs to be kept.
-    count = session[:count] || 0
-    count += 1
-    session[:count] = count
-    logger.debug "a count: " + count.inspect
-    ### code segment using oauth
-    #if session[:client] then
-      #client = YAML.load(session[:client])
-      #logger.debug "reloaded client: " + client.inspect
-    #  logger.debug "reload client"
-    #end
-    client_id = "269084671189-7vkrgsk7q003l4kofjvbad0t9qjvioeh.apps.googleusercontent.com"
-    client_secret = "N8bQzyNjfopie7Wp_jRTjI69"
-    client_url = "https://drinks-micmac.c9users.io/shops/print"
-    client_redirect_url = "https://drinks-micmac.c9users.io/shops/print"
-    client_token_url = '/o/oauth2/auth'
-    client_site = 'https://accounts.google.com'
-    client_authorize_url = '/o/oauth2/auth'
-
-    code = params[:code]
-    logger.debug "a code: " + code.inspect
-    if !code then
-      logger.debug "a No code found"
-      client = OAuth2::Client.new(client_id,
-                                  client_secret,
-                                  :token_url => client_token_url,
-                                  :site => client_site,
-                                  :authorize_url => client_authorize_url
-                                  )
-      logger.debug("a client1: " + client.inspect)
-      @authorize_url = client.auth_code.authorize_url(:redirect_uri => client_redirect_url,
-                                                      :response_type => 'code',
-                                                      :scope => 'https://www.googleapis.com/auth/cloudprint'
-                                                    )
-      logger.debug("a @authorize_url: " + @authorize_url.inspect)
-      logger.debug("a client1a: " + client.inspect)
-      #t = client.to_yaml
-      #t = Marshal::dump(client)
-      #logger.debug "client serialised: " + t
-      #session[:client] = t
-    end
-    if code then
-      logger.debug "a code found = code: " + code.inspect
-      client = OAuth2::Client.new(client_id,
-                                  client_secret,
-                                  :token_url => client_token_url,
-                                  :site => client_site,
-                                  :authorize_url => client_authorize_url
-                                  )
-      #@authorize_url = client.auth_code.authorize_url(:redirect_uri => client_redirect_url,
-      #                                                :response_type => 'code',
-      #                                                :scope => 'https://www.googleapis.com/auth/cloudprint'
-      #                                              )
-      #logger.debug("a client2: " + client.inspect)
-      token = client.auth_code.get_token(code,
-                    :redirect_uri => client_redirect_url)
-      logger.debug "a token: " + token.inspect
-    end
-
   end  
   
 end

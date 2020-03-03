@@ -1,0 +1,23 @@
+<h1 id="readyorders" style="display: none;">Orders ready for pickup</h1>
+<div id="statusSelect"  style="display: none;">
+  <% @statusList.each do |sl| %>
+    <input id=<%= sl %> type="checkbox" checked onclick="selectStatus();" > <%= sl %>
+  <% end %>
+</div>
+<table>
+  <tbody id="orders">
+    <% @orders.each do |order| %>
+      <tr id=<%= order.id %>>
+        <td style="display: none;"><%= order.id %></td>
+        <td><%= order.person.name %></td>
+        <td><%= order.drink.name %></td>
+        <td style="display: none;"><%= order.quantity %></td>
+        <td style="display: none;"><%= order.status %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script type="text/javascript">
+    selectStatus();
+</script>
