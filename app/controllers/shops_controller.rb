@@ -41,9 +41,12 @@ class ShopsController < ApplicationController
   # GET /shops/new.json
   def new
     @orders = Order
-              .where("status != ?", "done")
+              .where('updated_at > ?', 24.hours.ago)
               .includes(:person, :drink)
               .order(:id)
+
+  #            .where("status != ?", "done")
+
     logger.debug "@orders: " + @orders.inspect
 
     @drinks = Drink.all
@@ -52,12 +55,12 @@ class ShopsController < ApplicationController
     @orderscount = Order.group(:drink_id).count
               #.where("status == ?", "new")
               #.includes(:drink)
-              
     logger.debug "@orderscount" + @orderscount.inspect
 
-    @statusList = Order
-              .select(:status)
-              .distinct
+    #@statusList = Order
+    #          .select(:status)
+    #          .distinct
+    @statusList = ["new", "ready", "done"]
     logger.debug "@statusList: " + @statusList.inspect
   end
   

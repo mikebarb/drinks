@@ -16,8 +16,13 @@
 </div>
 
 <div class="selectbox floating-box">
-    <h2>Select person</h2>
-    <input type="text" id="personInput" onkeyup="counterFilterPeople()" placeholder="Shorten displayed names by keying in meaningful characters .." title="Type in characters to reduce name list">
+    <span class="myrowleft">
+        <h2>Select person</h2>
+    </span>
+    <span class="myrowright">
+        <div id="buttonAddPerson" class="hideme" onclick="counterAddPerson();">New Person</div>
+    </span>
+    <input type="text" id="personInput" autocomplete="off" onkeyup="counterFilterPeople()" placeholder="Shorten displayed names by keying in meaningful characters .." title="Type in characters to reduce name list">
     <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
     <ul id="myPeopleUL">
         <% @people.each do |person| %>
@@ -33,7 +38,7 @@
 <div class="selectbox floating-box">
     <h2>Select drink</h2>
     
-    <input type="text" id="drinkInput" class="filter" onkeyup="counterDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
+    <input type="text" id="drinkInput" class="filter" autocomplete="off" onkeyup="counterDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
     
     <ul id="myDrinksUL">
         <% @drinks.each do |drink| %>
@@ -43,11 +48,7 @@
 </div>
 
 <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
-<br>
-<%= link_to 'Orders to be made (Brewster View)', shop_new_path %><br>
-<%= link_to 'Orders Ready for Pickup (Public Viewable Monitor)', shop_ready_path %><br>
-<%= link_to 'Show all order details', shop_orders_path %><br>
-<%= link_to 'Add new drinks', drinks_path %><br>
+
 
 
 

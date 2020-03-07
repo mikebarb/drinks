@@ -13,9 +13,9 @@
 window.onload = function() {
   console.log("window.onload function called");
   countDrinks();
-  var elePrintLable =  document.getElementById("printlabel");
-  console.dir(elePrintLable);
-  if (elePrintLable) {
+  var elePrintLabel =  document.getElementById("printlabel");
+  console.dir(elePrintLabel);
+  if (elePrintLabel) {
     console.log("In window.onload for print screen");
     var gadget = new cloudprint.Gadget();
     console.log("just called cloudprint.Gaget()");
@@ -67,7 +67,7 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
 // a status change.
 App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {  
   received: function(data) {
-    console.log("updateorders.js - entered ws received function");
+    console.log("shops.js - entered ws received function - UpdateOrderChannel");
     console.dir(data);
     var eleTableBody =  document.getElementById("orders");
     console.dir(eleTableBody);
@@ -94,7 +94,15 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
         var updatedFields = data.message[1];
         Object.keys(updatedFields).forEach(function(key) {
             console.log("updatedField: " + key +  ": " +updatedFields[key]);
-            if ( key == "status") {eletds[4].innerHTML = updatedFields["status"];}
+            if ( key == "status") {
+                eletds[4].innerHTML = updatedFields["status"];
+                eletds[4].className = '';
+                eletds[1].className = '';
+                eletds[2].className = '';
+                eletds[4].className = 'counterstatus' + updatedFields["status"];
+                eletds[1].className = 'counterstatus' + updatedFields["status"];
+                eletds[2].className = 'counterstatus' + updatedFields["status"];
+            }
             if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
             if ( key == "drink_id") {eletds[2].innerHTML = data.message[3];}
             if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
@@ -197,6 +205,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
 
 // this function displays the orders based on the checkbox selections.
 function selectStatus(){
+    console.log("enter selectStatus");
     var thisStatus;
     var i = 0; 
     var statusCheckString = "";
@@ -209,21 +218,22 @@ function selectStatus(){
     }
     var eleTableBody =  document.getElementById("orders");
     var trList = eleTableBody.getElementsByTagName("tr");
-    for (i = 0; i < trList.length; i++) {
-        //console.log("selectStatus: " + trList[i].childNodes[9].innerHTML);
-        //console.dir(trList[i].children[4].innerHTML);
+    for(i = 0; i < trList.length; i++) {
+        console.log("selectStatus: " + trList[i].childNodes[9].innerHTML);
+        console.dir(trList[i].children[4].innerHTML);
         thisStatus = trList[i].children[4].innerHTML;
         if (statusCheckString.indexOf(thisStatus) > -1) {
             trList[i].style.display = "";
         } else {
             trList[i].style.display = "none";
-        }      
+        }
     }
+    console.log("exit selectStatus");
 }
 
 // This function is called when a status update is requested.
 function orderUpdate(el){
-    $(el).css('background-color', '#359');
+    //$(el).css('background-color', '#359');
     //console.log("orderUpdate called." + el.id);
     // this updates the status
     var thisElId = el.id;   // hold this element - number _ new status.
@@ -243,10 +253,10 @@ function orderUpdate(el){
                 },
         dataType: 'json',
         success: function(){
-            //console.log("orders ajax update done");
-            $(el).css('background-color', '#ffffff');
-            el.parentElement.children[4].innerHTML = newStatus;
-            selectStatus();
+            console.log("orders ajax update done");
+            //$(el).css('background-color', '#ffffff');
+            //el.parentElement.children[4].innerHTML = newStatus;
+            //selectStatus();
             countDrinks();
         },
         error: function(){
@@ -346,12 +356,13 @@ function submitOrderCheck(){
 }
 
 function counterFilterPeople() {
-    var personinput, filter, ul, li, a, i, showAdd;
+    var personinput, filter, ul, li, i, showButtonAddPerson;
     var available = 0;
+    var fullMatch = 0;
     personinput = document.getElementById("personInput");
     filter = personinput.value.toUpperCase();
     ul = document.getElementById("myPeopleUL");
-    showAdd = document.getElementById("showAdd");
+    showButtonAddPerson = document.getElementById("buttonAddPerson");
     li = ul.getElementsByTagName("li");
     for (i = 0; i < li.length; i++) {
         //a = li[i].getElementsByTagName("a")[0];
@@ -361,11 +372,15 @@ function counterFilterPeople() {
         } else {
             li[i].style.display = "none";
         }
+        if(0 == li[i].innerHTML.toUpperCase().localeCompare(filter)){
+            fullMatch = 1;
+        }
     }
-    if (available > 0) {
-        showAdd.style.display = "none";
+    showButtonAddPerson.className = '';
+    if (filter.length > 0 && fullMatch == 0) {
+        showButtonAddPerson.classList.add("showme");
     } else {
-        showAdd.style.display = "";
+        showButtonAddPerson.classList.add("hideme");
     }
 }
 
@@ -476,7 +491,7 @@ function counterSelectPerson(el){
     submitOrderCheck();
 }
 
-// This function counts the drinks typesin the orders
+// This function counts the drinks types in the orders
 function countDrinks() {
     console.log("countDrinks called");
     var drinktable = document.getElementById("sumorders");

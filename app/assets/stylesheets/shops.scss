@@ -94,3 +94,124 @@
   overflow: auto;
   max-height: 300px;
 }
+
+.counterbuttonnew {
+  background-color: LightCyan;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+.counterbuttonready {
+  background-color: LightGreen;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+.counterbuttondone {
+  background-color: Snow;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+
+.counterbutton:hover {
+  background-color: #4CAF50; /* Green */
+  color: black;
+}
+
+.counterstatusnew {
+  background-color: LightCyan;
+  border: 2px solid Cyan;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+
+.counterstatusready {
+  background-color: LightGreen;
+  border: 2px solid Cyan;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+
+.counterstatusdone {
+  background-color: snow;
+  border: 2px solid black;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+
+#buttonAddPerson {
+  background-color: Snow;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 80px;
+}
+
+.hideme {
+  visibility: hidden;
+}
+
+.showme {
+  visibility: visible;
+}
+
+span.myrowleft {
+  display: inline-block;
+  float: left;
+}
+
+span.myrowright {
+  display: inline-block;
+  float: right;
+}
+

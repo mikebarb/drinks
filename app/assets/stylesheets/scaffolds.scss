@@ -87,3 +87,25 @@ div {
 label {
   display: block;
 }
+
+.headerbutton {
+  background-color: #FFFFFF;
+  border: 2px solid #4CAF50;
+  border-radius: 12px;
+  color: white;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 16%;
+}
+
+.headerbutton:hover {
+  background-color: #4CAF50; /* Green */
+  color: black;
+}
+
+
