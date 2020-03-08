@@ -171,13 +171,13 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         }
         if(document.getElementById("neworders")){
         hf = hf + '<td style="display: none;">' + order_id + "</td>";
-        hf = hf + "<td>" + person_name + "</td>";
-        hf = hf + "<td>" + drink_name + "</td>";
+        hf = hf + '<td class="counterstatusnew">' + person_name + "</td>";
+        hf = hf + '<td class="counterstatusnew">' + drink_name + "</td>";
         hf = hf + '<td style="display: none;">' + quantity + "</td>";
-        hf = hf + '<td>' + status + "</td>";
-        hf = hf + '<td id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
-        hf = hf + '<td id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
-        hf = hf + '<td id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
+        hf = hf + '<td class="counterstatusnew">' + status + "</td>";
+        hf = hf + '<td class="counterbuttonnew" id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
+        hf = hf + '<td class="counterbuttonready" id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
+        hf = hf + '<td class="counterbuttondone" id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
         }    
         //console.log("hf: " + hf);
         var eletr = document.createElement("tr");
@@ -219,7 +219,7 @@ function selectStatus(){
     var eleTableBody =  document.getElementById("orders");
     var trList = eleTableBody.getElementsByTagName("tr");
     for(i = 0; i < trList.length; i++) {
-        console.log("selectStatus: " + trList[i].childNodes[9].innerHTML);
+        console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
         console.dir(trList[i].children[4].innerHTML);
         thisStatus = trList[i].children[4].innerHTML;
         if (statusCheckString.indexOf(thisStatus) > -1) {
