@@ -14,6 +14,12 @@
     border: 3px solid #73AD21;  
     vertical-align: top;
 }
+.floating-box2 {
+    display: inline-block;
+    width: 95%;
+    border: 3px solid #73AD21;  
+    vertical-align: top;
+}
 .floating-box-button {
     display: inline-block;
     width: 90%;
@@ -198,11 +204,18 @@
 }
 
 .hideme {
+  //visibility: hidden;
+  display: none;
+}
+
+.hidemegrp {
   visibility: hidden;
+  //display: none;
 }
 
 .showme {
   visibility: visible;
+  //display: block;
 }
 
 span.myrowleft {
@@ -215,3 +228,74 @@ span.myrowright {
   float: right;
 }
 
+.drinkbutton {
+  background-color: LightCyan;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  //display: block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 95%;
+}
+.optionsbutton {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 12px;
+  color: black;
+  padding: 2px 2px;
+  text-align: center;
+  text-decoration: none;
+  //display: block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 95%;
+}
+.grpdrinkbutton {
+  background-color: Red;
+  border: 2px solid black;
+  color: black;
+  padding: 12px 12px;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 95%;
+  float:left;
+  display: table-cell;
+}
+
+.grpoptionsgroups {
+  display:table-cell;
+  width: 45%;
+  vertical-align: top;
+}
+
+.grpoptionsbutton {
+  background-color: Red;
+  border: 2px solid black;
+  color: black;
+  padding: 12px 12px;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  width: 95%;
+  float: right;
+  display:table-cell;
+}
+.grpdrinkarea {
+  display: table-row;
+  vertical-align: top;
+}
+
+.grpdrinkarea:after {
+  clear:both;
+}
+
+.selected {
+  background-color: green;
+}

@@ -9,7 +9,6 @@
 //});
 
 
-
 window.onload = function() {
   console.log("window.onload function called");
   countDrinks();
@@ -27,7 +26,10 @@ window.onload = function() {
     "https://static.googleusercontent.com/media/www.google.com/en//landing/cloudprint/testpage.pdf"
     );
   }
-}
+
+  document.getElementById("drinkarea").addEventListener("click", actionDrinkButton);
+  
+};
 
 // Web Socket receives a new message - existing order is deleted.
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
@@ -531,3 +533,117 @@ function countDrinks() {
         }
     }
 }
+
+function actionDrinkButton(ev){
+    console.log(ev);
+    var thisEle = ev.target;
+    if(thisEle.classList.contains("drinkbutton")){
+        console.log("drink button pressed.");
+        ev.preventDefault();
+        if(thisEle.classList.contains("selected")){
+            thisEle.classList.remove("selected");
+            hideAllOptionButtons();
+        }else{
+            actionRadioButtonEffect(thisEle);
+            actionButtonSelection(thisEle);
+        }
+    }else if(thisEle.classList.contains("optionsbutton")){
+        console.log("options button pressed");
+        ev.preventDefault();
+        actionRadioButtonEffect(thisEle);
+    }
+    var drinkDesc = makeDrinkDescription();
+    console.log("drink selected is: " + drinkDesc);
+    document.getElementById("myDrinkId2").innerText = drinkDesc;
+}
+
+function actionRadioButtonEffect(thisEle){
+    console.log("actionRadioButtonEffect called");
+    if(thisEle.classList.contains("selected")){
+        thisEle.classList.remove("selected");
+    }else{
+        var thisParent = thisEle.parentElement;
+        var theseChildren = thisParent.children;
+        for (var i = 0; i <theseChildren.length; i++){
+            if(theseChildren[i].classList.contains("selected")){
+                theseChildren[i].classList.remove("selected");
+            }
+        }
+        thisEle.classList.add("selected");
+    }
+}
+
+function actionButtonSelection(thisEle){
+    // hide all the option groups
+    var i, iEle;
+    var myOptionGroups = document.getElementById("grpoptionsgroups").children;
+    for (i = 0; i < myOptionGroups.length; i++){
+        myOptionGroups[i].classList.add("hidemegrp");
+    }
+    // now determine what option buttons need to be enabled
+    var enableButtons = thisEle.dataset.enable.split(", ");
+    //console.log("enable: " + enableButtons);
+    // step through all option buttons enable / disable as specified
+    var optionButtons = document.getElementsByClassName("optionsbutton");
+    for (i = 0; i < optionButtons.length; i++){
+        iEle = optionButtons[i];
+        if(iEle.classList.contains("selected")){
+            iEle.classList.remove("selected");
+        }
+        if(enableButtons.includes(iEle.id)){
+           // This button is to be enabled
+            iEle.classList.remove("hideme");
+            if(iEle.parentElement.classList.contains("hidemegrp")){
+                iEle.parentElement.classList.remove("hidemegrp");
+            }
+        }else{
+            iEle.classList.add("hideme");
+        }
+    }
+}
+
+function hideAllOptionButtons(){
+    // hide all the option groups
+    var i, iEle;
+    var myOptionGroups = document.getElementById("grpoptionsgroups").children;
+    for (i = 0; i < myOptionGroups.length; i++){
+        myOptionGroups[i].classList.add("hidemegrp");
+    }
+    // step through all option buttons to disable and deselect
+    var optionButtons = document.getElementsByClassName("optionsbutton");
+    for (i = 0; i < optionButtons.length; i++){
+        iEle = optionButtons[i];
+        if(iEle.classList.contains("selected")){
+            iEle.classList.remove("selected");
+            iEle.classList.add("hideme");
+        }
+    }
+}
+
+function makeDrinkDescription(){
+    console.debug("makeDrinkDescription entered");
+    var desc = "";
+    var i, iEle;
+
+    // step through all drink buttons
+    var drinkButtons = document.getElementsByClassName("drinkbutton");
+    for (i = 0; i < drinkButtons.length; i++){
+        iEle = drinkButtons[i];
+        if(iEle.classList.contains("selected")){
+            desc = desc + iEle.innerText + " ";
+        }
+    }
+
+
+    // step through all option buttons
+    var optionButtons = document.getElementsByClassName("optionsbutton");
+    for (i = 0; i < optionButtons.length; i++){
+        iEle = optionButtons[i];
+        if(iEle.classList.contains("selected")){
+            desc = desc + iEle.innerText + " ";
+        }
+    }
+    return desc;
+}
+
+
