@@ -28,7 +28,12 @@ window.onload = function() {
   }
 
   document.getElementById("drinkarea").addEventListener("click", actionDrinkButton);
-  
+  var eleDrinkInput = document.getElementById("otherInput");
+  if(eleDrinkInput){
+      console.log("attach actionInput");
+    eleDrinkInput.addEventListener("keyup", actionInput);
+    eleDrinkInput.addEventListener("blur", actionInput);
+  }
 };
 
 // Web Socket receives a new message - existing order is deleted.
@@ -190,7 +195,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         selectStatus(); 
         countDrinks();
     }
-    console.log("Abount to process printlabel - first check if on correct page");
+    console.log("About to process printlabel - first check if on correct page");
     var eleDivPrint =  document.getElementById("printlabel");
     console.dir(eleDivPrint);
     if (eleDivPrint) {
@@ -552,14 +557,16 @@ function actionDrinkButton(ev){
         ev.preventDefault();
         actionRadioButtonEffect(thisEle);
     }
-    var drinkDesc = makeDrinkDescription();
-    console.log("drink selected is: " + drinkDesc);
-    document.getElementById("myDrinkId2").innerText = drinkDesc;
+    makeDrinkDescription();
+    //console.log("drink selected is: " + drinkDesc);
+    //document.getElementById("myDrinkId2").innerText = drinkDesc;
 }
 
 function actionRadioButtonEffect(thisEle){
     console.log("actionRadioButtonEffect called");
-    if(thisEle.classList.contains("selected")){
+    if(thisEle.id == "otherInput"){
+        // do nothing
+    }else if(thisEle.classList.contains("selected")){
         thisEle.classList.remove("selected");
     }else{
         var thisParent = thisEle.parentElement;
@@ -600,6 +607,8 @@ function actionButtonSelection(thisEle){
             iEle.classList.add("hideme");
         }
     }
+    // clear content of inputDrink field
+    document.getElementById("otherInput").value = "";
 }
 
 function hideAllOptionButtons(){
@@ -618,12 +627,21 @@ function hideAllOptionButtons(){
             iEle.classList.add("hideme");
         }
     }
+    // clear content of inputDrink field
+    document.getElementById("otherInput").value = "";
 }
 
 function makeDrinkDescription(){
     console.debug("makeDrinkDescription entered");
     var desc = "";
     var i, iEle;
+    // If other drink is selected, then just pick up that description.
+    iEle = document.getElementById("other");
+    if(iEle.classList.contains("selected")){
+        var desc = document.getElementById("otherInput").value;
+        document.getElementById("myDrinkId2").innerText = desc;
+        return;
+    }
 
     // step through all drink buttons
     var drinkButtons = document.getElementsByClassName("drinkbutton");
@@ -643,7 +661,14 @@ function makeDrinkDescription(){
             desc = desc + iEle.innerText + " ";
         }
     }
-    return desc;
+    document.getElementById("myDrinkId2").innerText = desc;
+    return;
 }
 
-
+function actionInput(){
+    console.log("key up in other done");
+    if(event.keyCode === 13){
+        console.log("return key pressed.");
+        makeDrinkDescription();
+    }
+}
