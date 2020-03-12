@@ -205,12 +205,12 @@
 
 .hideme {
   //visibility: hidden;
-  display: none;
+  display: none !important;
 }
 
 .hidemegrp {
-  visibility: hidden;
-  //display: none;
+  display: none !important;
+  //visibility: hidden;
 }
 
 .showme {
@@ -265,8 +265,7 @@ span.myrowright {
   margin: 4px 2px;
   cursor: pointer;
   width: 95%;
-  float:left;
-  display: table-cell;
+  display: block;
 }
 
 .grpoptionsgroups {
