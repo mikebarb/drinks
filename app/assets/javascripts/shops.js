@@ -9,7 +9,8 @@
 //});
 
 
-window.onload = function() {
+//document.onload = function() {
+$(document).on('turbolinks:load', function(){
   console.log("window.onload function called");
   countDrinks();
   var elePrintLabel =  document.getElementById("printlabel");
@@ -38,7 +39,19 @@ window.onload = function() {
     eleDrinkInput.addEventListener("keyup", actionInput);
     eleDrinkInput.addEventListener("blur", actionInput);
   }
-};
+  
+  var eleBrewsterSummary = document.getElementById("sumorders");
+  if(eleBrewsterSummary){
+    console.log("calculate summary - call ");
+    countDrinks();
+  }
+  
+  var scrollObj = document.getElementById("scrollText");
+    if(scrollObj){
+        scrollInit();
+    }
+    
+})
 
 // Web Socket receives a new message - existing order is deleted.
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
@@ -115,11 +128,11 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
                 eletds[2].className = 'counterstatus' + updatedFields["status"];
             }
             if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
-            if ( key == "drink_id") {eletds[2].innerHTML = data.message[3];}
+            if ( key == "drink") {eletds[2].innerHTML = data.message[3];}
             if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
             if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
         });
-        selectStatus();  
+        selectStatus();
     }
     return;
   }
@@ -306,7 +319,7 @@ function counterSubmitOrder() {
     console.log("counterSubmitOrder: called");
     var eleMyPersonId = document.getElementById("myPersonId");
     //var eleMyDrinkId = document.getElementById("myDrinkId");
-    var eleMyDrink = document.getElementById("myDrinkId2");
+    var eleMyDrink = document.getElementById("myDrinkName");
     var person_id = eleMyPersonId.innerHTML;
     //var drink_id = eleMyDrinkId.innerHTML;
     var drink = eleMyDrink.innerHTML.replace("Drink:", "").trim();
@@ -333,12 +346,13 @@ function counterSubmitOrder() {
             submitOrderCheck();
             document.getElementById("personInput").value = "";
             //document.getElementById("drinkInput2").value = "";
-            document.getElementById("myDrinkId2").innerHTML = "";
+            //document.getElementById("myDrinkId2").innerHTML = "";
             counterFilterPeople();
-            counterDrinks();
+            //counterDrinks();
             // need to update last drink id for this person in the browser
             document.getElementById(person_id).setAttribute("lastdrink", drink);
             document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
+            initialiseDrinkButton();
         },
         error: function(){
             console.log("orders ajax update failed");
@@ -359,7 +373,7 @@ function submitOrderCheck(){
     if (document.getElementById("myPersonId").innerHTML.length > 0) {
         console.log("submitOrderCheck: person succeeded " + document.getElementById("myPersonId").innerHTML);
         if (document.getElementById("myDrinkName").innerHTML.length > 0) {
-            console.log("submitOrderCheck: drink succeeded " + document.getElementById("myDrinkId").innerHTML);
+            console.log("submitOrderCheck: drink succeeded " + document.getElementById("myDrinkName").innerHTML);
             document.getElementById("submitOrder").style.display = "";            
             console.log("submitOrderCheck: return true ");
             return true;
@@ -440,7 +454,7 @@ function counterAddPerson() {
 
     return;
 }
-
+/*
 // This function filters the selectable drinks
 function counterDrinks() {
     var input, filter, ul, li, a, i;
@@ -458,7 +472,7 @@ function counterDrinks() {
         }
     }
 }
-
+*/
 // This function is called when the drink is selected
 // It displays the name of the drink selected and 
 // populates the form field with the drink_id 
@@ -487,18 +501,21 @@ function counterSelectPerson(el){
     console.log('counterSelectPerson:' + name + " id: " + id);
     lastdrink = el.getAttribute("lastdrink");
     console.log('counterSelectPerson:' + name + " lastdrink: " + lastdrink);
+    document.getElementById("myDrinkName").innerText = "Drink: " + lastdrink;
+/*  
     if (lastdrink) {
         //var eldrink = document.getElementById("d" + lastdrinkid);
         //var drinkname = eldrink.innerHTML;
         //var drinkid = eldrink.id;
         console.log ("drink element - drinkname: " + lastdrink);
-        document.getElementById("myDrinkId2").innerText = lastdrink;
+        //document.getElementById("myDrinkId2").innerText = lastdrink;
         document.getElementById("myDrinkName").innerText = "Drink: " + lastdrink;
         //counterSelectDrink(eldrink);
         //document.getElementById("myDrinkName").setAttribute("class", "colourgrey");
     }else{
         //document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
     }
+*/
     document.getElementById("myPersonName").innerHTML = "Name: " + name; 
     document.getElementById("myPersonId").innerHTML = id;
     // Now update the filter field to make it this person
@@ -531,52 +548,42 @@ function countDrinks() {
             }
         }
         
-        
         // sort array counts by drink name
         var countskeys = Object.keys(counts);
-        //countskeys.sort(function(a, b) {
-        //    a.localeCompare(b);
-        //});
         countskeys.sort();
-        console.log(countskeys);
-/*
-        var eleTable = document.createElement("table");
+        var eleTable = document.getElementById("sumorders");
+        eleTable.innerHTML = '';
         for (i = 0; i < countskeys.length; i++) {
             var eleTr = document.createElement("tr");
             eleTr.innerHTML = "<td>" + countskeys[i] + "</td>" +
                               "<td>" + counts[countskeys[i]] + "</td>";
             eleTable.appendChild(eleTr);
         }
-        var eleSumorders = document.getElementById("sumorders");
-        eleSumorders.innerHTML = '';
-        eleSumorders.appendChild(eleTable);
-*/        
-        
-        // Now update drink quantities in drink table
-        console.dir(counts);
-        var drinkrows = drinktable.getElementsByTagName("tr");
-        for (i = 0; i < drinkrows.length; i++) {
-            row = drinkrows[i];
-            var this_drink_name = row.children[0].innerHTML;
-            var this_drink_count = counts[this_drink_name]; 
-            if (this_drink_count) {
-                console.log("this_drink_name: " + this_drink_name + " : " + this_drink_count);
-                row.children[1].innerHTML = this_drink_count;
-                row.removeAttribute("class", "hideMe");
-            } else {
-                row.children[1].innerHTML = "";
-                row.setAttribute("class", "hideMe");
-            }
-          
-        }
     }
 }
 
+// Called when order is submitted.
+// For drink buttons, deselect all drink buttons.
+function initialiseDrinkButton(){
+    var drinkButtons = document.getElementsByClassName("drinkbutton");
+    // deselect all selected drink buttons
+    for (var i=0; i<drinkButtons.length; i++){
+        if(drinkButtons[i].classList.contains("selected")){
+            drinkButtons[i].classList.remove("selected");
+        }
+    }
+    hideAllOptionButtons();
+    makeDrinkDescription();
+}
+
+// Called with any of the drink or option buttons are pressed.
+// For drink buttons, if already selected, then deselect.
+// Otherwise select ths button.
 function actionDrinkButton(ev){
     console.log(ev);
     var thisEle = ev.target;
     if(thisEle.classList.contains("drinkbutton")){
-        console.log("drink button pressed.");
+        //console.log("drink button pressed.");
         ev.preventDefault();
         if(thisEle.classList.contains("selected")){
             thisEle.classList.remove("selected");
@@ -586,7 +593,7 @@ function actionDrinkButton(ev){
             actionButtonSelection(thisEle);
         }
     }else if(thisEle.classList.contains("optionsbutton")){
-        console.log("options button pressed");
+        //console.log("options button pressed");
         ev.preventDefault();
         actionRadioButtonEffect(thisEle);
     }
@@ -672,7 +679,7 @@ function makeDrinkDescription(){
     iEle = document.getElementById("other");
     if(iEle.classList.contains("selected")){
         desc = document.getElementById("otherInput").value;
-        document.getElementById("myDrinkId2").innerText = desc.trim();
+        //document.getElementById("myDrinkId2").innerText = desc.trim();
         //document.getElementById("myDrinkName").innerText = desc.trim();
         document.getElementById("myDrinkName").innerText = "Drink: " + desc.trim();
         return;
@@ -696,7 +703,7 @@ function makeDrinkDescription(){
             desc = desc + iEle.innerText + " ";
         }
     }
-    document.getElementById("myDrinkId2").innerText = desc.trim();
+    //document.getElementById("myDrinkId2").innerText = desc.trim();
     document.getElementById("myDrinkName").innerText = "Drink: " + desc.trim();
     return;
 }
@@ -708,3 +715,24 @@ function actionInput(){
         makeDrinkDescription();
     }
 }
+
+// scrolling text on ready screen
+var scrollObject = null;
+var animate;
+function scrollInit(){
+    console.log("entering scrollInit");
+    scrollObj = document.getElementById("scrollText");
+    scrollObj = document.getElementById("scrollText");
+    scrollObj.style.position='relative';
+    scrollObj.style.left ='0px'
+    moveRight();
+}
+
+function moveRight() {
+    console.log("entering moveRight");
+    scrollObj.style.left - parseInt(scrollObj.style.left) + 10 + 'px';
+    animate = setTimeout(moveRight(), 1000);    // call moveRight in 20msec
+
+    
+}
+

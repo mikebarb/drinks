@@ -11,9 +11,11 @@ class ShopsController < ApplicationController
   # GET /shops/orders.json
   def orders
     @orders = Order
-              .where("status != ?", "done")
               .includes(:person)
               .order(:id)
+              .reverse_order
+#              .where("status != ?", "done")
+
  
     logger.debug "@orders: " + @orders.inspect
     

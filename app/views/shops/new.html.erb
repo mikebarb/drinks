@@ -1,18 +1,14 @@
 <h1 id="neworders" >Brewster</h1>
 
-<div id="sumorders">
-  <table>    
-    <tbody>
-      <% @drinks.each do |drink| %>
-        <tr  id=<%= "d" + drink.id.to_s %>>
-          <td><%= drink.name %></td>
-          <td></td>
-          <td></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<table id="sumorders">    
+    <% @drinks.each do |drink| %>
+      <tr  id=<%= "d" + drink.id.to_s %>>
+        <td><%= drink.name %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    <% end %>
+</table>
 
 <hr/>
 
@@ -56,9 +52,9 @@
           <% #byebug %>
           <td class="counterstatusdone"><%= order.status %></td>
         <% end %>
-        <td id="<%= order.id %>_new" class="counterbuttonnew" onclick="orderUpdate(this);">To new</td>
-        <td id="<%= order.id %>_ready" class="counterbuttonready" onclick="orderUpdate(this);">To ready</td>
-        <td id="<%= order.id %>_done" class="counterbuttondone" onclick="orderUpdate(this);">To done</td>
+        <td id="<%= order.id %>_new" class="counterbuttonnew" onclick="orderUpdate(this);">New</td>
+        <td id="<%= order.id %>_ready" class="counterbuttonready" onclick="orderUpdate(this);">Ready</td>
+        <td id="<%= order.id %>_done" class="counterbuttondone" onclick="orderUpdate(this);">Done</td>
       </tr>
     <% end %>
   </tbody>

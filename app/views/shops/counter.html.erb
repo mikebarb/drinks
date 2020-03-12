@@ -8,7 +8,6 @@
 </div>
 <div class="displaybox floating-box">
     <h2 id=myDrinkName>Drink: </h2>
-    <h2 id=myDrinkId style="display: none;"></h2>
 </div>
 <div class="floating-box-button">
     <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
@@ -38,22 +37,6 @@
 <div class="selectbox floating-box">
     <h2>Select drink</h2>
     
-    <input type="text" id="drinkInput" class="filter" autocomplete="off" onkeyup="counterDrinks()" placeholder="Filter drink list .." title="Type in characters to reduce drink list">
-    
-    <ul id="myDrinksUL">
-        <% @drinks.each do |drink| %>
-            <li id=<%= "d" + drink.id.to_s %> onclick="counterSelectDrink(this);"><%= drink.name %></li>
-        <% end %>
-    </ul>
-</div>
-
-<div class="selectbox floating-box">
-    <h2>Select drink with buttons</h2>
-    
-    <div class="displaybox floating-box2">
-        <h2 id=myDrinkId2></h2>
-    </div>
-
     <div id="drinkarea" class="grpdrinkarea">
     
         <div id="grpDrinks" class="grpdrinkbutton">
@@ -62,6 +45,7 @@
           <button class="drinkbutton" data-enable="b11, b12, b21, b23">Flat White</button>
           <button class="drinkbutton" data-enable="b11, b12, b21, b23">Latte</button>
           <button class="drinkbutton" data-enable="b11, b12, b21, b23, b61">Long Black</button>
+          <button class="drinkbutton" data-enable="b11, b12, b21, b23, b61">Short Black</button>
           <button class="drinkbutton" data-enable="b21, b22">Choc</button>
           <button class="drinkbutton" data-enable="b31, b32, b33">Tea</button>
           <button class="drinkbutton" data-enable="b22, b24">Water</button>
@@ -72,8 +56,8 @@
 
             <div id="grpoptions" class="grpoptionsbutton">
               Strength
-              <button id="b11" class="optionsbutton">half</button>
-              <button id="b12" class="optionsbutton">quarter</button>
+              <button id="b11" class="optionsbutton">1/2</button>
+              <button id="b12" class="optionsbutton">1/4</button>
             </div>
     
             <div id="grpoptions" class="grpoptionsbutton">
@@ -88,7 +72,7 @@
               Blend
               <button id="b31" class="optionsbutton">Dilmah</button>
               <button id="b32" class="optionsbutton">English Breakfast</button>
-              <button id="b33" class="optionsbutton">Decafe</button>
+              <button id="b33" class="optionsbutton">Decaf</button>
             </div>
     
             <div id="grpoptions" class="grpoptionsbutton">

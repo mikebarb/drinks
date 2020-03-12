@@ -10,13 +10,21 @@
       <tr id=<%= order.id %>>
         <td style="display: none;"><%= order.id %></td>
         <td><%= order.person.name %></td>
-        <td><%= order.drink.name %></td>
+        <td style="display: none;"><%= order.drink %></td>
         <td style="display: none;"><%= order.quantity %></td>
         <td style="display: none;"><%= order.status %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<div id="scrollText">
+  <div id="myText">
+    This is my text.
+  </div>
+  
+</div>
+
 
 <script type="text/javascript">
     selectStatus();
