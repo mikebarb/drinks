@@ -12,7 +12,7 @@ class ShopsController < ApplicationController
   def orders
     @orders = Order
               .where("status != ?", "done")
-              .includes(:person, :drink)
+              .includes(:person)
               .order(:id)
  
     logger.debug "@orders: " + @orders.inspect
@@ -28,7 +28,7 @@ class ShopsController < ApplicationController
   def ready
     @orders = Order
               .where("status != ?", "done")
-              .includes(:person, :drink)
+              .includes(:person)
               .order(:id)
  
     logger.debug "@orders: " + @orders.inspect
@@ -42,7 +42,7 @@ class ShopsController < ApplicationController
   def new
     @orders = Order
               .where('updated_at > ?', 24.hours.ago)
-              .includes(:person, :drink)
+              .includes(:person)
               .order(:id)
 
   #            .where("status != ?", "done")
@@ -52,7 +52,7 @@ class ShopsController < ApplicationController
     @drinks = Drink.all
     logger.debug "@drinks: " + @drinks.inspect
 
-    @orderscount = Order.group(:drink_id).count
+    @orderscount = Order.group(:drink).count
               #.where("status == ?", "new")
               #.includes(:drink)
     logger.debug "@orderscount" + @orderscount.inspect

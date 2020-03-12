@@ -62,17 +62,18 @@ class OrdersController < ApplicationController
     @order.quantity = 1
     @order.day = Date.today
     @order.status = 'new'
+    @drink = @order.drink
     logger.debug "@order: " + @order.inspect
 
     respond_to do |format|
       if @order.save
         @person = Person.find(@order.person_id)
-        @person.lastdrinkid = @order.drink_id
+        @person.lastdrink = @order.drink
         @person.lastdrinktime = Time.now
         logger.debug "Just before save @person: " + @person.inspect
         @person.save
-        @drink = Drink.find(@order.drink_id)
-        ActionCable.server.broadcast("neworder_channel", message: [@order, @person.name, @drink.name])
+        #@drink = Drink.find(@order.drink)
+        ActionCable.server.broadcast("neworder_channel", message: [@order, @person.name, @drink])
         format.html { redirect_to people_path, notice: 'Order was successfully created.' }
         format.json { render :show, status: :created, location: @order }
       else
@@ -168,7 +169,7 @@ class OrdersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def order_params
-      params.require(:order).permit(:person_id, :drink_id, :quantity, :status, :day)
+      params.require(:order).permit(:person_id, :drink_id, :quantity, :status, :day, :drink)
     end
     
     # Never trust parameters from the scary internet, only allow the white list through.

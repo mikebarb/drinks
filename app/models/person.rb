@@ -1,6 +1,6 @@
 class Person < ApplicationRecord
     has_many :orders, dependent: :destroy
-    has_many :drinks, through: :orders
+#    has_many :drinks, through: :orders
     
     #before_destroy :ensure_not_referenced_by_orders
     

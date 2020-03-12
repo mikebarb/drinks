@@ -1,4 +1,4 @@
 class Order < ApplicationRecord
   belongs_to :person
-  belongs_to :drink
+#  belongs_to :drink
 end

@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th>Person</th>
+      <th>Drink Id</th>
       <th>Drink</th>
       <th>Quantity</th>
       <th>Status</th>
@@ -18,7 +19,8 @@
     <% @orders.each do |order| %>
       <tr>
         <td><%= order.person.name %></td>
-        <td><%= order.drink.name %></td>
+        <td><%= order.drink_id %></td>
+        <td><%= order.drink %></td>
         <td><%= order.quantity %></td>
         <td><%= order.status %></td>
         <td><%= order.day %></td>

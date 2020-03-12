@@ -1,18 +1,20 @@
 <h1 id="neworders" >Brewster</h1>
 
-<table>    
-  <tbody id="sumorders">
-    <% @drinks.each do |drink| %>
-      <tr  id=<%= "d" + drink.id.to_s %>>
-        <td><%= drink.name %></td>
-        <td></td>
-        <td></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<hr/>
+<div id="sumorders">
+  <table>    
+    <tbody>
+      <% @drinks.each do |drink| %>
+        <tr  id=<%= "d" + drink.id.to_s %>>
+          <td><%= drink.name %></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
+<hr/>
 
 <table>
   <thead>
@@ -35,21 +37,21 @@
         <% if order.status == "new" then %>
           <td style="display: none;"><%= order.id %></td>
           <td class="counterstatusnew"><%= order.person.name %></td>
-          <td class="counterstatusnew"><%= order.drink.name %></td>
+          <td class="counterstatusnew"><%= order.drink %></td>
           <td style="display: none;"><%= order.quantity %></td>
           <% #byebug %>
           <td class="counterstatusnew"><%= order.status %></td>
         <% elsif order.status == "ready" then %>
           <td style="display: none;"><%= order.id %></td>
           <td class="counterstatusready"><%= order.person.name %></td>
-          <td class="counterstatusready"><%= order.drink.name %></td>
+          <td class="counterstatusready"><%= order.drink %></td>
           <td style="display: none;"><%= order.quantity %></td>
           <% #byebug %>
           <td class="counterstatusready"><%= order.status %></td>
         <% else %>
           <td style="display: none;"><%= order.id %></td>
           <td class="counterstatusdone"><%= order.person.name %></td>
-          <td class="counterstatusdone"><%= order.drink.name %></td>
+          <td class="counterstatusdone"><%= order.drink %></td>
           <td style="display: none;"><%= order.quantity %></td>
           <% #byebug %>
           <td class="counterstatusdone"><%= order.status %></td>

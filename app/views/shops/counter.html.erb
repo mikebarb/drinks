@@ -26,8 +26,8 @@
     <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
     <ul id="myPeopleUL">
         <% @people.each do |person| %>
-            <% if person.lastdrinkid then %> 
-                <li id=<%= person.id %> lastdrink="<%= person.lastdrinkid %>" onclick="counterSelectPerson(this);"><%= person.name %></li>
+            <% if person.lastdrink then %> 
+                <li id=<%= person.id %> lastdrink="<%= person.lastdrink %>" onclick="counterSelectPerson(this);"><%= person.name %></li>
             <% else %>
                 <li id=<%= person.id %> onclick="counterSelectPerson(this);"><%= person.name %></li>
             <% end %>
@@ -50,7 +50,6 @@
 <div class="selectbox floating-box">
     <h2>Select drink with buttons</h2>
     
-
     <div class="displaybox floating-box2">
         <h2 id=myDrinkId2></h2>
     </div>

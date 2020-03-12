@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222004632) do
+ActiveRecord::Schema.define(version: 20200311104049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20171222004632) do
     t.date     "day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "drink"
     t.index ["day"], name: "index_orders_on_day", using: :btree
     t.index ["drink_id"], name: "index_orders_on_drink_id", using: :btree
     t.index ["person_id"], name: "index_orders_on_person_id", using: :btree
@@ -41,6 +42,7 @@ ActiveRecord::Schema.define(version: 20171222004632) do
     t.datetime "updated_at",    null: false
     t.integer  "lastdrinkid"
     t.datetime "lastdrinktime"
+    t.string   "lastdrink"
   end
 
   add_foreign_key "orders", "drinks"
