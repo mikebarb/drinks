@@ -495,6 +495,7 @@ function counterSelectDrink(el){
 // populates the form field with the person_id 
 function counterSelectPerson(el){
     var name, id, lastdrink;
+    initialiseDrinkButton();
     name = el.innerHTML;
     id = el.id;
     console.dir(el);
