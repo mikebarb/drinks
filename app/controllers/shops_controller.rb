@@ -5,6 +5,8 @@ class ShopsController < ApplicationController
     @people = Person.all
     logger.debug "@people: " + @people.inspect
     @drinks = Drink.all
+    @buttons = Button
+               .order(:group, :seq, :name)
   end
 
   # GET /shops/orders

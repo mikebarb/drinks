@@ -101,6 +101,11 @@
   max-height: 300px;
 }
 
+#myPeopleUL li {
+  font-size: 16px;
+  padding: 5px 5px;
+}
+
 .counterbuttonnew {
   background-color: LightCyan;
   border: 2px solid black;
@@ -298,3 +303,5 @@ span.myrowright {
 .selected {
   background-color: green;
 }
+
+

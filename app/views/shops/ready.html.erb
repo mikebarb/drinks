@@ -18,12 +18,38 @@
   </tbody>
 </table>
 
-<div id="scrollText">
-  <div id="myText">
-    This is my text.
-  </div>
-  
+<div>
+  <svg width="300" height="100" viewbox="0,0,300,100">
+    <rect y="0" width="300" height="100" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(0,0,0)" />
+  </svg>
+
+  <svg width="300" height="100" viewBox="0 0 300  100">
+    <rect y="0" width="300" height="100" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(0,0,0)" />
+    <text x="" y="50">
+      This is my text.
+      <animate attributeName="x" from "0" to="100" dur="5s" repeatCount="indefinite">
+    </text>
+  </svg>
 </div>
+
+<div>
+  <svg width="300" height="100" viewBox="0 0 300  100">
+    <ellipse cx="50" cy="50" rx="" ry="50">
+      <animate attributeName="rx" from "0" to="50" dur="10s" repeatCount="indefinite">
+    </ellipse>
+  </svg>
+</div>
+
+<div>
+  <svg viewbox="0,0,300,100" id="scrollText">
+    <rect y="35" width="300" height="20" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+    <text x="" y="50">
+      This is my text.
+      <animate attributeName="x" from "0" to="400" dur="10s" repeatCount="indefinite">
+    </text>
+  </svg>
+</div>
+
 
 
 <script type="text/javascript">

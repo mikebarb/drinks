@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :buttons
   # Server websocket cable requests in-process
   #mount ActionCable.server => '/cable'
   

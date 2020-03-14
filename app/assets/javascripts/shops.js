@@ -717,20 +717,20 @@ function actionInput(){
 }
 
 // scrolling text on ready screen
-var scrollObject = null;
+//var scrollObject = null;
 var animate;
 function scrollInit(){
     console.log("entering scrollInit");
-    scrollObj = document.getElementById("scrollText");
-    scrollObj = document.getElementById("scrollText");
+    //scrollObj = document.getElementById("scrollText");
+    var scrollObj = document.getElementById("scrollText");
     scrollObj.style.position='relative';
-    scrollObj.style.left ='0px'
-    moveRight();
+    scrollObj.style.left ='0px';
+    moveRight(scrollObj);
 }
 
-function moveRight() {
+function moveRight(scrollObj) {
     console.log("entering moveRight");
-    scrollObj.style.left - parseInt(scrollObj.style.left) + 10 + 'px';
+    scrollObj.style.left = parseInt(scrollObj.style.left) + 10 + 'px';
     animate = setTimeout(moveRight(), 1000);    // call moveRight in 20msec
 
     

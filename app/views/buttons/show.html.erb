@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @button.name %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @button.group %>
+</p>
+
+<p>
+  <strong>Enable:</strong>
+  <%= @button.enable %>
+</p>
+
+<p>
+  <strong>Seq:</strong>
+  <%= @button.seq %>
+</p>
+
+<%= link_to 'Edit', edit_button_path(@button) %> |
+<%= link_to 'Back', buttons_path %>

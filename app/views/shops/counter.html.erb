@@ -38,22 +38,60 @@
     <h2>Select drink</h2>
     
     <div id="drinkarea" class="grpdrinkarea">
-    
         <div id="grpDrinks" class="grpdrinkbutton">
-          Drink
-          <button class="drinkbutton" data-enable="b11, b12, b21, b23">Cap</button>
-          <button class="drinkbutton" data-enable="b11, b12, b21, b23">Flat White</button>
-          <button class="drinkbutton" data-enable="b11, b12, b21, b23">Latte</button>
-          <button class="drinkbutton" data-enable="b11, b12, b21, b23, b61">Long Black</button>
-          <button class="drinkbutton" data-enable="b11, b12, b21, b23, b61">Short Black</button>
-          <button class="drinkbutton" data-enable="b21, b22">Choc</button>
-          <button class="drinkbutton" data-enable="b31, b32, b33">Tea</button>
-          <button class="drinkbutton" data-enable="b22, b24">Water</button>
+            Drink
+<% 
+            @buttons.each do |b|
+                if b.group == "Drink" then
+                    enablearray ="b" + b.enable.split(/ /).join(", b")
+                    #byebug
+ %>                 <button class="drinkbutton" data-enable="<%= enablearray %>"><%= b.name %></button>
+<%              end
+           end
+%>
           <button id="other" class="drinkbutton" data-enable="otherInput">Other</button>
-        </div>
-     
-        <div id="grpoptionsgroups" class="grpoptionsgroups">
 
+        
+        </div>
+        <div id="grpoptionsgroups" class="grpoptionsgroups">
+<% 
+            currentGroup = ""
+            @buttons.each do |b|
+                #byebug
+                if b.group != "Drink" then
+                    if b.group != currentGroup then
+                        #byebug
+                        if currentGroup != "" then
+%>
+                            </div>
+<%
+                        end
+                        currentGroup = b.group
+%>
+                        <div id="grpoptions" class="grpoptionsbutton">
+                            <%= b.group %>
+<%
+                    end
+%>
+                    <button id="<%= "b" + b.id.to_s %>" class="optionsbutton"><%= b.name %></button>
+<%
+                end
+%>
+<%
+           end
+           if currentGroup != "" then
+%>
+             </div>
+             
+<%
+           end
+%>
+           <div id="grpoptions" class="grpoptionsbutton">
+               Other
+               <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
+           </div>
+
+<!--
             <div id="grpoptions" class="grpoptionsbutton">
               Strength
               <button id="b11" class="optionsbutton">1/2</button>
@@ -84,6 +122,7 @@
               Other
               <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
             </div>
+-->
         </div>
 
     </div>    

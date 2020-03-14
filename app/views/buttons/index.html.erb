@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Buttons</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Group</th>
+      <th>Enable</th>
+      <th>Seq</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @buttons.each do |button| %>
+      <tr>
+        <td><%= button.id %></td>
+        <td><%= button.name %></td>
+        <td><%= button.group %></td>
+        <td><%= button.enable %></td>
+        <td><%= button.seq %></td>
+        <td><%= link_to 'Show', button %></td>
+        <td><%= link_to 'Edit', edit_button_path(button) %></td>
+        <td><%= link_to 'Destroy', button, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Button', new_button_path %>
