@@ -57,10 +57,8 @@
 <% 
             currentGroup = ""
             @buttons.each do |b|
-                #byebug
                 if b.group != "Drink" then
                     if b.group != currentGroup then
-                        #byebug
                         if currentGroup != "" then
 %>
                             </div>
@@ -69,7 +67,7 @@
                         currentGroup = b.group
 %>
                         <div id="grpoptions" class="grpoptionsbutton">
-                            <%= b.group %>
+                            <span><%= b.group %></span>
 <%
                     end
 %>

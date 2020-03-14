@@ -605,6 +605,16 @@ function actionDrinkButton(ev){
 
 function actionRadioButtonEffect(thisEle){
     console.log("actionRadioButtonEffect called");
+    // Ignore if this is the Misc group
+    if(thisEle.parentElement.firstElementChild.textContent == "Misc"){
+        if(thisEle.classList.contains("selected")){
+            thisEle.classList.remove("selected");
+        }else{
+            thisEle.classList.add("selected");
+        }
+        return;
+    }
+    // Now do all other groups.
     if(thisEle.id == "otherInput"){
         // do nothing
     }else if(thisEle.classList.contains("selected")){
