@@ -4,20 +4,27 @@
     <input id=<%= sl %> type="checkbox" checked onclick="selectStatus();" > <%= sl %>
   <% end %>
 </div>
+<% scrollText = "" %>
 <table>
   <tbody id="orders">
-    <% @orders.each do |order| %>
-      <tr id=<%= order.id %>>
-        <td style="display: none;"><%= order.id %></td>
-        <td><%= order.person.name %></td>
-        <td style="display: none;"><%= order.drink %></td>
-        <td style="display: none;"><%= order.quantity %></td>
-        <td style="display: none;"><%= order.status %></td>
-      </tr>
-    <% end %>
+    <% @orders.each do |order| 
+         if order.status == "ready" then %>
+          <tr id=<%= order.id %>>
+            <td style="display: none;"><%= order.id %></td>
+            <td><%= order.person.name %></td>
+            <td style="display: none;"><%= order.drink %></td>
+            <td style="display: none;"><%= order.quantity %></td>
+            <td style="display: none;"><%= order.status %></td>
+          </tr>
+          <% scrollText = scrollText + "   " + order.person.name %>
+    <%   end 
+    end %>
   </tbody>
 </table>
 
+<% scrollText = scrollText + "--1--" + scrollText + "--2--" + scrollText %> 
+
+<!--
 <div>
   <svg width="300" height="100" viewbox="0,0,300,100">
     <rect y="0" width="300" height="100" style="fill:rgb(255,255,255);stroke-width:1;stroke:rgb(0,0,0)" />
@@ -49,8 +56,12 @@
     </text>
   </svg>
 </div>
+-->
 
-
+<!--
+<div id=scrollme>This is testing text</div>
+-->
+<div id=scrollme><%= scrollText %></div>
 
 <script type="text/javascript">
     selectStatus();
