@@ -30,12 +30,16 @@ class ShopsController < ApplicationController
   # GET /shops/ready
   # GET /shops/ready.json
   def ready
-    @orders = Order
-              .where("status != ?", "done")
+    checkTime = 24.hours.ago
+    @readyorders = Order
+              .where("updated_at > ?", 24.hours.ago)
               .includes(:person)
               .order(:id)
- 
-    logger.debug "@orders: " + @orders.inspect
+
+              #.where("updated_at > ? AND status = ?", 24.hours.ago, "ready")
+
+
+    logger.debug "@readyorders: " + @readyorders.inspect
     
     @statusList = ["ready"]
     logger.debug "@statusList: " + @statusList.inspect

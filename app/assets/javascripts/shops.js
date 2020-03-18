@@ -8,6 +8,7 @@
 //  selectStatus();
 //});
 
+var timerReference;
 
 //document.onload = function() {
 $(document).on('turbolinks:load', function(){
@@ -47,11 +48,17 @@ $(document).on('turbolinks:load', function(){
   }
   
   var scrollObj = document.getElementById("scrollText");
-    if(scrollObj){
-        scrollInit();
-    }
+  if(scrollObj){
+    scrollInit();
+  }
     
-})
+  var scrollMeObj = document.getElementById("scrollme");
+  if(scrollMeObj){
+    console.log("scrollMe - call");
+    scrollMe();
+  }
+    
+});
 
 // Web Socket receives a new message - existing order is deleted.
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
@@ -133,6 +140,7 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
             if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
         });
         selectStatus();
+        setScrollText();
     }
     return;
   }
@@ -322,7 +330,7 @@ function counterSubmitOrder() {
     var eleMyDrink = document.getElementById("myDrinkName");
     var person_id = eleMyPersonId.innerHTML;
     //var drink_id = eleMyDrinkId.innerHTML;
-    var drink = eleMyDrink.innerHTML.replace("Drink:", "").trim();
+    var drink = eleMyDrink.innerHTML.replace("", "").trim();
     console.log("drink:" + drink);
     console.log('counterSubmitOrder - myPersonId:' + person_id + " myDrink: " + drink );
     // Now create a order record in the database using ajax
@@ -341,8 +349,8 @@ function counterSubmitOrder() {
             console.log(data);
             eleMyPersonId.innerHTML = "";
             eleMyDrink.innerHTML = "";
-            document.getElementById("myPersonName").innerHTML = "Name:";
-            document.getElementById("myDrinkName").innerHTML = "Drink:";
+            document.getElementById("myPersonName").innerHTML = "";
+            document.getElementById("myDrinkName").innerHTML = "";
             submitOrderCheck();
             document.getElementById("personInput").value = "";
             //document.getElementById("drinkInput2").value = "";
@@ -441,7 +449,7 @@ function counterAddPerson() {
             eleli.setAttribute("onclick", "counterSelectPerson(this)" );
             eleli.innerHTML = name;
             document.getElementById("myPeopleUL").appendChild(eleli);
-            document.getElementById("myPersonName").innerHTML = "Name: " + data.name;
+            document.getElementById("myPersonName").innerHTML = "" + data.name;
             document.getElementById("myPersonId").innerHTML = data.id;
             submitOrderCheck();
             counterFilterPeople();
@@ -481,7 +489,7 @@ function counterSelectDrink(el){
     name = el.innerHTML;
     id = el.id.substring(1);  // remove the d prefix
     console.log('counterAddDrink:' + name + " id: " + id);
-    document.getElementById("myDrinkName").innerHTML = "Drink: " + name;
+    document.getElementById("myDrinkName").innerHTML = "" + name;
     document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
     document.getElementById("myDrinkId").innerHTML = id;
     submitOrderCheck();
@@ -502,7 +510,7 @@ function counterSelectPerson(el){
     console.log('counterSelectPerson:' + name + " id: " + id);
     lastdrink = el.getAttribute("lastdrink");
     console.log('counterSelectPerson:' + name + " lastdrink: " + lastdrink);
-    document.getElementById("myDrinkName").innerText = "Drink: " + lastdrink;
+    document.getElementById("myDrinkName").innerText = "" + lastdrink;
 /*  
     if (lastdrink) {
         //var eldrink = document.getElementById("d" + lastdrinkid);
@@ -517,15 +525,28 @@ function counterSelectPerson(el){
         //document.getElementById("myDrinkName").removeAttribute("class", "colourgrey");
     }
 */
-    document.getElementById("myPersonName").innerHTML = "Name: " + name; 
+    document.getElementById("myPersonName").innerHTML = "" + name; 
     document.getElementById("myPersonId").innerHTML = id;
     // Now update the filter field to make it this person
     // That shortens the list to see the drinks list
     // User can expand again if need be - reenter filter.
     //** enables filter entry ** document.getElementById("personInput").value = name;
     counterFilterPeople();
+    highlightPerson(el);
     submitOrderCheck();
 }
+
+function highlightPerson(el){
+    var personParent = el.parentElement;
+    var persons = personParent.children;
+    for(var i=0; i< persons.length; i++){
+        if (persons[i].classList.contains("personselected")){
+            persons[i].classList.remove("personselected");
+        }
+    }
+    el.classList.add("personselected");
+}
+
 
 // This function counts the drinks types in the orders
 function countDrinks() {
@@ -692,7 +713,7 @@ function makeDrinkDescription(){
         desc = document.getElementById("otherInput").value;
         //document.getElementById("myDrinkId2").innerText = desc.trim();
         //document.getElementById("myDrinkName").innerText = desc.trim();
-        document.getElementById("myDrinkName").innerText = "Drink: " + desc.trim();
+        document.getElementById("myDrinkName").innerText = "" + desc.trim();
         return;
     }
 
@@ -715,7 +736,7 @@ function makeDrinkDescription(){
         }
     }
     //document.getElementById("myDrinkId2").innerText = desc.trim();
-    document.getElementById("myDrinkName").innerText = "Drink: " + desc.trim();
+    document.getElementById("myDrinkName").innerText = "" + desc.trim();
     return;
 }
 
@@ -743,7 +764,63 @@ function moveRight(scrollObj) {
     console.log("entering moveRight");
     scrollObj.style.left = parseInt(scrollObj.style.left) + 10 + 'px';
     animate = setTimeout(moveRight(), 1000);    // call moveRight in 20msec
-
-    
 }
 
+function scrollMe(){
+    var eleScrollMe = document.getElementById("scrollme");
+    console.log("scrollMe called");
+    if(eleScrollMe){
+        if(timerReference == null){
+            timerReference = setInterval(scrollMe2, 3000);
+        }
+    }
+}
+
+function stopScrollMe(){
+    clearInterval(timerReference);   // stop the timer
+    timerReference = null;
+}
+
+function scrollMe2(){
+    var eleScrollMe = document.getElementById("scrollme");
+    console.log("scrollMe2 called");
+    if(eleScrollMe){
+        var myText = eleScrollMe.innerHTML.trim();
+        var myTextList = eleScrollMe.innerHTML.trim().split(" - ");
+        if(myTextList.length > 1){
+            var tmpText = myTextList.pop();
+            eleScrollMe.innerHTML = tmpText + " - " + myTextList.join(" - "); 
+        }
+    }
+}
+
+function setScrollText(){
+    console.log("setScrollText called");
+    if(document.getElementById("readyorders")){   // on the ready / pickup page
+        var orderNames = document.getElementsByClassName("counterStatusReady");
+        var orderList = document.getElementById("orders").children;
+        var myText = "";
+        for(var i=0; i<orderList.length; i++){
+            var myName = orderList[i].children[1].innerText;
+            var myStatus = orderList[i].children[4].innerText;
+            if(myStatus == "ready"){
+                if(myText.length > 0){
+                    myText = myText + " - ";
+                }
+                myText = myText + myName;
+            }
+        }
+        var eleScrollme = document.getElementById("scrollme");
+        eleScrollme.innerText = myText;
+        // only show this text if it has content
+        if(myText.length > 1){
+            if(eleScrollme.classList.contains("hideme")){
+                eleScrollme.classList.remove("hideme");
+                scrollMe();
+            }
+        }else{
+            eleScrollme.classList.add("hideme");
+            stopScrollMe();
+        }
+    }
+}

@@ -1,14 +1,37 @@
+
+
 body {
-  background-color: #fff;
-  color: #333;
-  font-family: verdana, arial, helvetica, sans-serif;
-  font-size: 13px;
-  line-height: 18px;
-  margin: 33px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+h2 {
+    font-family: 'Oswald', sans-serif;
+}
+
+.mt-2 {
+    margin-top: 15px;
+}
+
+.ml-2 {
+  margin-left: 10px;
+}
+
+.ml-1 {
+  margin-left: 5px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex span, .flex i {
+    line-height: 1.5;
+    font-size: 18px;
 }
 
 p, ol, ul, td {
-  font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px;
   margin: 33px;
@@ -51,6 +74,7 @@ div {
 
 #notice {
   color: green;
+  margin: 0;
 }
 
 .field_with_errors {

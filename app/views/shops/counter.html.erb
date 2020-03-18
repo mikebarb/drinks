@@ -1,29 +1,25 @@
 <p id="notice"><%= notice %></p>
+<!--<div class="light-header header">
+    <i class="fas fa-walking"></i>
+    <span id=myPersonName> </span>
+    <span id=myPersonId style="display: none;"></span>
+    <i class="fas fa-coffee ml-2"></i>
+    <span id=myDrinkName> </span>
+    <div id="submitOrder" class="button ml-2" onclick="counterSubmitOrder();" style="display: none;">
+        Submit order
+    </div>
+</div>-->
 
-<h1>Place your drink orders</h1>
-
-<div class="displaybox floating-box">
-    <h2 id=myPersonName>Name: </h2>
-    <h2 id=myPersonId style="display: none;"></h2>
-</div>
-<div class="displaybox floating-box">
-    <h2 id=myDrinkName>Drink: </h2>
-</div>
-<div class="floating-box-button">
-    <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
-    <hr class=seperator />
-</div>
-
-<div class="selectbox floating-box">
-    <span class="myrowleft">
-        <h2>Select person</h2>
-    </span>
-    <span class="myrowright">
-        <div id="buttonAddPerson" class="hideme" onclick="counterAddPerson();">New Person</div>
-    </span>
-    <input type="text" id="personInput" autocomplete="off" onkeyup="counterFilterPeople()" placeholder="Shorten displayed names by keying in meaningful characters .." title="Type in characters to reduce name list">
-    <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
-    <ul id="myPeopleUL">
+<div class="left-container">
+    <div class="search-container">
+        <div class="input-group">
+            <span class="search-icon fas fa-search"></span>
+            <input class="search-bar" type="text" id="personInput" autocomplete="off" onkeyup="counterFilterPeople()" placeholder="Search" title="Type in characters to reduce name list">
+        </div>
+        <span id="buttonAddPerson" class="search-button hideme" onclick="counterAddPerson();">New Person</span>
+        <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
+    </div>    
+                <ul id="myPeopleUL">
         <% @people.each do |person| %>
             <% if person.lastdrink then %> 
                 <li id=<%= person.id %> lastdrink="<%= person.lastdrink %>" onclick="counterSelectPerson(this);"><%= person.name %></li>
@@ -32,14 +28,11 @@
             <% end %>
         <% end %>
     </ul>
-</div>
-
-<div class="selectbox floating-box">
-    <h2>Select drink</h2>
-    
-    <div id="drinkarea" class="grpdrinkarea">
-        <div id="grpDrinks" class="grpdrinkbutton">
-            Drink
+</div><!--
+--><div class="right-container">
+    <div id="drinkarea">
+        <div id="grpDrinks" class="drinks-column">
+            <h2>Drink</h2>
 <% 
             @buttons.each do |b|
                 if b.group == "Drink" then
@@ -48,12 +41,10 @@
  %>                 <button class="drinkbutton" data-enable="<%= enablearray %>"><%= b.name %></button>
 <%              end
            end
-%>
-          <button id="other" class="drinkbutton" data-enable="otherInput">Other</button>
-
-        
-        </div>
-        <div id="grpoptionsgroups" class="grpoptionsgroups">
+%><!--
+         --><button id="other" class="drinkbutton" data-enable="otherInput">Other</button>
+        </div><!--
+        --><div id="grpoptionsgroups" class="grpoptionsgroups">
 <% 
             currentGroup = ""
             @buttons.each do |b|
@@ -65,9 +56,9 @@
 <%
                         end
                         currentGroup = b.group
-%>
-                        <div id="grpoptions" class="grpoptionsbutton">
-                            <span><%= b.group %></span>
+%><!--
+                        --><div id="grpoptions" class="grpoptionsbutton">
+                            <h2><%= b.group %></h2>
 <%
                     end
 %>
@@ -79,17 +70,31 @@
            end
            if currentGroup != "" then
 %>
-             </div>
+             </div><!--
              
-<%
+--><%
            end
-%>
-           <div id="grpoptions" class="grpoptionsbutton">
-               Other
+%><!--
+           --><div id="grpoptions" class="grpoptionsbutton">
+               <h2>Other</h2>
                <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
            </div>
         </div>
     </div>    
+</div><!--
+--><div class="far-right-container">
+    <div class="flex">
+      <i class="fas fa-hiking ml-1"></i>
+        <span class="ml-2" id=myPersonName> </span> 
+        <span id=myPersonId style="display: none;"></span>
+    </div>
+    <div class="mt-2 flex">
+        <i class="fas fa-coffee"></i>
+        <span class="ml-2" id=myDrinkName> </span>
+    </div>
+    <div id="submitOrder" class="button submit-button mt-2" onclick="counterSubmitOrder();" style="display: none;">
+        Submit order
+    </div>
 </div>
 
 <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>

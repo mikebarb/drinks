@@ -11,7 +11,6 @@
 .floating-box {
     display: inline-block;
     width: 45%;
-    border: 3px solid #73AD21;  
     vertical-align: top;
 }
 .floating-box2 {
@@ -37,20 +36,18 @@
 }
 
 .selectbox {
-  background-color: #66eeee;
 }
 
-.button {
-    background-color: green;
-    border: 3px solid black;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    width: 100%;
+.button, .floating-button {
+    display: inline-block;
+    padding: 10px;
+    background-color: #ef6c00;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
 }
 
-#personInput, #drinkInput {
+#drinkInput {
   background-position: 10px 12px;
   background-repeat: no-repeat;
   width: 100%;
@@ -96,14 +93,25 @@
   margin: 3px 10px 3px 10px;
 }
 #myPeopleUL {
-  margin: 3px 10px 3px 10px;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
   overflow: auto;
-  max-height: 300px;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  background-color: white;
+
 }
 
 #myPeopleUL li {
   font-size: 16px;
-  padding: 5px 5px;
+  padding: 15px;
+  border-top: 1px solid #e0e0e0;
+}
+
+#myPeopleUL li:first-child {
+  border-top: none;
 }
 
 .counterbuttonnew {
@@ -193,19 +201,30 @@
   width: 80px;
 }
 
-#buttonAddPerson {
-  background-color: Snow;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
+.drinkbutton, .optionsbutton {
   text-align: center;
-  text-decoration: none;
   display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+  border-radius: 5px;
+  padding: 8px;
+  border: 2px solid #ef6c00;
+  background-color: white;
+  color: #ef6c00;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
+
+#buttonAddPerson {
+  color: white;
+  background-color: #ef6c00;
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 10px;
+  display: block;
+  padding: 8px;
+  text-align: center;
+  
 }
 
 .hideme {
@@ -233,33 +252,19 @@ span.myrowright {
   float: right;
 }
 
-.drinkbutton {
-  background-color: LightCyan;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  //display: block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 95%;
+.drinkbutton, .optionsbutton {
+  padding: 10px;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 5px;
 }
+
+.drinkbutton:first-child {
+  margin-left: 0px;
+}
+
 .optionsbutton {
-  background-color: white;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  //display: block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 95%;
+  
 }
 .grpdrinkbutton {
   background-color: Red;
@@ -274,23 +279,21 @@ span.myrowright {
 }
 
 .grpoptionsgroups {
-  display:table-cell;
-  width: 45%;
+  display: inline-block;
+  width: 50%;
   vertical-align: top;
+  padding: 15px 30px;
 }
 
 .grpoptionsbutton {
-  background-color: Red;
-  border: 2px solid black;
-  color: black;
-  padding: 12px 12px;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 95%;
-  float: right;
-  display:table-cell;
+  display: block;
+  margin-bottom: 20px;
 }
+
+.grpoptionsbutton:first-child {
+  margin-top: 0;
+}
+
 .grpdrinkarea {
   display: table-row;
   vertical-align: top;
@@ -301,9 +304,13 @@ span.myrowright {
 }
 
 .selected {
-  background-color: green;
+  background-color: #ef6c00;
+  color: white;
 }
 
+.personselected {
+  background-color: #eeeeee;
+}
 
 #scrollme {
   position: absolute;
@@ -318,4 +325,106 @@ span.myrowright {
   font-size: 24px;
   color: black;
   background-color: White;
+}
+
+.header {
+  color: white;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.dark-header {
+  background-color: #000051;
+  padding:  5px 15px;
+}
+
+.light-header i {
+  font-size: 18px;
+}
+
+.left-container, .right-container, .far-right-container {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.left-container {
+  width: 25%;
+  height: 100vh;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.right-container {
+  width: 50%;
+  height: 100vh;
+}
+
+.far-right-container {
+  width: 25%;
+  background-color: #1a237e;
+  padding: 30px;
+  height: 100vh;
+  color: white;
+  font-size: 16px;
+}
+
+.search-container {
+  background-color: #534bae;
+  padding: 10px;
+}
+
+.input-group {
+    display: flex;
+}
+
+.search-bar {
+  padding: 10px;
+  width: 82%;
+  border: 1px solid #7b7b7b;
+  font-size: 16px;
+}
+
+.search-icon {
+  width: 18%;
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #7b7b7b;
+  border-right: none;
+  background-color: white;
+}
+
+.drinks-column {
+  width: 50%;
+  height: 100%;
+  padding: 15px 30px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+h2 {
+  margin: 0 0 10px 0;
+}
+
+.submit-button {
+  padding: 15px;
+  font-size: 16px;
+}
+
+.floating-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  right: 20px;
+  bottom: 20px;
+  background-color: #000051;
+  
+}
+
+.floating-button a, .floating-button i {
+  color: #ffffff;
+}
+
+#myDrinkName {
+  margin-left: 10px;
 }

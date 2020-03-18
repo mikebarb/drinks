@@ -7,18 +7,25 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src = "https://www.google.com/cloudprint/client/cpgadget.js">
+    <script src = "https://www.google.com/cloudprint/client/cpgadget.js"></script>
+    <script src="https://kit.fontawesome.com/5ce563f32a.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins|Oswald&display=swap" rel="stylesheet">
 </script>
   </head>
   <% if @statusList == ["ready"] then %>
     <body id="setbackgroundimage">
   <% else %>
     <body>
-      <button class="headerbutton"><%= link_to 'Counter', shop_counter_path %></button>
-      <button class="headerbutton"><%= link_to 'Brewster', shop_new_path %></button>
-      <button class="headerbutton"><%= link_to 'Pickup', shop_ready_path %></button>
-      <button class="headerbutton"><%= link_to 'Details', shop_orders_path %></button>
-      <button class="headerbutton"><%= link_to 'Buttons', buttons_path %></button>
+      <!--<div class="dark-header header">
+        <%= link_to 'Counter', shop_counter_path %>
+      <%= link_to 'Pickup', shop_ready_path %>
+      <%= link_to 'Details', shop_orders_path %>
+      <%= link_to 'Buttons', buttons_path %>
+      </div>-->
+      
+      <div class="floating-button"><%= link_to 'Brewster', shop_new_path %><i class="fas fa-angle-right ml-2"></i></div>
+
+      
   <% end %>
     <%= yield %>
   </body>
