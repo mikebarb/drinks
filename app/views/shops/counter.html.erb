@@ -1,14 +1,6 @@
 <p id="notice"><%= notice %></p>
-<!--<div class="light-header header">
-    <i class="fas fa-walking"></i>
-    <span id=myPersonName> </span>
-    <span id=myPersonId style="display: none;"></span>
-    <i class="fas fa-coffee ml-2"></i>
-    <span id=myDrinkName> </span>
-    <div id="submitOrder" class="button ml-2" onclick="counterSubmitOrder();" style="display: none;">
-        Submit order
-    </div>
-</div>-->
+<div class="button floating-button floating-button-right"><%= link_to 'Brewster', shop_new_path %><i class="fas fa-angle-right ml-2"></i></div>
+
 
 <div class="left-container">
     <div class="search-container">
@@ -92,7 +84,7 @@
         <i class="fas fa-coffee"></i>
         <span class="ml-2" id=myDrinkName> </span>
     </div>
-    <div id="submitOrder" class="button submit-button mt-2" onclick="counterSubmitOrder();" style="display: none;">
+    <div id="submitOrder" class="button b-orange submit-button mt-2" onclick="counterSubmitOrder();" style="display: none;">
         Submit order
     </div>
 </div>

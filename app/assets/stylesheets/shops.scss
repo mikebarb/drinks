@@ -38,13 +38,18 @@
 .selectbox {
 }
 
-.button, .floating-button {
+
+
+.button {
     display: inline-block;
     padding: 10px;
-    background-color: #ef6c00;
     border-radius: 5px;
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
+}
+
+.button-orange {
+  background-color: #ef6c00;
 }
 
 #drinkInput {
@@ -115,46 +120,14 @@
 }
 
 .counterbuttonnew {
-  background-color: LightCyan;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+  
 }
+
 .counterbuttonready {
-  background-color: LightGreen;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+
 }
 .counterbuttondone {
-  background-color: Snow;
-  border: 2px solid black;
-  border-radius: 12px;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+
 }
 
 .counterbutton:hover {
@@ -163,16 +136,7 @@
 }
 
 .counterstatusnew {
-  background-color: LightCyan;
-  border: 2px solid Cyan;
-  color: black;
-  padding: 2px 2px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 12px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+  
 }
 
 .counterstatusready {
@@ -369,7 +333,7 @@ span.myrowright {
 }
 
 .search-container {
-  background-color: #534bae;
+  background-color: #1a237e;
   padding: 10px;
 }
 
@@ -380,7 +344,7 @@ span.myrowright {
 .search-bar {
   padding: 10px;
   width: 82%;
-  border: 1px solid #7b7b7b;
+  border: 1px solid #000051;
   font-size: 16px;
 }
 
@@ -408,21 +372,6 @@ h2 {
 .submit-button {
   padding: 15px;
   font-size: 16px;
-}
-
-.floating-button {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  right: 20px;
-  bottom: 20px;
-  background-color: #000051;
-  
-}
-
-.floating-button a, .floating-button i {
-  color: #ffffff;
 }
 
 #myDrinkName {

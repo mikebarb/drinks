@@ -35,3 +35,58 @@
 #myUL li:hover:not(.header) {
   background-color: #aaa;
 }
+
+.two-thirds-container {
+  display: inline-block;
+  padding: 30px;
+  width: 75%;
+  background-color: #eeeeee;
+}
+
+.list-item {
+  border: 1px solid #d3d3d3;
+  background-color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.list-item-content {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.list-item:first-child {
+  margin-top: 0;
+}
+
+.selection-container {
+  display: flex;
+  font-size: 14px;
+  color: white;
+}
+
+.new, .ready, .done {
+  padding: 12px;
+}
+
+.new {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 2px solid #2196f3;
+  border-right: none;
+  color: #2196f3;
+}
+
+.ready {
+  border: 2px solid #00c853;
+  color: #00c853;
+}
+
+.done {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 2px solid #90A4AE;
+  border-left: none;
+  color: #90A4AE;
+}
