@@ -121,23 +121,46 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
             alert("Error - this order entry is not present on this page!");
             return;
         }      
-        var eletds = eleOrderTableRow.getElementsByTagName("td");
+        //var eletds = eleOrderTableRow.getElementsByTagName("td");
         var updatedFields = data.message[1];
         Object.keys(updatedFields).forEach(function(key) {
             console.log("updatedField: " + key +  ": " +updatedFields[key]);
             if ( key == "status") {
-                eletds[4].innerHTML = updatedFields["status"];
-                eletds[4].className = '';
-                eletds[1].className = '';
-                eletds[2].className = '';
-                eletds[4].className = 'counterstatus' + updatedFields["status"];
-                eletds[1].className = 'counterstatus' + updatedFields["status"];
-                eletds[2].className = 'counterstatus' + updatedFields["status"];
+                console.log("about to update status");
+                console.log("got status elements");
+                if(eleOrderTableRow.getElementsByClassName("counterstatusnew").length > 0){
+                    var elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusnew");
+                    elementsStatusList[2].innerText = updatedFields["status"];
+                    while(elementsStatusList.length > 0){
+                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
+                        elementsStatusList[0].classList.remove("counterstatusnew");
+                    }
+                }else if(eleOrderTableRow.getElementsByClassName("counterstatusready").length > 0){
+                    elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusready");
+                    elementsStatusList[2].innerText = updatedFields["status"];
+                    while(elementsStatusList.length > 0){
+                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
+                        elementsStatusList[0].classList.remove("counterstatusready");
+                    }
+                }else if(eleOrderTableRow.getElementsByClassName("counterstatusdone").length > 0){
+                    elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusdone");
+                    elementsStatusList[2].innerText = updatedFields["status"];
+                    while(elementsStatusList.length > 0){
+                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
+                        elementsStatusList[0].classList.remove("counterstatusdone");
+                    }
+                }
+                //eletds[4].className = '';
+                //eletds[1].className = '';
+                //eletds[2].className = '';
+                //eletds[4].className = 'counterstatus' + updatedFields["status"];
+                //eletds[1].className = 'counterstatus' + updatedFields["status"];
+                //eletds[2].className = 'counterstatus' + updatedFields["status"];
             }
-            if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
-            if ( key == "drink") {eletds[2].innerHTML = data.message[3];}
-            if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
-            if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
+            //if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
+            //if ( key == "drink") {eletds[2].innerHTML = data.message[3];}
+            //if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
+            //if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
         });
         selectStatus();
         setScrollText();
@@ -180,7 +203,124 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         var day = data.message[0].day;
         var quantity = data.message[0].quantity;
         var hf = "";    //HtmlFragment - short name
-        if(document.getElementById("allorders")){
+        //if(document.getElementById("allorders")){
+        var eleOrders =  document.getElementById("orders");
+        if(eleOrders){
+            var elea = document.createElement("div");
+            elea.classList.add("list-item");
+            elea.id = order_id;
+            eleOrders.appendChild(elea);
+            
+            var eleb = document.createElement("div");
+            eleb.classList.add("list-item-content");
+            elea.appendChild(eleb);
+            
+            var elec1 = document.createElement("span");
+            elec1.style = "display: none";
+            elec1.innerText = order_id;
+            eleb.appendChild(elec1);
+            
+            var elec2 = document.createElement("div");
+            elec2.classList.add("w-20");
+            var elec2d1 = document.createElement("i");
+            elec2d1.classList.add("fas");
+            elec2d1.classList.add("fa-hiking");
+            //elec2d1.setAttribute("aria-hidden", "true");
+            //elec2d1.innerText = "::before";
+            elec2.appendChild(elec2d1);
+            var elec2d2 = document.createElement("span");
+            elec2d2.classList.add("ml-2");
+            elec2d2.classList.add("counterstatus" + status);
+            elec2d2.innerText = person_name;
+            elec2.appendChild(elec2d2);
+            eleb.appendChild(elec2);
+            
+            var elec3 = document.createElement("div");
+            var elec3d1 = document.createElement("i");
+            elec3d1.classList.add("fas");
+            elec3d1.classList.add("fa-coffee");
+            //elec3d1.setAttribute("aria-hidden", "true");
+            //elec3d1.innerText = "::before";
+            elec3.appendChild(elec3d1);
+            var elec3d2 = document.createElement("span");
+            elec3d2.classList.add("ml-2");
+            elec3d2.classList.add("counterstatus" + status);
+            elec3d2.innerText = drink_name;
+            elec3.appendChild(elec3d2);
+            eleb.appendChild(elec3);
+            
+            var elec4 = document.createElement("span");
+            elec4.style = "display: none";
+            elec4.innerText = quantity;
+            eleb.appendChild(elec4);
+            
+            var elec5 = document.createElement("span");
+            elec5.classList.add("counterstatus" + status);
+            elec5.innerText = status;
+            eleb.appendChild(elec5);
+
+            var elec6 = document.createElement("div");
+            elec6.classList.add("ml-auto");
+            elec6.classList.add("selection-container");
+            eleb.appendChild(elec6);
+
+            // new button
+            var elec6d1 = document.createElement("div");
+            elec6d1.classList.add("new");
+            elec6.appendChild(elec6d1);
+            var elec6d1e1 = document.createElement("i");
+            elec6d1e1.classList.add("fas");
+            elec6d1e1.classList.add("fa-surprise");
+            //elec6d1e1.setAttribute("aria-hidden", "true");
+            //elec6d1e1.innerText = "::before";
+            elec6d1.appendChild(elec6d1e1);
+            var elec6d1e2 = document.createElement("span");
+            elec6d1e2.id = order_id + '_new';
+            elec6d1e2.classList.add("counterbutton" + status);
+            elec6d1e2.onclick = function(){orderUpdate(this);};
+            //elec6d1e2.setAttribute("aria-hidden", "true");
+            elec6d1e2.innerText = "New";
+            elec6d1.appendChild(elec6d1e2);
+
+            // ready button
+            var elec6d2 = document.createElement("div");
+            elec6d2.classList.add("ready");
+            var elec6d2e1 = document.createElement("i");
+            elec6d2e1.classList.add("fas");
+            elec6d2e1.classList.add("fa-stopwatch");
+            //elec6d2e1.setAttribute("aria-hidden", "true");
+            //elec6d2e1.innerText = "::before";
+            elec6d2.appendChild(elec6d2e1);
+            var elec6d2e2 = document.createElement("span");
+            elec6d2e2.id = order_id + '_ready';
+            elec6d2e2.classList.add("counterbutton" + status);
+            elec6d2e2.onclick = function(){orderUpdate(this);};
+            //elec6d2e2.setAttribute("aria-hidden", "true");
+            elec6d2e2.innerText = "Ready";
+            elec6d2.appendChild(elec6d2e2);
+            elec6.appendChild(elec6d2);
+
+            // done button
+            var elec6d3 = document.createElement("div");
+            elec6d3.classList.add("done");
+            var elec6d3e1 = document.createElement("i");
+            elec6d3e1.classList.add("fas");
+            elec6d3e1.classList.add("fa-check");
+            //elec6d3e1.setAttribute("aria-hidden", "true");
+            //elec6d3e1.innerText = "::before";
+            elec6d3.appendChild(elec6d3e1);
+            var elec6d3e2 = document.createElement("span");
+            elec6d3e2.id = order_id + '_done';
+            elec6d3e2.classList.add("counterbutton" + status);
+            elec6d3e2.onclick = function(){orderUpdate(this);};
+            //elec6d3e2.setAttribute("aria-hidden", "true");
+            elec6d3e2.innerText = "Done";
+            elec6d3.appendChild(elec6d3e2);
+            elec6.appendChild(elec6d3);
+
+        }
+
+/*
         hf = hf + "<td>" + order_id + "</td>";
         hf = hf + "<td>" + person_name + "</td>";
         hf = hf + "<td>" + drink_name + "</td>";
@@ -217,6 +357,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         eletr.innerHTML = hf;
         //console.dir(eletr);
         eleTableBody.appendChild(eletr);
+*/
         selectStatus(); 
         countDrinks();
     }
@@ -238,7 +379,8 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
 // this function displays the orders based on the checkbox selections.
 function selectStatus(){
     console.log("enter selectStatus");
-    var thisStatus;
+    //var thisStatus;
+    var eleListItemStatus;
     var i = 0; 
     var statusCheckString = "";
     //var statusList = el.parentElement.getElementsByTagName("input");
@@ -248,13 +390,34 @@ function selectStatus(){
             statusCheckString = statusCheckString + " " +  statusList[i].id;
         }
     }
+    //var eleTableBody =  document.getElementById("orders");
+    //var trList = eleTableBody.getElementsByTagName("tr");
     var eleTableBody =  document.getElementById("orders");
-    var trList = eleTableBody.getElementsByTagName("tr");
+    var trList = eleTableBody.getElementsByClassName("list-item");
     for(i = 0; i < trList.length; i++) {
-        console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
-        console.dir(trList[i].children[4].innerHTML);
-        thisStatus = trList[i].children[4].innerHTML;
-        if (statusCheckString.indexOf(thisStatus) > -1) {
+        var showme = false;
+        var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
+        eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
+        if(statusCheckString.indexOf("new") > -1){
+            if (eleListItemStatus.classList.contains("counterstatusnew")){
+                showme = true;
+            }
+        }
+        if(statusCheckString.indexOf("ready") > -1){
+            if (eleListItemStatus.classList.contains("counterstatusready")){
+                showme = true;
+            }
+        }
+        if(statusCheckString.indexOf("done") > -1){
+            if (eleListItemStatus.classList.contains("counterstatusdone")){
+                showme = true;
+            }
+        }
+        //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
+        //console.dir(trList[i].children[4].innerHTML);
+        //thisStatus = trList[i].children[4].innerHTML;
+        //if (statusCheckString.indexOf(thisStatus) > -1) {
+        if (showme) {
             trList[i].style.display = "";
         } else {
             trList[i].style.display = "none";
@@ -269,7 +432,8 @@ function orderUpdate(el){
     //console.log("orderUpdate called." + el.id);
     // this updates the status
     var thisElId = el.id;   // hold this element - number _ new status.
-    var order_id = el.parentElement.id;
+    //var order_id = el.parentElement.id;
+    var order_id = thisElId.split("_", 1)[0];
     //console.log("orderUpdate - order_id: " + order_id);
     var newStatus = thisElId.replace(order_id + "_", "");  //what I want to update the status to.
     //console.log("orderUpdate - newStatus: " + newStatus);
