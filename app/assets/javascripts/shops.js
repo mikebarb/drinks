@@ -36,14 +36,14 @@ $(document).on('turbolinks:load', function(){
   
   var eleDrinkInput = document.getElementById("otherInput");
   if(eleDrinkInput){
-      console.log("attach actionInput");
+      //console.log("attach actionInput");
     eleDrinkInput.addEventListener("keyup", actionInput);
     eleDrinkInput.addEventListener("blur", actionInput);
   }
   
   var eleBrewsterSummary = document.getElementById("sumorders");
   if(eleBrewsterSummary){
-    console.log("calculate summary - call ");
+    //console.log("calculate summary - call ");
     countDrinks();
   }
   
@@ -165,6 +165,53 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
         selectStatus();
         setScrollText();
     }
+
+    // This section will generate a equivalent table versions of the above
+    eleTableBody =  document.getElementById("orderstable");
+    console.dir(eleTableBody);
+    if (eleTableBody) {
+        // this element is defined
+        //alert("element with id=orders exists on this page");
+        order_id = data.message[0];
+        console.log("order_id: " + order_id);
+        //check if this record is already present 
+        // This will be the case for the sender.
+        eleOrderTableRow = document.getElementById('t' + order_id);
+        console.dir(eleOrderTableRow);
+        if(eleOrderTableRow) {
+            //is present so can update state (or anything else).
+            //alert("This order entry is present - now update on screen");
+            // drop through to remainer of the function.            
+        }else{
+            // entry must be in the table - update only
+            // thus if we get to here, there is an error.
+            alert("Error - this order entry is not present on this page!");
+            return;
+        }      
+        var eletds = eleOrderTableRow.getElementsByTagName("td");
+        updatedFields = data.message[1];
+        Object.keys(updatedFields).forEach(function(key) {
+            console.log("updatedField: " + key +  ": " +updatedFields[key]);
+            if ( key == "status") {
+                console.log("about to update status");
+                console.log("got status elements");
+                eletds[4].className = '';
+                eletds[1].className = '';
+                eletds[2].className = '';
+                eletds[4].className = 'counterstatus' + updatedFields["status"];
+                eletds[1].className = 'counterstatus' + updatedFields["status"];
+                eletds[2].className = 'counterstatus' + updatedFields["status"];
+                eletds[4].innerText = updatedFields["status"];
+            }
+            if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
+            if ( key == "drink") {eletds[2].innerHTML = data.message[3];}
+            if ( key == "day") {eletds[8].innerHTML = updatedFields["day"];}
+            if ( key == "quantity") {eletds[3].innerHTML = updatedFields["quantity"];}
+        });
+        selectStatusTable();
+        setScrollText();
+    }
+
     return;
   }
 });
@@ -174,15 +221,19 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
   received: function(data) {
     console.log("neworders.js - entered ws received function");
     console.dir(data);
+    var order_id = data.message[0].id;
+    //console.log("order_id: " + order_id);
     var person_name = data.message[1];
     var drink_name = data.message[2];
+    //var created_at = data.message[0].created_at;
+    var status = data.message[0].status;
+    //var day = data.message[0].day;
+    var quantity = data.message[0].quantity;
     var eleTableBody =  document.getElementById("orders");
     console.dir(eleTableBody);
     if (eleTableBody) {
         // this element is defined
         //alert("element with id=orders exists on this page");
-        var order_id = data.message[0].id;
-        //console.log("order_id: " + order_id);
         //check if this record is already present 
         // This will be the case for the sender.
         var eleOrderTableRow = document.getElementById(order_id);
@@ -198,11 +249,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         //var person_id = data.message[0].person_id;
         //var drink_name = data.message[2];
         //var drink_id = data.message[0].drink_id;
-        var created_at = data.message[0].created_at;
-        var status = data.message[0].status;
-        var day = data.message[0].day;
-        var quantity = data.message[0].quantity;
-        var hf = "";    //HtmlFragment - short name
+        //var hf = "";    //HtmlFragment - short name
         //if(document.getElementById("allorders")){
         var eleOrders =  document.getElementById("orders");
         if(eleOrders){
@@ -319,29 +366,36 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec6.appendChild(elec6d3);
 
         }
+    }
+    //if(document.getElementById("allorders")){
+    eleOrders =  document.getElementById("orderstable");
+    if(eleOrders){
+        var className = "class='counterstatus" + status + "'";
+        var hf = "";    //HtmlFragment - short name
+        hf = hf + "<td style=display:none;>" + order_id + "</td>";
+        hf = hf + "<td " + className + ">" + person_name + "</td>";
+        hf = hf + "<td " + className + ">" + drink_name + "</td>";
+        hf = hf + "<td style=display:none>" + quantity + "</td>";
+        hf = hf + "<td " + className + ">" + status + "</td>";
+        hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';
+        hf = hf + '<td id="t' + order_id + '_ready" onclick="orderUpdate(this);">Ready</td>';
+        hf = hf + '<td id="t' + order_id + '_done" onclick="orderUpdate(this);">Done</td>';
 
 /*
-        hf = hf + "<td>" + order_id + "</td>";
-        hf = hf + "<td>" + person_name + "</td>";
-        hf = hf + "<td>" + drink_name + "</td>";
-        hf = hf + "<td>" + quantity + "</td>";
-        hf = hf + "<td>" + status + "</td>";
-        hf = hf + '<td id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
-        hf = hf + '<td id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
-        hf = hf + '<td id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
         hf = hf + "<td>" + day + "</td>";
         hf = hf + "<td>" + created_at + "</td>";
         hf = hf + '<td><a href="/orders/' + order_id + '/edit">Edit</a></td>';
         hf = hf + '<td onclick="destroyOrder(this);">Destroy</td>';
-        }
-        if(document.getElementById("readyorders")){
+
+        //}
+        //if(document.getElementById("readyorders")){
         hf = hf + '<td style="display: none;">' + order_id + "</td>";
         hf = hf + "<td>" + person_name + "</td>";
         hf = hf + "<td>" + drink_name + "</td>";
         hf = hf + '<td style="display: none;">' + quantity + "</td>";
         hf = hf + '<td style="display: none;">' + status + "</td>";
-        }
-        if(document.getElementById("neworders")){
+        //}
+        //if(document.getElementById("neworders")){
         hf = hf + '<td style="display: none;">' + order_id + "</td>";
         hf = hf + '<td class="counterstatusnew">' + person_name + "</td>";
         hf = hf + '<td class="counterstatusnew">' + drink_name + "</td>";
@@ -350,17 +404,20 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         hf = hf + '<td class="counterbuttonnew" id="' + order_id + '_new" onclick="orderUpdate(this);">To new</td>';
         hf = hf + '<td class="counterbuttonready" id="' + order_id + '_ready" onclick="orderUpdate(this);">To ready</td>';
         hf = hf + '<td class="counterbuttondone" id="' + order_id + '_done" onclick="orderUpdate(this);">To done</td>';
-        }    
-        //console.log("hf: " + hf);
+        //}    
+*/
+        console.log("hf: " + hf);
         var eletr = document.createElement("tr");
-        eletr.setAttribute("id", order_id );
+        eletr.setAttribute("id", 't' + order_id );
         eletr.innerHTML = hf;
         //console.dir(eletr);
-        eleTableBody.appendChild(eletr);
-*/
-        selectStatus(); 
-        countDrinks();
+        eleOrders.appendChild(eletr);
     }
+
+    selectStatus(); 
+    selectStatusTable();
+    countDrinks();
+    
     console.log("About to process printlabel - first check if on correct page");
     var eleDivPrint =  document.getElementById("printlabel");
     console.dir(eleDivPrint);
@@ -376,7 +433,13 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
   }
 });
 
+function selectStatusBoth(){
+    selectStatus();
+    selectStatusTable();
+}
+
 // this function displays the orders based on the checkbox selections.
+// this one is for the id=orders display area
 function selectStatus(){
     console.log("enter selectStatus");
     //var thisStatus;
@@ -393,34 +456,94 @@ function selectStatus(){
     //var eleTableBody =  document.getElementById("orders");
     //var trList = eleTableBody.getElementsByTagName("tr");
     var eleTableBody =  document.getElementById("orders");
-    var trList = eleTableBody.getElementsByClassName("list-item");
-    for(i = 0; i < trList.length; i++) {
-        var showme = false;
-        var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
-        eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
-        if(statusCheckString.indexOf("new") > -1){
-            if (eleListItemStatus.classList.contains("counterstatusnew")){
-                showme = true;
+    if(eleTableBody){
+        var trList = eleTableBody.getElementsByClassName("list-item");
+        for(i = 0; i < trList.length; i++) {
+            var showme = false;
+            var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
+            eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
+            if(statusCheckString.indexOf("new") > -1){
+                if (eleListItemStatus.classList.contains("counterstatusnew")){
+                    showme = true;
+                }
+            }
+            if(statusCheckString.indexOf("ready") > -1){
+                if (eleListItemStatus.classList.contains("counterstatusready")){
+                    showme = true;
+                }
+            }
+            if(statusCheckString.indexOf("done") > -1){
+                if (eleListItemStatus.classList.contains("counterstatusdone")){
+                    showme = true;
+                }
+            }
+            //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
+            //console.dir(trList[i].children[4].innerHTML);
+            //thisStatus = trList[i].children[4].innerHTML;
+            //if (statusCheckString.indexOf(thisStatus) > -1) {
+            if (showme) {
+                trList[i].style.display = "";
+            } else {
+                trList[i].style.display = "none";
             }
         }
-        if(statusCheckString.indexOf("ready") > -1){
-            if (eleListItemStatus.classList.contains("counterstatusready")){
-                showme = true;
-            }
+    }
+    console.log("exit selectStatus");
+}
+
+// this function displays the orders based on the checkbox selections.
+// this one is for the id=orderstable display area
+function selectStatusTable(){
+    console.log("enter selectStatusTable");
+    //var thisStatus;
+    var eleListItemStatus;
+    var i = 0; 
+    var statusCheckString = "";
+    //var statusList = el.parentElement.getElementsByTagName("input");
+    var statusList =  document.getElementById("statusSelect").getElementsByTagName("input");
+    for(i = 0; i < statusList.length; i++){
+        if (statusList[i].checked){
+            statusCheckString = statusCheckString + " " +  statusList[i].id;
         }
-        if(statusCheckString.indexOf("done") > -1){
-            if (eleListItemStatus.classList.contains("counterstatusdone")){
-                showme = true;
+    }
+    var eleTableBody =  document.getElementById("orderstable");
+    if(eleTableBody){
+        var trList = eleTableBody.getElementsByTagName("tr");
+        //var eleTableBody =  document.getElementById("orderstable");
+        //var trList = eleTableBody.getElementsByClassName("list-item");
+        for(i = 0; i < trList.length; i++) {
+            var showme = false;
+            //var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
+            var tdList = trList[i].getElementsByTagName("td");
+            
+            //eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
+            eleListItemStatus = tdList[4].innerText;
+                    
+            if(statusCheckString.indexOf("new") > -1){
+                if (eleListItemStatus == 'new'){
+                    showme = true;
+                }
             }
-        }
-        //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
-        //console.dir(trList[i].children[4].innerHTML);
-        //thisStatus = trList[i].children[4].innerHTML;
-        //if (statusCheckString.indexOf(thisStatus) > -1) {
-        if (showme) {
-            trList[i].style.display = "";
-        } else {
-            trList[i].style.display = "none";
+            
+            if(statusCheckString.indexOf("ready") > -1){
+                if (eleListItemStatus == 'ready'){
+                    showme = true;
+                }
+            }
+            if(statusCheckString.indexOf("done") > -1){
+                if (eleListItemStatus == 'done'){
+                    showme = true;
+                }
+            }
+            //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
+            //console.dir(trList[i].children[4].innerHTML);
+            //thisStatus = trList[i].children[4].innerHTML;
+            //if (statusCheckString.indexOf(thisStatus) > -1) {
+            if (showme) {
+                trList[i].style.display = "";
+            } else {
+                trList[i].style.display = "none";
+            }
         }
     }
     console.log("exit selectStatus");
@@ -434,8 +557,12 @@ function orderUpdate(el){
     var thisElId = el.id;   // hold this element - number _ new status.
     //var order_id = el.parentElement.id;
     var order_id = thisElId.split("_", 1)[0];
-    //console.log("orderUpdate - order_id: " + order_id);
     var newStatus = thisElId.replace(order_id + "_", "");  //what I want to update the status to.
+    // in tables, the element id has a t prefix to the orderId!
+    if(order_id.substring(0,1) == 't'){
+        order_id = order_id.substring(1);
+    }
+    //console.log("orderUpdate - order_id: " + order_id);
     //console.log("orderUpdate - newStatus: " + newStatus);
 
     $.ajax({
@@ -535,7 +662,7 @@ function counterSubmitOrder() {
     return;
 }
 
-// This function checks the name and drinks field to see if they are popluatated.
+// This function checks the name and drinks field to see if they are populatated.
 // If so, then displays the submit order button
 // If not, then the button is hidden.
 function submitOrderCheck(){
@@ -916,7 +1043,7 @@ function actionInput(){
 //var scrollObject = null;
 var animate;
 function scrollInit(){
-    console.log("entering scrollInit");
+    //console.log("entering scrollInit");
     //scrollObj = document.getElementById("scrollText");
     var scrollObj = document.getElementById("scrollText");
     scrollObj.style.position='relative';
@@ -925,14 +1052,14 @@ function scrollInit(){
 }
 
 function moveRight(scrollObj) {
-    console.log("entering moveRight");
+    //console.log("entering moveRight");
     scrollObj.style.left = parseInt(scrollObj.style.left) + 10 + 'px';
     animate = setTimeout(moveRight(), 1000);    // call moveRight in 20msec
 }
 
 function scrollMe(){
     var eleScrollMe = document.getElementById("scrollme");
-    console.log("scrollMe called");
+    //console.log("scrollMe called");
     if(eleScrollMe){
         if(timerReference == null){
             timerReference = setInterval(scrollMe2, 3000);
@@ -947,7 +1074,7 @@ function stopScrollMe(){
 
 function scrollMe2(){
     var eleScrollMe = document.getElementById("scrollme");
-    console.log("scrollMe2 called");
+    //console.log("scrollMe2 called");
     if(eleScrollMe){
         var myText = eleScrollMe.innerHTML.trim();
         var myTextList = eleScrollMe.innerHTML.trim().split(" - ");
@@ -961,12 +1088,17 @@ function scrollMe2(){
 function setScrollText(){
     console.log("setScrollText called");
     if(document.getElementById("readyorders")){   // on the ready / pickup page
-        var orderNames = document.getElementsByClassName("counterStatusReady");
-        var orderList = document.getElementById("orders").children;
+        var theseOrders = document.getElementById('orderstable').getElementsByTagName('tr');
+        //var orderList = [];
+        //for(var i=0; i<theseOrders.length; i++){
+        //    orderList.push(theseOrders[i].getElementsByTagName('td'));
+        //}
+        //var orderNames = document.getElementsByClassName("counterStatusReady");
+        //var orderList = document.getElementsBytag("orders").children;
         var myText = "";
-        for(var i=0; i<orderList.length; i++){
-            var myName = orderList[i].children[1].innerText;
-            var myStatus = orderList[i].children[4].innerText;
+        for(var i=0; i<theseOrders.length; i++){
+            var myName = theseOrders[i].getElementsByTagName('td')[1].innerText;
+            var myStatus = theseOrders[i].getElementsByTagName('td')[4].innerText;
             if(myStatus == "ready"){
                 if(myText.length > 0){
                     myText = myText + " - ";

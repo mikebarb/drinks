@@ -1,29 +1,20 @@
 <h1 id="readyorders" style="display: none;">Orders ready for pickup</h1>
 <div id="statusSelect"  style="display: none;">
   <% @statusList.each do |sl| %>
-    <input id=<%= sl %> type="checkbox" checked onclick="selectStatus();" > <%= sl %>
+    <input id=<%= sl %> type="checkbox" checked >
   <% end %>
 </div>
 <% scrollText = "" %>
 <table>
-  <tbody id="orders">
-    <% @readyorders.each do |order|
-        #if order.status == "ready" then %>
-          <tr id=<%= order.id %>>
+  <tbody id="orderstable">
+    <% @readyorders.each do |order| %>
+      <% className = "class=counterstatus" + order.status %>
+          <tr id=t<%= order.id %>>
             <td style="display: none;"><%= order.id %></td>
-            <% if order.status == "ready" then %>
-              <td class="counterStatusReady"><%= order.person.name %></td>
-              <td class="counterStatusReady" style="display: none;"><%= order.drink %></td>
-            <% else %>
-              <td><%= order.person.name %></td>
-              <td style="display: none;"><%= order.drink %></td>
-            <% end %>            
+            <td <%= className %>> <%= order.person.name %></td>
+            <td <%= className %>><%= order.drink %></td>
             <td style="display: none;"><%= order.quantity %></td>
-            <% if order.status == "ready" then %>
-              <td class="counterStatusReady" style="display: none;"><%= order.status %></td>
-            <% else %>
-              <td style="display: none;"><%= order.status %></td>
-            <% end %>            
+            <td <%= className %>><%= order.status %></td>
           </tr>
           <% if order.status == "ready" then
                if scrollText.length > 0 then 
@@ -31,7 +22,6 @@
                end
                scrollText = scrollText + order.person.name
              end
-        #end
     end %>
   </tbody>
 </table>
@@ -78,5 +68,5 @@
 <div id=scrollme><%= scrollText %></div>
 
 <script type="text/javascript">
-    selectStatus();
+    selectStatusBoth();
 </script>

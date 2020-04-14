@@ -49,15 +49,15 @@
           <div class="ml-auto selection-container">
             <div class="new">
               <i class="fas fa-surprise"></i>
-              <span id="<%= order.id %>_new" class="counterbuttonnew" onclick="orderUpdate(this);">New</span>
+              <span id="<%= 't' + order.id.to_s %>_new" class="counterbuttonnew" onclick="orderUpdate(this);">New</span>
             </div>
             <div class="ready">
               <i class="fas fa-stopwatch"></i>
-              <span id="<%= order.id %>_ready" class="counterbuttonready" onclick="orderUpdate(this);">Ready</span>
+              <span id="<%= 't' + order.id.to_s %>_ready" class="counterbuttonready" onclick="orderUpdate(this);">Ready</span>
             </div>
             <div class="done">
               <i class="fa fa-check"></i>
-              <span id="<%= order.id %>_done" class="counterbuttondone" onclick="orderUpdate(this);">Done</span>
+              <span id="<%= 't' + order.id.to_s %>_done" class="counterbuttondone" onclick="orderUpdate(this);">Done</span>
             </div>
           </div>
         </div>
