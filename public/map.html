@@ -55,6 +55,7 @@
     <script>
       // Common variables
       /* global google */
+      /* global location */
       var hostname = location.hostname;
       var map;
       //var marker;
@@ -73,26 +74,25 @@
           info: {
             icon: iconBase + 'info-i_maps.png'
           },
-	  churchB_Old: {
-		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
-	  },
-	  churchA: {
-		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
-	  },
-	  church2: {
-		  icon: 'http://maps.google.com/mapfiles/kml/pal2/icon3.png'
-	  },
-	  support: {
-	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
-	  },
-	  bus: {
-	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
-	  },
-	  churchB: {
-	  	  icon:  'https://' + hostname + '/images/icon_church.png'
-	  },
+      	  churchB_old: {
+      		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
+      	  },
+      	  churchA: {
+      		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
+      	  },
+      	  church2: {
+      		  icon: 'http://maps.google.com/mapfiles/kml/pal2/icon3.png'
+      	  },
+      	  support: {
+      	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
+      	  },
+      	  bus: {
+      	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
+      	  },
+      	  churchB: {
+      	  	  icon:  'https://' + hostname + '/images/icon_church.png'
+      	  },
 	  
-
       };
       
       var bmi = [
