@@ -55,6 +55,7 @@
     <script>
       // Common variables
       /* global google */
+      var hostname = location.hostname;
       var map;
       //var marker;
       //var myCenter;
@@ -72,7 +73,7 @@
           info: {
             icon: iconBase + 'info-i_maps.png'
           },
-	  churchB: {
+	  churchB_Old: {
 		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
 	  },
 	  churchA: {
@@ -86,7 +87,11 @@
 	  },
 	  bus: {
 	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
-	  }
+	  },
+	  churchB: {
+	  	  icon:  'https://' + hostname + '/images/icon_church.png'
+	  },
+	  
 
       };
       
