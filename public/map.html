@@ -63,37 +63,6 @@
       //var infowindow;
       //var zoomvalue;
       //var canberra = {lat: 36, lng:  84.22328737915228};
-      var iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
-      var icons = {
-          parking: {
-            icon: iconBase + 'parking_lot_maps.png'
-          },
-          library: {
-            icon: iconBase + 'library_maps.png'
-          },
-          info: {
-            icon: iconBase + 'info-i_maps.png'
-          },
-      	  churchB_old: {
-      		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
-      	  },
-      	  churchA: {
-      		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
-      	  },
-      	  church2: {
-      		  icon: 'http://maps.google.com/mapfiles/kml/pal2/icon3.png'
-      	  },
-      	  support: {
-      	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
-      	  },
-      	  bus: {
-      	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
-      	  },
-      	  churchB: {
-      	  	  icon:  'https://' + hostname + '/images/icon_church.png'
-      	  },
-	  
-      };
       
       var bmi = [
                       ['Ginninderra Christian Church, Canberra', -35.20492423938096, 149.02797845543097, 4, 'www.gcc.org.au', null, 'churchB'],
@@ -228,6 +197,102 @@
                 zoom: 2.8
       	});
     
+
+        var iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+        var icons = {
+            parking: {
+              icon: iconBase + 'parking_lot_maps.png'
+            },
+            library: {
+              icon: iconBase + 'library_maps.png'
+            },
+            info: {
+              icon: iconBase + 'info-i_maps.png'
+            },
+        	  churchB: {
+        		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
+        	  },
+        	  churchA: {
+        		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
+        	  },
+        	  church2: {
+        		  icon: 'http://maps.google.com/mapfiles/kml/pal2/icon3.png'
+        	  },
+        	  support: {
+        	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
+        	  },
+        	  bus: {
+        	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
+        	  },
+        	  churchB_new: {
+        	  	  icon:  'https://' + hostname + '/images/icon_church.png',
+        	  	  //scale: 0.5,
+                // This marker is 20 pixels wide by 32 pixels high.
+                //size: new google.maps.Size(10, 16),
+                // This marker is 20 pixels wide by 32 pixels high.
+                //size: new google.maps.Size(20, 32),
+                // The origin for this image is (0, 0).
+                //origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                //anchor: new google.maps.Point(0, 10)
+        	  },
+  	  
+        };
+
+        //** this is a test marker **//
+      	// Marker sizes are expressed as a Size of X,Y where the origin of the image
+        // (0,0) is located in the top left of the image.
+
+        // Origins, anchor positions and coordinates of the marker increase in the X
+        // direction to the right and in the Y direction down.
+        var image1 = {
+          url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+          // This marker is 20 pixels wide by 32 pixels high.
+          size: new google.maps.Size(20, 32),
+          // The origin for this image is (0, 0).
+          origin: new google.maps.Point(0, 0),
+          // The anchor for this image is the base of the flagpole at (0, 32).
+          anchor: new google.maps.Point(0, 32)
+        };
+
+        //** Good reference **//
+      	//https://stackoverflow.com/questions/24413766/how-to-use-svg-markers-in-google-maps-api-v3
+      
+       	var arrow_icon = {
+            		path: 'M -1.1500216e-4,0 C 0.281648,0 0.547084,-0.13447 0.718801,-0.36481 l 17.093151,-22.89064 c 0.125766,-0.16746 0.188044,-0.36854 0.188044,-0.56899 0,-0.19797 -0.06107,-0.39532 -0.182601,-0.56215 -0.245484,-0.33555 -0.678404,-0.46068 -1.057513,-0.30629 l -11.318243,4.60303 0,-26.97635 C 5.441639,-47.58228 5.035926,-48 4.534681,-48 l -9.06959,0 c -0.501246,0 -0.906959,0.41772 -0.906959,0.9338 l 0,26.97635 -11.317637,-4.60303 c -0.379109,-0.15439 -0.812031,-0.0286 -1.057515,0.30629 -0.245483,0.33492 -0.244275,0.79809 0.0055,1.13114 L -0.718973,-0.36481 C -0.547255,-0.13509 -0.281818,0 -5.7002158e-5,0 Z',
+            		strokeColor: 'black',
+            		strokeOpacity: 1,
+            		strokeWeight: 1,
+            		fillColor: '#fefe00',
+            		fillOpacity: 1,
+            		rotation: 0,
+            		scale: 1.0
+        };
+      
+      
+        var arrow_options = {
+                position: mapCentre,
+                icon: arrow_icon,
+                clickable: false,
+                draggable: true,
+                crossOnDrag: true,
+                visible: true,
+                animation: 0,
+                title: 'I am a Draggable-Rotatable Marker!'
+        };
+      	var arrow_marker = new google.maps.Marker(arrow_options);
+      	//** enable the following line to show this marker **//
+      	//arrow_marker.setMap(map);
+      
+        // Shapes define the clickable region of the icon. The type defines an HTML
+        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
+        // The final coordinate closes the poly by connecting to the first coordinate.
+        var shape = {
+          coords: [1, 1, 1, 20, 18, 20, 18, 1],
+          type: 'poly'
+        };
+
+
         /* 
          * Set up the control buttons
          */
@@ -247,16 +312,19 @@
          */
         for (var i = 0; i < bmi.length; i++) {
           var church = bmi[i];
+          var fullurl = "https://" + church[4];
           var churchmarker = new google.maps.Marker({
             position: {lat: church[1], lng: church[2]},
             map: map,
             title: church[0],
             zIndex: church[3],
-      	    url: church[4],
+      	    url: fullurl,
       	    temp: false,
       	    label: 'B',
       	    icon: icons[church[6]].icon
         });
+      	//icon: image2
+      	//icon: icons[church[6]].icon
         church[5] = churchmarker;
         google.maps.event.addListener(churchmarker, 'dblclick', function() {
           if(this.url != null ){
