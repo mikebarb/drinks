@@ -220,7 +220,17 @@
       	});
     
 
+        var iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
         var icons = {
+            parking: {
+              icon: iconBase + 'parking_lot_maps.png'
+            },
+            library: {
+              icon: iconBase + 'library_maps.png'
+            },
+            info: {
+              icon: iconBase + 'info-i_maps.png'
+            },
         	  churchA_old: {
         		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
         	  },
@@ -234,7 +244,7 @@
         	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
         	  },
         	  support: {
-        	  	  icon:  'http://' + hostname + '/images/icon_aim_support.png'
+        	  	  icon:  'https://' + hostname + '/images/icon_aim_support.png'
         	  },
         	  bus: {
         	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
@@ -243,7 +253,16 @@
         		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
         	  },
         	  churchB: {
-        	  	  icon:  'http://' + hostname + '/images/icon_bmi_church.png'
+        	  	  icon:  'https://' + hostname + '/images/icon_bmi_church.png'
+        	  	  //scale: 0.5,
+                // This marker is 20 pixels wide by 32 pixels high.
+                //size: new google.maps.Size(10, 16),
+                // This marker is 20 pixels wide by 32 pixels high.
+                //size: new google.maps.Size(20, 32),
+                // The origin for this image is (0, 0).
+                //origin: new google.maps.Point(0, 0),
+                // The anchor for this image is the base of the flagpole at (0, 32).
+                //anchor: new google.maps.Point(0, 10)
         	  },
   	  
         };
@@ -321,7 +340,7 @@
          */
         for (var i = 0; i < bmi.length; i++) {
           var church = bmi[i];
-          var fullurl = "http://" + church[4];
+          var fullurl = "https://" + church[4];
           var churchmarker = new google.maps.Marker({
             position: {lat: church[1], lng: church[2]},
             map: map,
@@ -349,7 +368,7 @@
     
       for ( i = 0; i < aim.length; i++) {
         church = aim[i];
-        fullurl = 'http://' + church[4];
+        fullurl = 'https://' + church[4];
         churchmarker = new google.maps.Marker({
           position: {lat: church[1], lng: church[2]},
           map: map,
