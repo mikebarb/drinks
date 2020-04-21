@@ -17,7 +17,7 @@
         padding: 0;
       }
 
-      #goCenterUI, #setCenterUI, #bmiUI, #aimUI {
+      #goCenterUI, #setCenterUI, #bmiUI, #aimUI, #helpUI {
         background-color: #fff;
         border: 2px solid #fff;
         border-radius: 3px;
@@ -27,7 +27,7 @@
         margin-bottom: 22px;
         text-align: center;
       }
-      #goCenterText, #setCenterText, #bmiText, #aimText {
+      #goCenterText, #setCenterText, #bmiText, #aimText, #helpText {
         color: rgb(25,25,25);
         font-family: Roboto,Arial,sans-serif;
         font-size: 15px;
@@ -40,11 +40,11 @@
       }
 
       .map-icon-label .map-icon {
-	font-size: 24px;
-	color: #FFFFFF;
-	line-height: 48px;
-	text-align: center;
-	white-space: nowrap;
+      	font-size: 24px;
+      	color: #FFFFFF;
+      	line-height: 48px;
+      	text-align: center;
+      	white-space: nowrap;
       }
 
 
@@ -143,6 +143,20 @@
         aimText.innerHTML = 'AIM';
         aimUI.appendChild(aimText);
 
+	      // Set CSS for the Help control border
+        var helpUI = document.createElement('div');
+        helpUI.id = 'helpUI';
+        helpUI.title = 'Display help information';
+        controlDiv.appendChild(helpUI);
+
+        // Set CSS for the Help control interior
+        var helpText = document.createElement('div');
+        helpText.id = 'helpText';
+        helpText.style.background = '#FFFFFF';
+        helpText.innerHTML = 'Help';
+        helpUI.appendChild(helpText);
+
+
        // Set up the click event listener for 'bmi': 
         // Show or hide markers of all the bmi churches.
         bmiUI.addEventListener('click', function() {
@@ -182,6 +196,14 @@
       	  var win = window.open(fullurl, '_blank');
           win.focus();
         });  
+
+        // Set up the click event listener for 'help': 
+        // Display help page.
+        helpUI.addEventListener('click', function() {
+      	  var fullurl = "https://" + hostname + '/maphelp.html';
+      	  var win = window.open(fullurl, '_blank');
+          win.focus();
+        });
 
       }
 
