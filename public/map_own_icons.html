@@ -58,12 +58,7 @@
       /* global location */
       var hostname = location.hostname;
       var map;
-      //var marker;
-      //var myCenter;
-      //var infowindow;
-      //var zoomvalue;
-      //var canberra = {lat: 36, lng:  84.22328737915228};
-      
+
       var bmi = [
                       ['Ginninderra Christian Church, Canberra', -35.20492423938096, 149.02797845543097, 4, 'www.gcc.org.au', null, 'bmi_cross_ind'],
                       ['Tamar Valley Christian Church, Exeter',  -41.29101996017232, 146.94239593731018, 5, 'www.bmi.org.au/?page=churches&subpage=tas', null, 'bmi_cross_ind'],
@@ -123,10 +118,6 @@
                       ['Uganda',  0.1955530126690388, 32.55250385035227, 4, 'maf.org.au/countries/uganda/', null, 'mafPlane'],
                       ['South Sudan', 4.863952, 31.601622, 4, 'maf.org.au/countries/south-sudan/', null, 'mafPlane'],
                       ['Liberia',  6.243345, -10.352870, 4, 'maf.org.au/countries/liberia/', null, 'mafPlane'],
-                      // ['x',  , 4, 'maf.org.au', null, 'plane'],
-                      // ['x',  , 4, 'maf.org.au', null, 'plane'],
-                      // ['x',  , 4, 'maf.org.au', null, 'plane'],
-                      // ['x',  , 4, 'maf.org.au', null, 'plane'],
                 ];
 
 
@@ -146,7 +137,7 @@
         // Set CSS for the BMI control interior
         var bmiText = document.createElement('div');
         bmiText.id = 'bmiText';
-        bmiText.style.background = '#ffff4d';
+        bmiText.style.background = '#80dfff';   // ffff4d
         bmiText.innerHTML = 'BMI';
         bmiUI.appendChild(bmiText);
 
@@ -159,7 +150,7 @@
         // Set CSS for the AIM control interior
         var aimText = document.createElement('div');
         aimText.id = 'aimText';
-        aimText.style.background = '#ff4d4d';
+        aimText.style.background = '#cc6600';    // ff4d4d
         aimText.innerHTML = 'AIM';
         aimUI.appendChild(aimText);
 
@@ -172,7 +163,7 @@
         // Set CSS for the MAF control interior
         var mafText = document.createElement('div');
         mafText.id = 'mafText';
-        mafText.style.background = '#0099ff';
+        mafText.style.background = '#993366';    // 0099ff
         mafText.innerHTML = 'MAF';
         mafUI.appendChild(mafText);
 
@@ -203,7 +194,7 @@
           }	  
         });  
 
-      	// Show home page by double clicking
+      	// Show BMI home page by double clicking
       	bmiUI.addEventListener('dblclick', function() {
       	  var fullurl = "http://" + 'bmi.org.au';
       	  var win = window.open(fullurl, '_blank');
@@ -223,7 +214,7 @@
           }	  
         });
 
-      	// Show home page by double clicking
+      	// Show AIM home page by double clicking
       	aimUI.addEventListener('dblclick', function() {
       	  var fullurl = "http://" + 'australianindigenousministries.org.au/';
       	  var win = window.open(fullurl, '_blank');
@@ -243,7 +234,7 @@
           }	  
         });
 
-      	// Show home page by double clicking
+      	// Show MAF home page by double clicking
       	mafUI.addEventListener('dblclick', function() {
       	  var fullurl = "http://" + 'maf.org.au/';
       	  var win = window.open(fullurl, '_blank');
@@ -274,18 +265,7 @@
     
 
         var callProt = 'http://';
-        var iconBase = callProt + 'developers.google.com/maps/documentation/javascript/examples/full/images/';
-        
         var icons = {
-            parking: {
-              icon: iconBase + 'parking_lot_maps.png'
-            },
-            library: {
-              icon: iconBase + 'library_maps.png'
-            },
-            info: {
-              icon: iconBase + 'info-i_maps.png'
-            },
         	  churchA_old: {
         		  icon: callProt + 'maps.google.com/mapfiles/kml/paddle/purple-blank.png'
         	  },
@@ -343,60 +323,9 @@
 
         };
 
-        //** this is a test marker **//
-      	// Marker sizes are expressed as a Size of X,Y where the origin of the image
-        // (0,0) is located in the top left of the image.
-
-        // Origins, anchor positions and coordinates of the marker increase in the X
-        // direction to the right and in the Y direction down.
-        var image1 = {
-          url: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-          // This marker is 20 pixels wide by 32 pixels high.
-          size: new google.maps.Size(20, 32),
-          // The origin for this image is (0, 0).
-          origin: new google.maps.Point(0, 0),
-          // The anchor for this image is the base of the flagpole at (0, 32).
-          anchor: new google.maps.Point(0, 32)
-        };
-
         //** Good reference **//
       	//https://stackoverflow.com/questions/24413766/how-to-use-svg-markers-in-google-maps-api-v3
       
-       	var arrow_icon = {
-            		path: 'M -1.1500216e-4,0 C 0.281648,0 0.547084,-0.13447 0.718801,-0.36481 l 17.093151,-22.89064 c 0.125766,-0.16746 0.188044,-0.36854 0.188044,-0.56899 0,-0.19797 -0.06107,-0.39532 -0.182601,-0.56215 -0.245484,-0.33555 -0.678404,-0.46068 -1.057513,-0.30629 l -11.318243,4.60303 0,-26.97635 C 5.441639,-47.58228 5.035926,-48 4.534681,-48 l -9.06959,0 c -0.501246,0 -0.906959,0.41772 -0.906959,0.9338 l 0,26.97635 -11.317637,-4.60303 c -0.379109,-0.15439 -0.812031,-0.0286 -1.057515,0.30629 -0.245483,0.33492 -0.244275,0.79809 0.0055,1.13114 L -0.718973,-0.36481 C -0.547255,-0.13509 -0.281818,0 -5.7002158e-5,0 Z',
-            		strokeColor: 'black',
-            		strokeOpacity: 1,
-            		strokeWeight: 1,
-            		fillColor: '#fefe00',
-            		fillOpacity: 1,
-            		rotation: 0,
-            		scale: 1.0
-        };
-      
-      
-        var arrow_options = {
-                position: mapCentre,
-                icon: arrow_icon,
-                clickable: false,
-                draggable: true,
-                crossOnDrag: true,
-                visible: true,
-                animation: 0,
-                title: 'I am a Draggable-Rotatable Marker!'
-        };
-      	var arrow_marker = new google.maps.Marker(arrow_options);
-      	//** enable the following line to show this marker **//
-      	//arrow_marker.setMap(map);
-      
-        // Shapes define the clickable region of the icon. The type defines an HTML
-        // <area> element 'poly' which traces out a polygon as a series of X,Y points.
-        // The final coordinate closes the poly by connecting to the first coordinate.
-        var shape = {
-          coords: [1, 1, 1, 20, 18, 20, 18, 1],
-          type: 'poly'
-        };
-
-
         /* 
          * Set up the control buttons
          */
@@ -414,6 +343,7 @@
          * Set up the map markers showing the location of the churches
          * and also the event listeners on these markers.
          */
+        // Add BMI markers
         for (var i = 0; i < bmi.length; i++) {
           var church = bmi[i];
           var fullurl = "https://" + church[4];
@@ -436,7 +366,7 @@
         });
     	}
     
-    
+      // Add AIM markers
       for ( i = 0; i < aim.length; i++) {
         church = aim[i];
         fullurl = callProt + church[4];
@@ -461,6 +391,7 @@
         });
     	}
 
+      // Add MAF markers
       for ( i = 0; i < maf.length; i++) {
         church = maf[i];
         fullurl = callProt + church[4];
@@ -518,12 +449,12 @@
     // Open a url in a new tab if the browser allows it
     // popup blocking can prevent it
     // browser settings may force a new window rather than a tab.
-    function openInNewTab(url) {
-      console.log(url);
-    	//var win = window.open(url, '_blank');
+//    function openInNewTab(url) {
+//      console.log(url);
+    	  //var win = window.open(url, '_blank');
             //win.focus();
-    	window.open(url);
-    }
+//    	window.open(url);
+//    }
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3dy_0XO5zF4lDZQ3L1oAthR96RNPKyM8&callback=initMap" async defer></script>
