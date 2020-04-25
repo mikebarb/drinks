@@ -17,7 +17,7 @@
         padding: 0;
       }
 
-      #goCenterUI, #setCenterUI, #bmiUI, #aimUI, #helpUI {
+      #bmiUI, #aimUI, #mafUI, #helpUI {
         background-color: #fff;
         border: 2px solid #fff;
         border-radius: 3px;
@@ -27,7 +27,7 @@
         margin-bottom: 22px;
         text-align: center;
       }
-      #goCenterText, #setCenterText, #bmiText, #aimText, #helpText {
+      #bmiText, #aimText, #mafText, #helpText {
         color: rgb(25,25,25);
         font-family: Roboto,Arial,sans-serif;
         font-size: 15px;
@@ -65,10 +65,10 @@
       //var canberra = {lat: 36, lng:  84.22328737915228};
       
       var bmi = [
-                      ['Ginninderra Christian Church, Canberra', -35.20492423938096, 149.02797845543097, 4, 'www.gcc.org.au', null, 'churchB'],
-                      ['Tamar Valley Christian Church, Exeter',  -41.29101996017232, 146.94239593731018, 5, 'www.bmi.org.au/?page=churches&subpage=tas', null, 'churchB'],
-                      ['Hilltop Christian Church, Scottsdale', -41.16023151723848, 147.5161143032273, 3, 'www.bmi.org.au/?page=churches&subpage=tas', null, 'churchB'],
-                      ['Cornerstone Family Church, George Town', -41.10549869825353, 146.83109250563112, 2, 'www.cornerstone-georgetown-tas.org.au', null, 'churchB'],
+                      ['Ginninderra Christian Church, Canberra', -35.20492423938096, 149.02797845543097, 4, 'www.gcc.org.au', null, 'bmi_cross'],
+                      ['Tamar Valley Christian Church, Exeter',  -41.29101996017232, 146.94239593731018, 5, 'www.bmi.org.au/?page=churches&subpage=tas', null, 'bmi_cog'],
+                      ['Hilltop Christian Church, Scottsdale', -41.16023151723848, 147.5161143032273, 3, 'www.bmi.org.au/?page=churches&subpage=tas', null, 'bmi_hq'],
+                      ['Cornerstone Family Church, George Town', -41.10549869825353, 146.83109250563112, 2, 'www.cornerstone-georgetown-tas.org.au', null, 'bmi_person'],
                       ['Southern Life Church, Moruya', -35.92158977656944, 150.08508938394831, 1, 'www.southernlife.org.au', null, 'churchB' ],
                       ['Grace Outreach Assemblies, Fairfield', -33.869586, 150.953710, 4, 'bmi.org.au/?page=churches&subpage=nsw', null, 'churchB'],
                       ['Highlands Christian Church, Mittagong', -34.451818, 150.447430, 5, 'bmi.org.au/?page=churches&subpage=nsw', null, 'churchB'],
@@ -111,6 +111,19 @@
                       ['Cootamundra', -34.641425, 148.024882, 4, 'australianindigenousministries.org.au/cootamundra', null, 'support'],
                     ];
 
+      var maf = [
+                      ['Arnhem Land', -12.268540792197895, 136.8240237573253, 4, 'maf.org.au/countries/arnhem-land/', null, 'plane'],
+                      ['Papua and New Guinea', -5.828293405522209, 144.29559427281276, 4, 'maf-papuanewguinea.org/',null, 'plane'],
+                      ['Timor-Leste', -8.549133891177107, 125.52312174944335, 4, 'maf.org.au/countries/timor-leste/', null, 'plane'],
+                      ['Bangladesh',  23.81376612365984, 90.41333572672036, 4, 'maf.org.au/countries/bangladesh/', null, 'plane'],
+                      ['Mareeba',  -17.070690040750744, 145.43235190272034, 4, 'maf.org.au/countries/mareeba/', null, 'plane'],
+                      ['Cairns',  -16.92318936958071, 145.77023401310893, 4, 'maf.org.au/location/cairns-qld/', null, 'plane'],
+                      // ['Madagascar',  , 4, 'maf.org.au/countries/madagascar/', null, 'plane'],
+                      // ['x',  , 4, 'maf.org.au', null, 'plane'],
+                ];
+
+
+
       // Set up the user required (non-default) control buttons at the top of the map.
       function CenterControl(controlDiv, map, center) {
         // We set up a variable for this since we're adding event listeners
@@ -126,7 +139,7 @@
         // Set CSS for the BMI control interior
         var bmiText = document.createElement('div');
         bmiText.id = 'bmiText';
-        bmiText.style.background = 'CornflowerBlue';
+        bmiText.style.background = '#ffff4d';
         bmiText.innerHTML = 'BMI';
         bmiUI.appendChild(bmiText);
 
@@ -139,9 +152,22 @@
         // Set CSS for the AIM control interior
         var aimText = document.createElement('div');
         aimText.id = 'aimText';
-        aimText.style.background = '#a862ea';
+        aimText.style.background = '#ff4d4d';
         aimText.innerHTML = 'AIM';
         aimUI.appendChild(aimText);
+
+	      // Set CSS for the MAF control border
+        var mafUI = document.createElement('div');
+        mafUI.id = 'mafUI';
+        mafUI.title = 'Show or Hide MAF locations, dbl click to open web site';
+        controlDiv.appendChild(mafUI);
+
+        // Set CSS for the MAF control interior
+        var mafText = document.createElement('div');
+        mafText.id = 'mafText';
+        mafText.style.background = '#0099ff';
+        mafText.innerHTML = 'MAF';
+        mafUI.appendChild(mafText);
 
 	      // Set CSS for the Help control border
         var helpUI = document.createElement('div');
@@ -197,6 +223,26 @@
           win.focus();
         });  
 
+        // Set up the click event listener for 'maf': 
+        // Show or hide markers of all the aim churches.
+        mafUI.addEventListener('click', function() {
+      	  for (var i = 0; i < maf.length; i++) {
+            var churchmarker = maf[i][5];
+      	    if (churchmarker.getVisible()){
+      	      churchmarker.setVisible(false);
+      	    }else{
+      	      churchmarker.setVisible(true);
+      	    }
+          }	  
+        });
+
+      	// Show home page by double clicking
+      	mafUI.addEventListener('dblclick', function() {
+      	  var fullurl = "http://" + 'maf.org.au/';
+      	  var win = window.open(fullurl, '_blank');
+          win.focus();
+        });  
+
         // Set up the click event listener for 'help': 
         // Display help page.
         helpUI.addEventListener('click', function() {
@@ -220,7 +266,9 @@
       	});
     
 
-        var iconBase = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/';
+        var callProt = 'https://';
+        var iconBase = callProt + 'developers.google.com/maps/documentation/javascript/examples/full/images/';
+        
         var icons = {
             parking: {
               icon: iconBase + 'parking_lot_maps.png'
@@ -232,39 +280,45 @@
               icon: iconBase + 'info-i_maps.png'
             },
         	  churchA_old: {
-        		  icon: 'http://maps.google.com/mapfiles/kml/paddle/purple-blank.png'
+        		  icon: callProt + 'maps.google.com/mapfiles/kml/paddle/purple-blank.png'
         	  },
         	  churchA: {
-        		  icon:  'https://' + hostname + '/images/icon_aim_church.png'
+        		  icon:  callProt + hostname + '/images/icon_aim_church.png'
         	  },
         	  church2: {
-        		  icon: 'http://maps.google.com/mapfiles/kml/pal2/icon3.png'
+        		  icon: callProt + 'maps.google.com/mapfiles/kml/pal2/icon3.png'
         	  },
         	  support_old: {
-        	  	  icon:  'http://maps.google.com/mapfiles/kml/paddle/purple-stars.png'
+        	  	  icon:  callProt + 'maps.google.com/mapfiles/kml/paddle/purple-stars.png'
         	  },
         	  support: {
-        	  	  icon:  'https://' + hostname + '/images/icon_aim_support.png'
+        	  	  icon:  callProt + hostname + '/images/icon_aim_support.png'
         	  },
         	  bus: {
-        	  	  icon:  'http://maps.google.com/mapfiles/kml/pal4/icon7.png'
+        	  	  icon:  callProt + 'maps.google.com/mapfiles/kml/pal4/icon7.png'
         	  },
         	  churchB_old: {
-        		  icon: 'http://maps.google.com/mapfiles/kml/paddle/blu-blank.png'
+        		  icon: callProt + 'maps.google.com/mapfiles/kml/paddle/blu-blank.png'
         	  },
         	  churchB: {
-        	  	  icon:  'https://' + hostname + '/images/icon_bmi_church.png'
-        	  	  //scale: 0.5,
-                // This marker is 20 pixels wide by 32 pixels high.
-                //size: new google.maps.Size(10, 16),
-                // This marker is 20 pixels wide by 32 pixels high.
-                //size: new google.maps.Size(20, 32),
-                // The origin for this image is (0, 0).
-                //origin: new google.maps.Point(0, 0),
-                // The anchor for this image is the base of the flagpole at (0, 32).
-                //anchor: new google.maps.Point(0, 10)
+        	  	  icon:  callProt + hostname + '/images/icon_bmi_church.png'
         	  },
-  	  
+        	  plane: {
+        		  icon: callProt + hostname + '/images/icon_maf_plane.png'
+        	  },
+        	  bmi_cog: {
+        		  icon: callProt + hostname + '/images/icon_bmi_cog.png'
+        	  },
+        	  bmi_cross: {
+        		  icon: callProt + hostname + '/images/icon_bmi_cross.png'
+        	  },
+        	  bmi_hq: {
+        		  icon: callProt + hostname + '/images/icon_bmi_hq.png'
+        	  },
+        	  bmi_person: {
+        		  icon: callProt + hostname + '/images/icon_bmi_person.png'
+        	  },
+        	  
         };
 
         //** this is a test marker **//
@@ -360,15 +414,34 @@
         });
     	}
     
-    	// This event listener will pace a marker in the right clicked on postion
-    	// and display the lat lng.
-      google.maps.event.addListener(map, 'rightclick', function(event) {
-    	  placeMarker(map, event.latLng);
-      });
     
       for ( i = 0; i < aim.length; i++) {
         church = aim[i];
-        fullurl = 'https://' + church[4];
+        fullurl = callProt + church[4];
+        churchmarker = new google.maps.Marker({
+          position: {lat: church[1], lng: church[2]},
+          map: map,
+          title: church[0],
+          zIndex: church[3],
+    	    url: fullurl,
+    	    temp: false,
+    	    visible: false,
+    	    //label: 'A',
+    	    icon: icons[church[6]].icon
+        });
+        church[5] = churchmarker;
+        google.maps.event.addListener(churchmarker, 'dblclick', function() {
+          if(this.url != null ){
+            console.log(this.url);
+            var win = window.open(this.url, '_blank');
+                  win.focus();
+          }
+        });
+    	}
+
+      for ( i = 0; i < maf.length; i++) {
+        church = maf[i];
+        fullurl = callProt + church[4];
         churchmarker = new google.maps.Marker({
           position: {lat: church[1], lng: church[2]},
           map: map,
