@@ -447,6 +447,9 @@ function selectStatus(){
     var i = 0; 
     var statusCheckString = "";
     //var statusList = el.parentElement.getElementsByTagName("input");
+    if(document.getElementById("statusSelect") == null){
+        return;
+    }
     var statusList =  document.getElementById("statusSelect").getElementsByTagName("input");
     for(i = 0; i < statusList.length; i++){
         if (statusList[i].checked){
@@ -500,6 +503,9 @@ function selectStatusTable(){
     var i = 0; 
     var statusCheckString = "";
     //var statusList = el.parentElement.getElementsByTagName("input");
+    if(document.getElementById("statusSelect") == null){
+        return;
+    }
     var statusList =  document.getElementById("statusSelect").getElementsByTagName("input");
     for(i = 0; i < statusList.length; i++){
         if (statusList[i].checked){
@@ -844,15 +850,15 @@ function countDrinks() {
     console.log("countDrinks called");
     var drinktable = document.getElementById("sumorders");
     if(drinktable){
-        var  i, row, drink_name, status;
+        var  i, drink_name;
         var counts = {};
-        var ordertable = document.getElementById("orders");
-        var orderrows = ordertable.getElementsByTagName("tr");
-        for (i = 0; i < orderrows.length; i++) {
-            row = orderrows[i];
-            status = row.children[4].innerHTML;
-            if (status == "new") {
-                drink_name = row.children[2].innerHTML;
+        var orderList = document.getElementsByClassName("list-item");
+        for (i = 0; i < orderList.length; i++) {
+            var orderListItems = orderList[i].getElementsByClassName("fa-coffee");
+            var thisItem = orderListItems[0];
+            var thisEle = thisItem.parentElement.getElementsByTagName("span")[0];
+            if(thisEle.classList.contains("counterstatusnew")){
+                drink_name = thisEle.innerText;
                 if (counts[drink_name]){
                     counts[drink_name] = counts[drink_name] + 1;
                 }else{

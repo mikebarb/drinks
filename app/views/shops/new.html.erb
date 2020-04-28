@@ -2,15 +2,22 @@
 
 <div class="far-right-container">
   <h2 class="orange">New Orders</h2>
-  <div id="sumorders">    
-      <% @drinks.each do |drink| %>
-        <tr  id=<%= "d" + drink.id.to_s %>>
-          <td><%= drink.name %></td>
-          <td></td>
-          <td></td>
-        </tr>
+  <div id="sumorders">Test</div>
+
+  <div id="statusSelect">
+    <b>Show: </b><br>
+    <% @statusList.each do |sl| %>
+      <% if sl == "new" || sl == "ready" then %>
+        <input id=<%= sl %> type="checkbox" checked onclick="selectStatusBoth();" > <%= sl %>
+      <% else %>
+        <input id=<%= sl %> type="checkbox" unchecked onclick="selectStatusBoth();" > <%= sl %>
       <% end %>
+      <br>
+    <% end %>
   </div>
+
+
+
 </div><!--
 --><div class="two-thirds-container">
   <div id="orders">
@@ -85,7 +92,7 @@
 </div>
 
 
-
+<!--
 <hr/>
 
 <table>
@@ -132,7 +139,8 @@
     <% end %>
   </tbody>
 </table>
-
+-->
+<!--
 <br>
 <div id="statusSelect">
   <b>Show: </b>
@@ -144,6 +152,7 @@
     <% end %>
   <% end %>
 </div>
+-->
 <script type="text/javascript">
     selectStatusBoth();
 </script>
