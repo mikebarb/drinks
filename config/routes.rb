@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'shops/orders', as: :shop_orders
   get 'shops/ready', as: :shop_ready
   get 'shops/new', as: :shop_new 
+  get 'shops/admin', as: :shop_admin 
   get 'orders/new/:person_id', to: 'orders#new', as: :new_order
   post 'orders/submit', to: 'orders#submit', as: :order_submit
   resources :orders, :except => [:new]

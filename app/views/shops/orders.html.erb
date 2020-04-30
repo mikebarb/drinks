@@ -1,8 +1,8 @@
-<h1 id="allorders" >New Orders - to be filled</h1>
+<h1 id="allorders" >Orders - Management Purposes Only</h1>
 
 <div id="statusSelect">
   <% @statusList.each do |sl| %>
-    <input id=<%= sl.status %> type="checkbox" checked onclick="selectStatus();" > <%= sl.status %>
+    <input id=<%= sl.status %> type="checkbox" checked onclick="selectStatusTable();" > <%= sl.status %>
   <% end %>
 </div>
 
@@ -23,17 +23,17 @@
     </tr>
   </thead>
 
-  <tbody id="orders">
+  <tbody id="orderstable">
     <% @orders.each do |order| %>
-      <tr id=<%= order.id %>>
+      <tr id=<%= 't' + order.id.to_s %>>
         <td><%= order.id %></td>
         <td><%= order.person.name %></td>
         <td><%= order.drink %></td>
         <td><%= order.quantity %></td>
         <td><%= order.status %></td>
-        <td id="<%= order.id %>_new" onclick="orderUpdate(this);">To new</td>
-        <td id="<%= order.id %>_ready" onclick="orderUpdate(this);">To ready</td>
-        <td id="<%= order.id %>_done" onclick="orderUpdate(this);">To done</td>
+        <td id="<%= 't' + order.id.to_s %>_new" onclick="orderUpdate(this);">To new</td>
+        <td id="<%= 't' + order.id.to_s %>_ready" onclick="orderUpdate(this);">To ready</td>
+        <td id="<%= 't' + order.id.to_s %>_done" onclick="orderUpdate(this);">To done</td>
         <td><%= order.day %></td>
         <td><%= order.created_at %></td>
         <td><%= link_to 'Edit', edit_order_path(order) %></td>

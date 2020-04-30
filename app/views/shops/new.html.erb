@@ -1,4 +1,7 @@
-<div class="button floating-button floating-button-left"><%= link_to 'Counter', shop_counter_path %><i class="fas fa-angle-right ml-2"></i></div>
+<div class="button floating-button floating-button-left">
+  <%= link_to 'Counter', shop_counter_path %><i class="fas fa-angle-right ml-2"></i><br>
+  <%= link_to 'Admin', shop_admin_path %><i class="fas fa-angle-right ml-2"></i>
+</div>
 
 <div class="far-right-container">
   <h2 class="orange">New Orders</h2>
@@ -31,7 +34,7 @@
                       <i class="fas fa-hiking"></i>
                       <span class="ml-2 counterstatusnew"><%= order.person.name %></span>
                   </div>
-                  <div>
+                  <div class="w-20">
                       <i class="fas fa-coffee"></i>
                       <span class="ml-2 counterstatusnew"><%= order.drink %></span>
                   </div>
@@ -46,7 +49,7 @@
                       <i class="fas fa-hiking"></i>
                       <span class="ml-2 counterstatusready"><%= order.person.name %></span>
                   </div>
-                  <div>
+                  <div class="w-20">
                       <i class="fas fa-coffee"></i>
                       <span class="ml-2 counterstatusready"><%= order.drink %></span>
                   </div>
@@ -61,7 +64,7 @@
                       <i class="fas fa-hiking"></i>
                       <span class="ml-2 counterstatusdone"><%= order.person.name %></span>
                   </div>
-                  <div>
+                  <div class="w-20">
                       <i class="fas fa-coffee"></i>
                       <span class="ml-2 counterstatusdone"><%= order.drink %></span>
                   </div>

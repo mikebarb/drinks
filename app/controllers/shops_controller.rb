@@ -1,4 +1,9 @@
 class ShopsController < ApplicationController
+
+  # GET /shops/admin
+  def admin
+  end
+
   # GET /shops/counter
   # GET /shops/counter.json
   def counter
