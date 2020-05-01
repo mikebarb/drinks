@@ -29,6 +29,7 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       if @person.save
+        ActionCable.server.broadcast("newperson_channel", message: [@person])
         format.html { redirect_to @person, notice: 'Person was successfully created.' }
         format.json { render :show, status: :created, location: @person }
       else

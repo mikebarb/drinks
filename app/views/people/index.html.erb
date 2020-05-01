@@ -6,10 +6,10 @@
 <div id="showAdd" onclick="addPerson();" style="display: none;">Put Add Person Button here</div>
 <ul id="myUL">
     <% @people.each do |person| %>
-      <li><%= link_to person.name, new_order_path(person) %></li>
+      <li><%= link_to person.name, edit_person_path(person) %></li>
     <% end %>
 </ul>
-
+<!--
 <h1>Original Listing</h1>
 <table>
   <thead>
@@ -40,3 +40,4 @@
 <br>
 
 <%= link_to 'New Person', new_person_path %>
+-->

@@ -36,14 +36,12 @@ $(document).on('turbolinks:load', function(){
   
   var eleDrinkInput = document.getElementById("otherInput");
   if(eleDrinkInput){
-      //console.log("attach actionInput");
     eleDrinkInput.addEventListener("keyup", actionInput);
     eleDrinkInput.addEventListener("blur", actionInput);
   }
   
   var eleBrewsterSummary = document.getElementById("sumorders");
   if(eleBrewsterSummary){
-    //console.log("calculate summary - call ");
     countDrinks();
   }
   
@@ -229,28 +227,51 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
   }
 });
 
-// Web Socket receives a new message - new order generated.
-App.neworder = App.cable.subscriptions.create("NeworderChannel", {  
+// Web Socket receives a new message - new person generated.
+App.newperson = App.cable.subscriptions.create("NewpersonChannel", {  
   received: function(data) {
-    console.log("neworders.js - entered ws received function");
-    //console.dir(data);
+    console.log("newperson.js - entered ws received function");
+    var person_id = data.message[0]['id'];
+    var name =  data.message[0]['name'];
+    var elePeople = document.getElementById("myPeopleUL");
+    if(elePeople){
+        // Add the person to the list display
+        var eleli = document.createElement("li");
+        eleli.setAttribute("id", person_id );
+        eleli.setAttribute("onclick", "counterSelectPerson(this)" );
+        eleli.innerHTML = name;
+        elePeople.appendChild(eleli);
+        submitOrderCheck();
+        counterFilterPeople();
+    }
+  }
+});
+
+// Web Socket receives a new message - new order generated.
+App.neworder = App.cable.subscriptions.create("NeworderChannel", {
+  received: function(data) {
     var order_id = data.message[0].id;
-    //console.log("order_id: " + order_id);
+    var person_id = data.message[0].person_id;
     var person_name = data.message[1];
     var drink_name = data.message[2];
     var status = data.message[0].status;
     var quantity = data.message[0].quantity;
     var day = data.message[0].day;
     var created = data.message[0].created_at;
+
+    // need to update last drink for this person in the browser
+    if(document.getElementById("myPeopleUL")){
+        document.getElementById(person_id).setAttribute("lastdrink", drink_name);
+    }
+
+    // Now update the brewster page list of orders
     var eleTableBody =  document.getElementById("orders");
-    //console.dir(eleTableBody);
     if (eleTableBody) {
         // this element is defined
         //alert("element with id=orders exists on this page");
         //check if this record is already present 
         // This will be the case for the sender.
         var eleOrderTableRow = document.getElementById(order_id);
-        //console.dir(eleOrderTableRow);
         if(eleOrderTableRow) {
             //already there, do nothing.
             //alert("This order entry is already present!!!");
@@ -279,8 +300,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var elec2d1 = document.createElement("i");
             elec2d1.classList.add("fas");
             elec2d1.classList.add("fa-hiking");
-            //elec2d1.setAttribute("aria-hidden", "true");
-            //elec2d1.innerText = "::before";
             elec2.appendChild(elec2d1);
             var elec2d2 = document.createElement("span");
             elec2d2.classList.add("ml-2");
@@ -294,8 +313,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var elec3d1 = document.createElement("i");
             elec3d1.classList.add("fas");
             elec3d1.classList.add("fa-coffee");
-            //elec3d1.setAttribute("aria-hidden", "true");
-            //elec3d1.innerText = "::before";
             elec3.appendChild(elec3d1);
             var elec3d2 = document.createElement("span");
             elec3d2.classList.add("ml-2");
@@ -326,14 +343,11 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var elec6d1e1 = document.createElement("i");
             elec6d1e1.classList.add("fas");
             elec6d1e1.classList.add("fa-surprise");
-            //elec6d1e1.setAttribute("aria-hidden", "true");
-            //elec6d1e1.innerText = "::before";
             elec6d1.appendChild(elec6d1e1);
             var elec6d1e2 = document.createElement("span");
             elec6d1e2.id = order_id + '_new';
             elec6d1e2.classList.add("counterbutton" + status);
             elec6d1e2.onclick = function(){orderUpdate(this);};
-            //elec6d1e2.setAttribute("aria-hidden", "true");
             elec6d1e2.innerText = "New";
             elec6d1.appendChild(elec6d1e2);
 
@@ -343,14 +357,11 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var elec6d2e1 = document.createElement("i");
             elec6d2e1.classList.add("fas");
             elec6d2e1.classList.add("fa-stopwatch");
-            //elec6d2e1.setAttribute("aria-hidden", "true");
-            //elec6d2e1.innerText = "::before";
             elec6d2.appendChild(elec6d2e1);
             var elec6d2e2 = document.createElement("span");
             elec6d2e2.id = order_id + '_ready';
             elec6d2e2.classList.add("counterbutton" + status);
             elec6d2e2.onclick = function(){orderUpdate(this);};
-            //elec6d2e2.setAttribute("aria-hidden", "true");
             elec6d2e2.innerText = "Ready";
             elec6d2.appendChild(elec6d2e2);
             elec6.appendChild(elec6d2);
@@ -361,23 +372,21 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var elec6d3e1 = document.createElement("i");
             elec6d3e1.classList.add("fas");
             elec6d3e1.classList.add("fa-check");
-            //elec6d3e1.setAttribute("aria-hidden", "true");
-            //elec6d3e1.innerText = "::before";
             elec6d3.appendChild(elec6d3e1);
             var elec6d3e2 = document.createElement("span");
             elec6d3e2.id = order_id + '_done';
             elec6d3e2.classList.add("counterbutton" + status);
             elec6d3e2.onclick = function(){orderUpdate(this);};
-            //elec6d3e2.setAttribute("aria-hidden", "true");
             elec6d3e2.innerText = "Done";
             elec6d3.appendChild(elec6d3e2);
             elec6.appendChild(elec6d3);
-
         }
     }
 
+    // Now update the orders table list of orders
     eleOrders =  document.getElementById("orderstable");
     if(eleOrders){
+        // The all orders web page
         if(document.getElementById("allorders")){
             var hfao = "";
             hfao = hfao + "<td>" + order_id + "</td>";
@@ -399,9 +408,9 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             eletr.setAttribute("id", 't' + order_id );
             eletr.innerHTML = hfao;
         }else{
+            // the ready page - on the image background
             var className = "class='counterstatus" + status + "'";
             var hf = "";    //HtmlFragment - short name
-            var hfao = "";  // for all orders table
             hf = hf + "<td style=display:none;>" + order_id + "</td>";
             hf = hf + "<td " + className + ">" + person_name + "</td>";
             hf = hf + "<td " + className + ">" + drink_name + "</td>";
@@ -749,6 +758,8 @@ function counterAddPerson() {
             person_id = data.id;
             console.log("returned id:" + data.id + " -> " + person_id);
             //<li id="30" onclick="counterSelectPerson(this);" style="display: none;">tim x</li>
+            /*
+            // Add the person to the list display
             var eleli = document.createElement("li");
             eleli.setAttribute("id", person_id );
             eleli.setAttribute("onclick", "counterSelectPerson(this)" );
@@ -758,6 +769,7 @@ function counterAddPerson() {
             document.getElementById("myPersonId").innerHTML = data.id;
             submitOrderCheck();
             counterFilterPeople();
+            */
         },
         error: function(){
             console.log("orders ajax update failed");
@@ -815,7 +827,9 @@ function counterSelectPerson(el){
     console.log('counterSelectPerson:' + name + " id: " + id);
     lastdrink = el.getAttribute("lastdrink");
     console.log('counterSelectPerson:' + name + " lastdrink: " + lastdrink);
-    document.getElementById("myDrinkName").innerText = "" + lastdrink;
+    if(lastdrink){
+        document.getElementById("myDrinkName").innerText = "" + lastdrink;
+    }
 /*  
     if (lastdrink) {
         //var eldrink = document.getElementById("d" + lastdrinkid);
@@ -1019,6 +1033,7 @@ function makeDrinkDescription(){
         //document.getElementById("myDrinkId2").innerText = desc.trim();
         //document.getElementById("myDrinkName").innerText = desc.trim();
         document.getElementById("myDrinkName").innerText = "" + desc.trim();
+        submitOrderCheck();
         return;
     }
 
@@ -1042,6 +1057,7 @@ function makeDrinkDescription(){
     }
     //document.getElementById("myDrinkId2").innerText = desc.trim();
     document.getElementById("myDrinkName").innerText = "" + desc.trim();
+    submitOrderCheck();
     return;
 }
 
