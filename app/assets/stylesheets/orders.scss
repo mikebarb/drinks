@@ -41,19 +41,23 @@
   padding: 30px;
   width: 75%;
   background-color: #eeeeee;
+  min-height: 100vh;
 }
 
 .list-item {
-  border: 1px solid #d3d3d3;
+  border-right: 1px solid #d3d3d3;
+  border-top: 1px solid #d3d3d3;
+  border-bottom: 1px solid #d3d3d3;
   background-color: white;
-  border-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   margin-top: 10px;
 }
 
 .list-item-content {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 15px 15px 15px 25px;
 }
 
 .list-item:first-child {
@@ -66,11 +70,12 @@
   color: white;
 }
 
-.new, .ready, .done {
+.new-radio-button, .ready-radio-button, .done-radio-button {
   padding: 12px;
+  cursor: pointer;
 }
 
-.new {
+.new-radio-button {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   border: 2px solid #2196f3;
@@ -78,15 +83,70 @@
   color: #2196f3;
 }
 
-.ready {
+.new .new-radio-button {
+  color: #ffffff;
+  background-color: #2196f3;
+}
+
+.ready-radio-button {
   border: 2px solid #00c853;
   color: #00c853;
 }
 
-.done {
+.ready .ready-radio-button {
+  color: #ffffff;
+  background-color: #00c853;
+}
+
+.done .ready-radio-button {
+  border-right: 2px solid #90A4AE;
+}
+
+.new .ready-radio-button {
+  border-left: 2px solid #2196f3;
+}
+
+.done-radio-button {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   border: 2px solid #90A4AE;
   border-left: none;
   color: #90A4AE;
+}
+
+.done .done-radio-button {
+  color: #ffffff;
+  background-color: #90A4AE;
+}
+
+.list-item.done {
+  border-left: 5px solid #90A4AE;
+}
+
+.list-item.ready {
+  border-left: 5px solid #00c853;
+}
+
+.list-item.new {
+  border-left: 5px solid #2196f3;
+}
+
+#statusSelect {
+  margin-bottom: 1em;
+}
+
+#statusSelect * {
+  display: inline-block;
+}
+
+#statusSelect label:before {
+  content: "x";
+  margin-right: 0.5em;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #d3d3d3;
+}
+
+#statusSelect input {
+  display: none;
 }

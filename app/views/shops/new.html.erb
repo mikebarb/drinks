@@ -6,85 +6,49 @@
 <div class="far-right-container">
   <h2 class="orange">New Orders</h2>
   <div id="sumorders">Test</div>
-
+</div><!--
+--><div class="two-thirds-container">
   <div id="statusSelect">
     <b>Show: </b><br>
     <% @statusList.each do |sl| %>
       <% if sl == "new" || sl == "ready" then %>
-        <input id=<%= sl %> type="checkbox" checked onclick="selectStatusBoth();" > <%= sl %>
+          <input id=<%= sl %> type="checkbox" checked onclick="selectStatusBoth();" >
+          <label for="<%= sl %>"><fa-icon class="fas fa-surprise"></fa-icon><%= sl %></label>
       <% else %>
         <input id=<%= sl %> type="checkbox" unchecked onclick="selectStatusBoth();" > <%= sl %>
       <% end %>
-      <br>
     <% end %>
   </div>
-
-
-
-</div><!--
---><div class="two-thirds-container">
+  
   <div id="orders">
     <% @orders.each do |order| %>
       <% #byebug %>
-      <div class="list-item" id=<%= order.id %>>
-          <% if order.status == "new" then %>
-              <div class="list-item-content">
-                  <span style="display: none;"><%= order.id %></span>
-                  <div class="w-20">
-                      <i class="fas fa-hiking"></i>
-                      <span class="ml-2 counterstatusnew"><%= order.person.name %></span>
-                  </div>
-                  <div class="w-20">
-                      <i class="fas fa-coffee"></i>
-                      <span class="ml-2 counterstatusnew"><%= order.drink %></span>
-                  </div>
-                  <span style="display: none;"><%= order.quantity %></span>
-                  <% #byebug %>
-                  <span class="counterstatusnew"><%= order.status %></span>
+      <div class="list-item <%= order.status %>" id=<%= order.id %>>
+          <div class="list-item-content">
+              <span style="display: none;"><%= order.id %></span>
+              <div class="w-20">
+                  <i class="fas fa-hiking"></i>
+                  <span class="ml-2 counterstatusnew"><%= order.person.name %></span>
+              </div>
+              <div class="w-20">
+                  <i class="fas fa-coffee"></i>
+                  <span class="ml-2 counterstatusnew"><%= order.drink %></span>
+              </div>
+              <span style="display: none;"><%= order.quantity %></span>
+              <% #byebug %>
 
-          <% elsif order.status == "ready" then %>
-              <div class="list-item-content">
-                  <span style="display: none;"><%= order.id %></span>
-                  <div class="w-20">
-                      <i class="fas fa-hiking"></i>
-                      <span class="ml-2 counterstatusready"><%= order.person.name %></span>
-                  </div>
-                  <div class="w-20">
-                      <i class="fas fa-coffee"></i>
-                      <span class="ml-2 counterstatusready"><%= order.drink %></span>
-                  </div>
-                  <span style="display: none;"><%= order.quantity %></span>
-                  <% #byebug %>
-                  <span class="counterstatusready"><%= order.status %></span>
-
-          <% else %>
-              <div class="list-item-content">
-                  <span style="display: none;"><%= order.id %></span>
-                  <div class="w-20">
-                      <i class="fas fa-hiking"></i>
-                      <span class="ml-2 counterstatusdone"><%= order.person.name %></span>
-                  </div>
-                  <div class="w-20">
-                      <i class="fas fa-coffee"></i>
-                      <span class="ml-2 counterstatusdone"><%= order.drink %></span>
-                  </div>
-                  <span style="display: none;"><%= order.quantity %></span>
-                  <% #byebug %>
-                  <span class="counterstatusdone"><%= order.status %></span>
-
-          <% end %>
               <div class="ml-auto selection-container">
-                  <div class="new">
+                  <div id="<%= order.id %>_new" class="new-radio-button counterbuttonnew" onclick="orderUpdate(this);">
                       <i class="fas fa-surprise"></i>
-                      <span id="<%= order.id %>_new" class="counterbuttonnew" onclick="orderUpdate(this);">New</span>
+                      <span>New</span>
                   </div>
-                  <div class="ready">
+                  <div id="<%= order.id %>_ready" class="ready-radio-button counterbuttonready" onclick="orderUpdate(this);">
                       <i class="fas fa-stopwatch"></i>
-                      <span id="<%= order.id %>_ready" class="counterbuttonready" onclick="orderUpdate(this);">Ready</span>
+                      <span>Ready</span>
                   </div>
-                  <div class="done">
+                  <div id="<%= order.id %>_done" class="done-radio-button counterbuttondone" onclick="orderUpdate(this);">
                       <i class="fas fa-check"></i>
-                      <span id="<%= order.id %>_done" class="counterbuttondone" onclick="orderUpdate(this);">Done</span>
+                      <span>Done</span>
                   </div>
               </div>
               

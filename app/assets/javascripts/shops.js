@@ -154,28 +154,15 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
             if ( key == "status") {
                 console.log("about to update status");
                 console.log("got status elements");
-                if(eleOrderTableRow.getElementsByClassName("counterstatusnew").length > 0){
-                    var elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusnew");
-                    elementsStatusList[2].innerText = updatedFields["status"];
-                    while(elementsStatusList.length > 0){
-                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
-                        elementsStatusList[0].classList.remove("counterstatusnew");
-                    }
-                }else if(eleOrderTableRow.getElementsByClassName("counterstatusready").length > 0){
-                    elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusready");
-                    elementsStatusList[2].innerText = updatedFields["status"];
-                    while(elementsStatusList.length > 0){
-                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
-                        elementsStatusList[0].classList.remove("counterstatusready");
-                    }
-                }else if(eleOrderTableRow.getElementsByClassName("counterstatusdone").length > 0){
-                    elementsStatusList = eleOrderTableRow.getElementsByClassName("counterstatusdone");
-                    elementsStatusList[2].innerText = updatedFields["status"];
-                    while(elementsStatusList.length > 0){
-                        elementsStatusList[0].classList.add("counterstatus" + updatedFields["status"]);
-                        elementsStatusList[0].classList.remove("counterstatusdone");
-                    }
+                if(eleOrderTableRow.classList.contains("new")) {
+                    eleOrderTableRow.classList.remove("new");
+                } else if (eleOrderTableRow.classList.contains("ready")) {
+                    eleOrderTableRow.classList.remove("ready");
+                } else if (eleOrderTableRow.classList.contains("done")) {
+                    eleOrderTableRow.classList.remove("done");
                 }
+                
+                eleOrderTableRow.classList.add(updatedFields["status"]);
             }
             if ( key == "person_id") {eleOrderTableRow.getElementsByClassName("ml-2")[0].innerHTML = data.message[2];}
             if ( key == "drink")     {eleOrderTableRow.getElementsByClassName("ml-2")[1].innerHTML = updatedFields[key];}
@@ -599,6 +586,10 @@ function orderUpdate(el){
             //$(el).css('background-color', '#ffffff');
             //el.parentElement.children[4].innerHTML = newStatus;
             //selectStatus();
+            console.log($(el))
+            $(".selected-button").removeClass("selected-button");
+            $(el).addClass("selected-button");
+            console.log(newStatus);
             countDrinks();
         },
         error: function(){
