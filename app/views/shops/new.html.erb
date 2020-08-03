@@ -10,14 +10,14 @@
 --><div class="two-thirds-container">
   <div id="statusSelect">
     <b>Show: </b><br>
-    <% @statusList.each do |sl| %>
-      <% if sl == "new" || sl == "ready" then %>
-          <input id=<%= sl %> type="checkbox" checked onclick="selectStatusBoth();" >
-          <label for="<%= sl %>"><fa-icon class="fas fa-surprise"></fa-icon><%= sl %></label>
-      <% else %>
-        <input id=<%= sl %> type="checkbox" unchecked onclick="selectStatusBoth();" > <%= sl %>
-      <% end %>
-    <% end %>
+    <input id=new type="checkbox" checked onclick="selectStatusBoth();" >
+    <label for="new"><fa-icon class="fas fa-surprise"></fa-icon>new</label>
+
+    <input id=ready type="checkbox" checked onclick="selectStatusBoth();" >
+    <label for="ready"><fa-icon class="fas fa-stopwatch"></fa-icon>ready</label>
+
+    <input id=done type="checkbox" checked onclick="selectStatusBoth();" >
+    <label for="done"><fa-icon class="fas fa-check"></fa-icon>done</label>
   </div>
   
   <div id="orders">
@@ -28,11 +28,11 @@
               <span style="display: none;"><%= order.id %></span>
               <div class="w-20">
                   <i class="fas fa-hiking"></i>
-                  <span class="ml-2 counterstatusnew"><%= order.person.name %></span>
+                  <span class="ml-2"><%= order.person.name %></span>
               </div>
               <div class="w-20">
                   <i class="fas fa-coffee"></i>
-                  <span class="ml-2 counterstatusnew"><%= order.drink %></span>
+                  <span class="ml-2"><%= order.drink %></span>
               </div>
               <span style="display: none;"><%= order.quantity %></span>
               <% #byebug %>

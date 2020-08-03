@@ -87,6 +87,7 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
         // Simply delete this table row
         console.dir(eleOrderTableRow);
         eleOrderTableRow.parentNode.removeChild(eleOrderTableRow);
+        countDrinks();
     }
 
     eleTableBody =  document.getElementById("orderstable");
@@ -270,11 +271,13 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
         if(eleOrders){
             var elea = document.createElement("div");
             elea.classList.add("list-item");
+            elea.classList.add("new");
             elea.id = order_id;
             eleOrders.appendChild(elea);
             
             var eleb = document.createElement("div");
             eleb.classList.add("list-item-content");
+            eleb.classList.add("new");
             elea.appendChild(eleb);
             
             var elec1 = document.createElement("span");
@@ -290,7 +293,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec2.appendChild(elec2d1);
             var elec2d2 = document.createElement("span");
             elec2d2.classList.add("ml-2");
-            elec2d2.classList.add("counterstatus" + status);
+            //elec2d2.classList.add("counterstatus" + status);
             elec2d2.innerText = person_name;
             elec2.appendChild(elec2d2);
             eleb.appendChild(elec2);
@@ -303,7 +306,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec3.appendChild(elec3d1);
             var elec3d2 = document.createElement("span");
             elec3d2.classList.add("ml-2");
-            elec3d2.classList.add("counterstatus" + status);
+            //elec3d2.classList.add("counterstatus" + status);
             elec3d2.innerText = drink_name;
             elec3.appendChild(elec3d2);
             eleb.appendChild(elec3);
@@ -313,10 +316,10 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec4.innerText = quantity;
             eleb.appendChild(elec4);
             
-            var elec5 = document.createElement("span");
-            elec5.classList.add("counterstatus" + status);
-            elec5.innerText = status;
-            eleb.appendChild(elec5);
+            //var elec5 = document.createElement("span");
+            //elec5.classList.add("counterstatus" + status);
+            //elec5.innerText = status;
+            //eleb.appendChild(elec5);
 
             var elec6 = document.createElement("div");
             elec6.classList.add("ml-auto");
@@ -325,45 +328,54 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
 
             // new button
             var elec6d1 = document.createElement("div");
-            elec6d1.classList.add("new");
+            elec6d1.id = order_id + "_new";
+            elec6d1.classList.add("new-radio-button");
+            elec6d1.classList.add("counterbuttonnew");
+            elec6d1.onclick = function(){orderUpdate(this);};
             elec6.appendChild(elec6d1);
             var elec6d1e1 = document.createElement("i");
             elec6d1e1.classList.add("fas");
             elec6d1e1.classList.add("fa-surprise");
             elec6d1.appendChild(elec6d1e1);
             var elec6d1e2 = document.createElement("span");
-            elec6d1e2.id = order_id + '_new';
-            elec6d1e2.classList.add("counterbutton" + status);
-            elec6d1e2.onclick = function(){orderUpdate(this);};
+            //elec6d1e2.id = order_id + '_new';
+            //elec6d1e2.classList.add("counterbutton" + status);
+            //elec6d1e2.onclick = function(){orderUpdate(this);};
             elec6d1e2.innerText = "New";
             elec6d1.appendChild(elec6d1e2);
 
             // ready button
             var elec6d2 = document.createElement("div");
-            elec6d2.classList.add("ready");
+            elec6d2.id = order_id + "_ready";
+            elec6d2.classList.add("ready-radio-button");
+            elec6d2.classList.add("counter-button-ready");
+            elec6d2.onclick = function(){orderUpdate(this);};
             var elec6d2e1 = document.createElement("i");
             elec6d2e1.classList.add("fas");
             elec6d2e1.classList.add("fa-stopwatch");
             elec6d2.appendChild(elec6d2e1);
             var elec6d2e2 = document.createElement("span");
-            elec6d2e2.id = order_id + '_ready';
-            elec6d2e2.classList.add("counterbutton" + status);
-            elec6d2e2.onclick = function(){orderUpdate(this);};
+            //elec6d2e2.id = order_id + '_ready';
+            //elec6d2e2.classList.add("counterbutton" + status);
+            //elec6d2e2.onclick = function(){orderUpdate(this);};
             elec6d2e2.innerText = "Ready";
             elec6d2.appendChild(elec6d2e2);
             elec6.appendChild(elec6d2);
 
             // done button
             var elec6d3 = document.createElement("div");
-            elec6d3.classList.add("done");
+            elec6d2.id = order_id + "_done";
+            elec6d3.classList.add("done-radio-button");
+            elec6d3.classList.add("counterbuttondone");
+            elec6d3.onclick = function(){orderUpdate(this);};
             var elec6d3e1 = document.createElement("i");
             elec6d3e1.classList.add("fas");
             elec6d3e1.classList.add("fa-check");
             elec6d3.appendChild(elec6d3e1);
             var elec6d3e2 = document.createElement("span");
-            elec6d3e2.id = order_id + '_done';
-            elec6d3e2.classList.add("counterbutton" + status);
-            elec6d3e2.onclick = function(){orderUpdate(this);};
+            //elec6d3e2.id = order_id + '_done';
+            //elec6d3e2.classList.add("counterbutton" + status);
+            //elec6d3e2.onclick = function(){orderUpdate(this);};
             elec6d3e2.innerText = "Done";
             elec6d3.appendChild(elec6d3e2);
             elec6.appendChild(elec6d3);
@@ -414,7 +426,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             eleOrders.appendChild(eletr);
         }
     }
-    selectStatus(); 
+    selectStatus();
     selectStatusTable();
     countDrinks();
     
@@ -442,11 +454,8 @@ function selectStatusBoth(){
 // this one is for the id=orders display area
 function selectStatus(){
     console.log("enter selectStatus");
-    //var thisStatus;
-    var eleListItemStatus;
     var i = 0; 
     var statusCheckString = "";
-    //var statusList = el.parentElement.getElementsByTagName("input");
     if(document.getElementById("statusSelect") == null){
         return;
     }
@@ -456,34 +465,27 @@ function selectStatus(){
             statusCheckString = statusCheckString + " " +  statusList[i].id;
         }
     }
-    //var eleTableBody =  document.getElementById("orders");
-    //var trList = eleTableBody.getElementsByTagName("tr");
+    console.log("statusCheckString:" + statusCheckString);
     var eleTableBody =  document.getElementById("orders");
     if(eleTableBody){
         var trList = eleTableBody.getElementsByClassName("list-item");
         for(i = 0; i < trList.length; i++) {
             var showme = false;
-            var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
-            eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
             if(statusCheckString.indexOf("new") > -1){
-                if (eleListItemStatus.classList.contains("counterstatusnew")){
+                if (trList[i].classList.contains("new")){
                     showme = true;
                 }
             }
             if(statusCheckString.indexOf("ready") > -1){
-                if (eleListItemStatus.classList.contains("counterstatusready")){
+                if (trList[i].classList.contains("ready")){
                     showme = true;
                 }
             }
             if(statusCheckString.indexOf("done") > -1){
-                if (eleListItemStatus.classList.contains("counterstatusdone")){
+                if (trList[i].classList.contains("done")){
                     showme = true;
                 }
             }
-            //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
-            //console.dir(trList[i].children[4].innerHTML);
-            //thisStatus = trList[i].children[4].innerHTML;
-            //if (statusCheckString.indexOf(thisStatus) > -1) {
             if (showme) {
                 trList[i].style.display = "";
             } else {
@@ -552,7 +554,7 @@ function selectStatusTable(){
             }
         }
     }
-    console.log("exit selectStatus");
+    console.log("exit selectStatusTable");
 }
 
 // This function is called when a status update is requested.
@@ -587,8 +589,12 @@ function orderUpdate(el){
             //el.parentElement.children[4].innerHTML = newStatus;
             //selectStatus();
             console.log($(el))
-            $(".selected-button").removeClass("selected-button");
-            $(el).addClass("selected-button");
+            //$(".selected-button").removeClass("selected-button");
+            //$(el).addClass("selected-button");
+            $(".selected-button").removeClass("new");
+            $(".selected-button").removeClass("ready");
+            $(".selected-button").removeClass("done");
+            $(el).addClass(newStatus);
             console.log(newStatus);
             countDrinks();
         },
@@ -658,8 +664,6 @@ function counterSubmitOrder() {
             document.getElementById("myDrinkName").innerHTML = "";
             submitOrderCheck();
             document.getElementById("personInput").value = "";
-            //document.getElementById("drinkInput2").value = "";
-            //document.getElementById("myDrinkId2").innerHTML = "";
             counterFilterPeople();
             //counterDrinks();
             // need to update last drink id for this person in the browser
@@ -867,16 +871,21 @@ function countDrinks() {
         var counts = {};
         var orderList = document.getElementsByClassName("list-item");
         for (i = 0; i < orderList.length; i++) {
-            var orderListItems = orderList[i].getElementsByClassName("fa-coffee");
-            var thisItem = orderListItems[0];
-            var thisEle = thisItem.parentElement.getElementsByTagName("span")[0];
-            if(thisEle.classList.contains("counterstatusnew")){
-                drink_name = thisEle.innerText;
-                if (counts[drink_name]){
-                    counts[drink_name] = counts[drink_name] + 1;
-                }else{
-                    counts[drink_name] = 1;
-                }
+            //if (trList[i].classList.contains("new")){
+            if (orderList[i].classList.contains("new")){
+                //var orderListItems = orderList[i].getElementsByClassName("fa-coffee");
+                //var thisItem = orderListItems[0];
+                var thisItem = orderList[i].getElementsByClassName("fa-coffee")[0];
+                //var thisEle = thisItem.parentElement.getElementsByTagName("span")[0];
+                var drink_name = thisItem.parentElement.getElementsByTagName("span")[0].innerText;
+                //if(thisEle.classList.contains("counterstatusnew")){
+                    //drink_name = thisEle.innerText;
+                    if (counts[drink_name]){
+                        counts[drink_name] = counts[drink_name] + 1;
+                    }else{
+                        counts[drink_name] = 1;
+                    }
+                //}
             }
         }
         
