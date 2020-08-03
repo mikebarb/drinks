@@ -93,6 +93,15 @@
                       ['Escalante (Food Distribution)', 10.82776651472996, 123.51449957079654, 3, 'bmi-mpfg.weebly.com/feeding-programs.html', null, 'bmi_cog_ind', null],
                      ];
 
+// Kitutu: -3.215011996340899, 27.46577215406628 or -6.61667,26.63333
+//                      ['Kitutu', -3.215011996340899, 27.46577215406628, 3, 'mhcdafrica.com/2020/02/sange-dietsch-academy/', null, 'bmi_cog_ind', null],
+
+      var con = [
+                      ['Sange (Dietsch Academy)', -3.0833333, 29.116666666666667, 3, 'mhcdafrica.com/2020/02/sange-dietsch-academy/', null, 'bmi_cog_ind', null],
+                      ['Kinshasa (Capital,MONUSCO HQ)', -4.325, 15.322222222222223, 3, 'peacekeeping.un.org/en/mission/monusco', null, 'bmi_hq_ind', null],
+                      ['MONUSCO (link to MONUSCO map)', -1.1596167, 29.431427777777778, 3, 'www.un.org/Depts/Cartographic/map/dpko/MONUSCO.pdf', null, 'bmi_cog_ind', null],
+                     ];
+    
       var aim = [
                       ['Brewarrina', -29.961309183854056, 146.8583693225357, 4, 'australianindigenousministries.org.au/brewarrina', null, 'aim_cross', null],
                       ['Wagett', -30.026239191535236, 148.11179552411554 , 4, null, null, 'aim_cross_ind', null],
@@ -228,6 +237,15 @@
       	      churchmarker.setVisible(true);
       	    }
           }	  
+          // and for the congo sites of interest
+      	  for (i = 0; i < con.length; i++) {
+            churchmarker = con[i][5];
+      	    if (churchmarker.getVisible()){
+      	      churchmarker.setVisible(false);
+      	    }else{
+      	      churchmarker.setVisible(true);
+      	    }
+          }	  
         });  
 
       	// Show BMI home page by double clicking
@@ -323,6 +341,7 @@
         	  bmi_cross:          {icon: callProt + hostname + '/images/BMi_cross.png'},
         	  bmi_cross_ind:      {icon: callProt + hostname + '/images/BMi_cross_ind_2.png'},
         	  bmi_cog_ind:        {icon: callProt + hostname + '/images/BMi_cog_ind_2.png'},
+        	  bmi_hq_ind:         {icon: callProt + hostname + '/images/BMi_hq_ind_2.png'},
         	  plane_mike:         {icon: callProt + hostname + '/images/icon_maf_plane.png'},
         	  mafPlane:           {icon: callProt + hostname + '/images/MAF_plane.png'},
         	  mafPlane_ind:       {icon: callProt + hostname + '/images/MAF_plane_ind_2.png'},
@@ -391,6 +410,44 @@
         // Add Philippines food distribution markers
         for ( i = 0; i < phi.length; i++) {
           church = phi[i];
+          fullurl = callProt + church[4];
+          churchmarker = new google.maps.Marker({
+            position: {lat: church[1], lng: church[2]},
+            map: map,
+            title: church[0],
+            zIndex: church[3],
+      	    url: fullurl,
+      	    temp: false,
+      	    //label: 'A',
+      	    icon: icons[church[6]].icon
+          });
+          churchmarker.info = new google.maps.InfoWindow({
+            content: church[0]
+          });
+
+          church[5] = churchmarker;
+  
+          google.maps.event.addListener(churchmarker, 'dblclick', function() {
+            if(this.info.map != null){
+              this.info.close();
+            }
+            if(this.url != null ){
+              console.log(this.url);
+              var win = window.open(this.url, '_blank');
+                    win.focus();
+            }
+          });
+
+          google.maps.event.addListener(churchmarker, 'click', function(){
+            if(this.info.map == null){
+              this.info.open(map, this);
+            }
+          });
+    	  }
+
+        // Add Congo locations of interest markers
+        for ( i = 0; i < con.length; i++) {
+          church = con[i];
           fullurl = callProt + church[4];
           churchmarker = new google.maps.Marker({
             position: {lat: church[1], lng: church[2]},
