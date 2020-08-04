@@ -172,6 +172,7 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
         });
         selectStatus();
         setScrollText();
+        countDrinks();
     }
 
     // This section will generate a equivalent table versions of the above
@@ -277,7 +278,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             
             var eleb = document.createElement("div");
             eleb.classList.add("list-item-content");
-            eleb.classList.add("new");
+            //eleb.classList.add("new");
             elea.appendChild(eleb);
             
             var elec1 = document.createElement("span");
@@ -364,7 +365,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
 
             // done button
             var elec6d3 = document.createElement("div");
-            elec6d2.id = order_id + "_done";
+            elec6d3.id = order_id + "_done";
             elec6d3.classList.add("done-radio-button");
             elec6d3.classList.add("counterbuttondone");
             elec6d3.onclick = function(){orderUpdate(this);};

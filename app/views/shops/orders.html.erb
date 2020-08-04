@@ -1,9 +1,13 @@
-<h1 id="allorders" >Orders - Management Purposes Only</h1>
-
+<h1 id="allorders" >Orders - Management Purposes Only
+<button type="button" onclick="javascript:history.back()">Back</button>
+</h1>
 <div id="statusSelect">
-  <% @statusList.each do |sl| %>
-    <input id=<%= sl.status %> type="checkbox" checked onclick="selectStatusTable();" > <%= sl.status %>
-  <% end %>
+  <input id="new" name="new" type="checkbox" checked onclick="selectStatusTable();" >
+  <label for="new">new</label>
+  <input id="ready" name="ready" type="checkbox" checked onclick="selectStatusTable();" >
+  <label for="ready">ready</label>
+  <input id="done" name="done" type="checkbox" checked onclick="selectStatusTable();" >
+  <label for="done">done</label>
 </div>
 
 <table>

@@ -137,16 +137,30 @@
 
 #statusSelect * {
   display: inline-block;
+  color: black;
 }
 
-#statusSelect label:before {
-  content: "x";
-  margin-right: 0.5em;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #d3d3d3;
+#statusSelect  b {
+  color: black;
 }
+
+#statusSelect  label {
+  margin-left: 2em;
+  color: blue;
+}
+
+//#statusSelect label:before {
+//  content: "...";
+//  margin-right: 0.5em;
+//  width: 100px;
+//  height: 20px;
+//  border: 1px solid #d3d3d3;
+//}
 
 #statusSelect input {
   display: none;
+}
+
+#statusSelect input:checked + label {
+  color: black;
 }
