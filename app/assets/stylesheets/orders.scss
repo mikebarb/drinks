@@ -137,7 +137,6 @@
 
 #statusSelect * {
   display: inline-block;
-  color: black;
 }
 
 #statusSelect  b {
@@ -145,8 +144,7 @@
 }
 
 #statusSelect  label {
-  margin-left: 2em;
-  color: blue;
+  margin-left: 20px;
 }
 
 //#statusSelect label:before {
@@ -161,6 +159,40 @@
   display: none;
 }
 
-#statusSelect input:checked + label {
-  color: black;
+#statusSelect input:checked#new + label {
+  cursor: pointer;
+  color: #2196f3;
+  font-weight: bold;
 }
+#statusSelect input#new + label {
+  cursor: pointer;
+  color: gray;
+}
+
+#statusSelect input:checked#ready + label {
+  cursor: pointer;
+  color: #00c853;
+  font-weight: bold;
+}
+#statusSelect input#ready + label {
+  cursor: pointer;
+  color: gray;
+}
+
+
+#statusSelect input:checked#done + label {
+  cursor: pointer;
+  color:  black;
+  font-weight: bold;
+//  color:  #90A4AE;
+}
+#statusSelect input#done + label {
+  cursor: pointer;
+  color: gray;
+}
+
+//#statusSelect input:checked done + label {
+//  cursor:pointer;
+//  color: black;
+//  font-weight: bold;
+//}

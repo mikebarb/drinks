@@ -9,15 +9,15 @@
 </div><!--
 --><div class="two-thirds-container">
   <div id="statusSelect">
-    <b>Show: </b><br>
+    <b class="mr-3">Show</b><b>-</b>
     <input id=new type="checkbox" checked onclick="selectStatusBoth();" >
-    <label for="new"><fa-icon class="fas fa-surprise"></fa-icon>new</label>
+    <label for="new" class="new"><fa-icon class="fas fa-surprise mr-1"></fa-icon>new</label>
 
     <input id=ready type="checkbox" checked onclick="selectStatusBoth();" >
-    <label for="ready"><fa-icon class="fas fa-stopwatch"></fa-icon>ready</label>
+    <label for="ready" class="ready"><fa-icon class="fas fa-stopwatch mr-1"></fa-icon>ready</label>
 
     <input id=done type="checkbox" checked onclick="selectStatusBoth();" >
-    <label for="done"><fa-icon class="fas fa-check"></fa-icon>done</label>
+    <label for="done" class="done"><fa-icon class="fas fa-check mr-1"></fa-icon>done</label>
   </div>
   
   <div id="orders">
@@ -26,13 +26,15 @@
       <div class="list-item <%= order.status %>" id=<%= order.id %>>
           <div class="list-item-content">
               <span style="display: none;"><%= order.id %></span>
-              <div class="w-20">
+              <div class="w-50 d-flex">
+                <span class="d-flex align-items-center">
                   <i class="fas fa-hiking"></i>
                   <span class="ml-2"><%= order.person.name %></span>
-              </div>
-              <div class="w-20">
+                </span>
+                <span class="ml-3 d-flex align-items-center">
                   <i class="fas fa-coffee"></i>
                   <span class="ml-2"><%= order.drink %></span>
+                </span>
               </div>
               <span style="display: none;"><%= order.quantity %></span>
               <% #byebug %>

@@ -1,6 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<h1>People</h1>
+<h1>People
+<button><%= link_to 'counter', shop_counter_path %></button>
+<button><%= link_to 'brewster', shop_new_path %></button><br>
+</h1>
 
 <input type="text" id="myInput" onkeyup="myFunctionPeople()" placeholder="Filter name list .." title="Type in characters to reduce name list">
 <div id="showAdd" onclick="addPerson();" style="display: none;">Put Add Person Button here</div>
