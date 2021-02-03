@@ -46,8 +46,9 @@ class ShopsController < ApplicationController
 
     logger.debug "@readyorders: " + @readyorders.inspect
     
-    @statusList = ["ready"]
+    @statusList = ["ready", "new"]
     logger.debug "@statusList: " + @statusList.inspect
+    @readydisplay = true
   end
 
   # GET /shops/new

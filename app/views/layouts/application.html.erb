@@ -12,12 +12,11 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins|Oswald&display=swap" rel="stylesheet">
 </script>
   </head>
-  <% if @statusList == ["ready"] then %>
+  <% if defined? @readydisplay %>
     <body id="setbackgroundimage">
   <% else %>
     <body>
       <!--<div class="dark-header header">
-        
       <%= link_to 'Pickup', shop_ready_path %>
       <%= link_to 'Details', shop_orders_path %>
       <%= link_to 'Buttons', buttons_path %>

@@ -1,11 +1,20 @@
+<!--
 <h1 id="readyorders" style="display: none;">Orders ready for pickup</h1>
-<div id="statusSelect"  style="display: none;">
+-->
+<!--
+<img id="setbackgroundimage" />
+<%= image_tag('IMG_2284.JPG', style: "height: 30px; width: 30px") %>
+-->
+<img id="setbackgroundimage"></img>
+
+<h1 id="readyorders" >Order Progress</h1>
+<div id="statusSelect">
   <% @statusList.each do |sl| %>
     <input id=<%= sl %> type="checkbox" checked >
   <% end %>
 </div>
 <% scrollText = "" %>
-<table>
+<table id="orderstablet">
   <tbody id="orderstable">
     <% @readyorders.each do |order| %>
       <% className = "class=counterstatus" + order.status %>
@@ -65,8 +74,9 @@
 <!--
 <div id=scrollme>This is testing text</div>
 -->
+<!--
 <div id=scrollme><%= scrollText %></div>
-
+-->
 <script type="text/javascript">
     selectStatusBoth();
 </script>
