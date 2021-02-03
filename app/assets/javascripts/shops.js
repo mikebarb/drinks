@@ -203,6 +203,22 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
             console.log("updatedField: " + key +  ": " +updatedFields[key]);
             if ( key == "status") {
                 eletds[4].innerText = updatedFields["status"];
+                // Need to also update the class of the cells in this row
+                var classList = eletds[4].classList;
+                while (classList.length > 0) {
+                  classList.remove(classList.item(0));
+                }
+                eletds[4].classList.add("counterstatus" + updatedFields["status"]);
+                var classList = eletds[2].classList;
+                while (classList.length > 0) {
+                  classList.remove(classList.item(0));
+                }
+                eletds[2].classList.add("counterstatus" + updatedFields["status"]);
+                var classList = eletds[1].classList;
+                while (classList.length > 0) {
+                  classList.remove(classList.item(0));
+                }
+                eletds[1].classList.add("counterstatus" + updatedFields["status"]);
             }
             if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
             if ( key == "drink") {eletds[2].innerHTML = updatedFields[key];}
@@ -1138,16 +1154,18 @@ function setScrollText(){
             }
         }
         var eleScrollme = document.getElementById("scrollme");
-        eleScrollme.innerText = myText;
-        // only show this text if it has content
-        if(myText.length > 1){
+        if(eleScrollme){     // if element is present, do the scroll
+          eleScrollme.innerText = myText;
+          // only show this text if it has content
+          if(myText.length > 1){
             if(eleScrollme.classList.contains("hideme")){
                 eleScrollme.classList.remove("hideme");
                 scrollMe();
             }
-        }else{
+          }else{
             eleScrollme.classList.add("hideme");
             stopScrollMe();
+          }
         }
     }
 }
