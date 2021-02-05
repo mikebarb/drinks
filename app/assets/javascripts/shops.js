@@ -680,7 +680,9 @@ function counterSubmitOrder() {
             document.getElementById("myPersonName").innerHTML = "";
             document.getElementById("myDrinkName").innerHTML = "";
             submitOrderCheck();
-            document.getElementById("personInput").value = "";
+            // Bill wants a family to quickly submit their orders.
+            // Key in family name, and continue to select from filtered list.
+            //document.getElementById("personInput").value = "";
             counterFilterPeople();
             //counterDrinks();
             // need to update last drink id for this person in the browser
