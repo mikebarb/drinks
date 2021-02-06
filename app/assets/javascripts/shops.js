@@ -684,9 +684,10 @@ function counterSubmitOrder() {
             // Key in family name, and continue to select from filtered list.
             //document.getElementById("personInput").value = "";
             //counterFilterPeople();
-            // Want to show the clearFilter button
-            var thisButton = document.getElementById("buttonClearFilter");
-            thisButton.classList.remove("hideme");     //removeClass("hideme");
+            // Want to show the clearFilter button if text in the search field
+            if(document.getElementById("personInput").value.length != 0){
+              document.getElementById("buttonClearFilter").classList.remove("hideme");
+            }
             //counterDrinks();
             // need to update last drink id for this person in the browser
             document.getElementById(person_id).setAttribute("lastdrink", drink);
@@ -707,8 +708,7 @@ function clearFilter(){
             document.getElementById("personInput").value = "";
             counterFilterPeople();
             // Want to hide the clearFilter button again
-            var thisButton = document.getElementById("buttonClearFilter");
-            thisButton.classList.add("hideme");
+            document.getElementById("buttonClearFilter").classList.add("hideme");
 }
 
 // This function checks the name and drinks field to see if they are populatated.
@@ -759,6 +759,8 @@ function counterFilterPeople() {
     } else {
         showButtonAddPerson.classList.add("hideme");
     }
+    // Want to hide the clearFilter button
+    document.getElementById("buttonClearFilter").classList.add("hideme");
 }
 
 // When the user keys into the filter field a name that is not in the list
