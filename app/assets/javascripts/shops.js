@@ -683,7 +683,10 @@ function counterSubmitOrder() {
             // Bill wants a family to quickly submit their orders.
             // Key in family name, and continue to select from filtered list.
             //document.getElementById("personInput").value = "";
-            counterFilterPeople();
+            //counterFilterPeople();
+            // Want to show the clearFilter button
+            var thisButton = document.getElementById("buttonClearFilter");
+            thisButton.classList.remove("hideme");     //removeClass("hideme");
             //counterDrinks();
             // need to update last drink id for this person in the browser
             document.getElementById(person_id).setAttribute("lastdrink", drink);
@@ -697,6 +700,15 @@ function counterSubmitOrder() {
     });
 
     return;
+}
+
+// This function clears the text field controlling the filtering of persons
+function clearFilter(){
+            document.getElementById("personInput").value = "";
+            counterFilterPeople();
+            // Want to hide the clearFilter button again
+            var thisButton = document.getElementById("buttonClearFilter");
+            thisButton.classList.add("hideme");
 }
 
 // This function checks the name and drinks field to see if they are populatated.

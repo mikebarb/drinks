@@ -319,30 +319,50 @@ span.myrowright {
   font-size: 18px;
 }
 
-.left-container, .right-container, .far-right-container {
-  display: inline-block;
-  vertical-align: top;
+.container {
+  display: flex;
+  height: 100vh;
 }
 
 .left-container {
   width: 25%;
-  height: 100vh;
   display: inline-flex;
   flex-direction: column;
 }
 
 .right-container {
   width: 50%;
-  height: 100vh;
 }
 
 .far-right-container {
   width: 25%;
   background-color: #1a237e;
   padding: 30px;
-  height: 100vh;
   color: white;
   font-size: 16px;
+}
+
+@media(max-width: 767px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .left-container, .right-container, .far-right-container {
+    width: 100%;
+  }
+  
+  .left-container {
+    max-height: 200px;
+  }
+  
+  .right-container {
+    padding-bottom: 200px;
+  }
+  
+  .far-right-container {
+    position: fixed;
+    bottom: 0;
+  }
 }
 
 .search-container {
@@ -352,6 +372,18 @@ span.myrowright {
 
 .input-group {
     display: flex;
+    position: relative;
+}
+
+.clear-button {
+  color: gray;
+  position: absolute;
+  padding: 12px;
+  right: 0;
+}
+
+.clear-button:hover {
+  color: black;
 }
 
 .search-bar {

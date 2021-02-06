@@ -36,6 +36,28 @@
   background-color: #aaa;
 }
 
+.orders-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.orders-left {
+  width: 25%;
+  background-color: #1a237e;
+  padding: 30px;
+  color: white;
+}
+
+.orders-left td {
+  font-size: 16px;
+}
+
+.orders-right {
+  width: 75%;
+  background-color: #eeeeee;
+  padding: 30px;
+}
+
 .two-thirds-container {
   display: inline-block;
   padding: 30px;

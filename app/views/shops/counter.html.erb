@@ -8,13 +8,16 @@
 
 
 
-<div class="left-container">
+<div class="container">
+    <div class="left-container">
     <div class="search-container">
         <div class="input-group">
             <span class="search-icon fas fa-search"></span>
             <input class="search-bar" type="text" id="personInput" autocomplete="off" onkeyup="counterFilterPeople()" placeholder="Search" title="Type in characters to reduce name list">
+            <!-- This span below is the clear button dad -->
+            <span id=buttonClearFilter role="button" class="clear-button fas fa-times hideme" onclick="clearFilter();"></span>
         </div>
-        <span id="buttonAddPerson" class="search-button hideme" onclick="counterAddPerson();">New Person</span>
+        <span id="buttonAddPerson" role="button" class="search-button hideme" onclick="counterAddPerson();">New Person</span>
         <div id="showAdd" onclick="counterAddPerson();" style="display: none;">Add this Person</div>
     </div>    
                 <ul id="myPeopleUL">
@@ -26,76 +29,77 @@
             <% end %>
         <% end %>
     </ul>
-</div><!--
---><div class="right-container">
-    <div id="drinkarea">
-        <div id="grpDrinks" class="drinks-column">
-            <h2>Drink</h2>
-<% 
-            @buttons.each do |b|
-                if b.group == "Drink" then
-                    enablearray ="b" + b.enable.split(/ /).join(", b")
-                    #byebug
- %>                 <button class="drinkbutton" data-enable="<%= enablearray %>"><%= b.name %></button>
-<%              end
-           end
-%><!--
-         --><button id="other" class="drinkbutton" data-enable="otherInput">Other</button>
-        </div><!--
-        --><div id="grpoptionsgroups" class="grpoptionsgroups">
-<% 
-            currentGroup = ""
-            @buttons.each do |b|
-                if b.group != "Drink" then
-                    if b.group != currentGroup then
-                        if currentGroup != "" then
-%>
-                            </div>
-<%
+    </div><!--
+    --><div class="right-container">
+        <div id="drinkarea">
+            <div id="grpDrinks" class="drinks-column">
+                <h2>Drink</h2>
+    <% 
+                @buttons.each do |b|
+                    if b.group == "Drink" then
+                        enablearray ="b" + b.enable.split(/ /).join(", b")
+                        #byebug
+     %>                 <button class="drinkbutton" data-enable="<%= enablearray %>"><%= b.name %></button>
+    <%              end
+               end
+    %><!--
+             --><button id="other" class="drinkbutton" data-enable="otherInput">Other</button>
+            </div><!--
+            --><div id="grpoptionsgroups" class="grpoptionsgroups">
+    <% 
+                currentGroup = ""
+                @buttons.each do |b|
+                    if b.group != "Drink" then
+                        if b.group != currentGroup then
+                            if currentGroup != "" then
+    %>
+                                </div>
+    <%
+                            end
+                            currentGroup = b.group
+    %><!--
+                            --><div id="grpoptions" class="grpoptionsbutton">
+                                <h2><%= b.group %></h2>
+    <%
                         end
-                        currentGroup = b.group
-%><!--
-                        --><div id="grpoptions" class="grpoptionsbutton">
-                            <h2><%= b.group %></h2>
-<%
+    %>
+                        <button id="<%= "b" + b.id.to_s %>" class="optionsbutton"><%= b.name %></button>
+    <%
                     end
-%>
-                    <button id="<%= "b" + b.id.to_s %>" class="optionsbutton"><%= b.name %></button>
-<%
-                end
-%>
-<%
-           end
-           if currentGroup != "" then
-%>
-             </div><!--
-             
---><%
-           end
-%><!--
-           --><div id="grpoptions" class="grpoptionsbutton">
-               <h2>Other</h2>
-               <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
-           </div>
+    %>
+    <%
+               end
+               if currentGroup != "" then
+    %>
+                 </div><!--
+                 
+    --><%
+               end
+    %><!--
+               --><div id="grpoptions" class="grpoptionsbutton">
+                   <h2>Other</h2>
+                   <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
+               </div>
+            </div>
+        </div>    
+    </div><!--
+    --><div class="far-right-container">
+        <div class="flex">
+          <i class="fas fa-hiking ml-1"></i>
+            <span class="ml-2" id=myPersonName> </span> 
+            <span id=myPersonId style="display: none;"></span>
         </div>
-    </div>    
-</div><!--
---><div class="far-right-container">
-    <div class="flex">
-      <i class="fas fa-hiking ml-1"></i>
-        <span class="ml-2" id=myPersonName> </span> 
-        <span id=myPersonId style="display: none;"></span>
+        <div class="mt-2 flex">
+            <i class="fas fa-coffee"></i>
+            <span class="ml-2" id=myDrinkName> </span>
+        </div>
+        <div id="submitOrder" class="button b-orange submit-button mt-2" onclick="counterSubmitOrder();" style="display: none;">
+            Submit order
+        </div>
     </div>
-    <div class="mt-2 flex">
-        <i class="fas fa-coffee"></i>
-        <span class="ml-2" id=myDrinkName> </span>
-    </div>
-    <div id="submitOrder" class="button b-orange submit-button mt-2" onclick="counterSubmitOrder();" style="display: none;">
-        Submit order
-    </div>
+    
+    <div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
 </div>
-
-<div id="submitOrder" class="button" onclick="counterSubmitOrder();" style="display: none;">Submit this order</div>
 
 
 
