@@ -320,13 +320,20 @@ span.myrowright {
 }
 
 .container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   height: 100vh;
 }
 
 .left-container {
   width: 25%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 
@@ -344,7 +351,7 @@ span.myrowright {
 
 @media(max-width: 767px) {
   .container {
-    flex-direction: column;
+    -webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column;
   }
   
   .left-container, .right-container, .far-right-container {
@@ -371,6 +378,8 @@ span.myrowright {
 }
 
 .input-group {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     position: relative;
 }
