@@ -431,7 +431,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             hf = hf + "<td " + className + ">" + person_name + "</td>";
             hf = hf + "<td " + className + ">" + drink_name + "</td>";
             hf = hf + "<td style=display:none>" + quantity + "</td>";
-            hf = hf + "<td " + className + ">" + status + "</td>";
+            hf = hf + "<td style=display:none " + className + ">" + status + "</td>";
             //hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';
             //hf = hf + '<td id="t' + order_id + '_ready" onclick="orderUpdate(this);">Ready</td>';
             //hf = hf + '<td id="t' + order_id + '_done" onclick="orderUpdate(this);">Done</td>';

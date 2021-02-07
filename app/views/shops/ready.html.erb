@@ -5,8 +5,10 @@
 <img id="setbackgroundimage" />
 <%= image_tag('IMG_2284.JPG', style: "height: 30px; width: 30px") %>
 -->
-
-<h1 id="readyorders" >Order Progress</h1>
+<div>
+  <div id="readyordersnew"   >New</div>
+  <div id="readyordersready" >Ready</div>
+</div>
 <div id="statusSelect">
   <% @statusList.each do |sl| %>
     <input id=<%= sl %> type="checkbox" checked >
@@ -22,7 +24,7 @@
             <td <%= className %>> <%= order.person.name %></td>
             <td <%= className %>><%= order.drink %></td>
             <td style="display: none;"><%= order.quantity %></td>
-            <td <%= className %>><%= order.status %></td>
+            <td style="display: none;" <%= className %>><%= order.status %></td>
           </tr>
           <% if order.status == "ready" then
                if scrollText.length > 0 then 
