@@ -9,7 +9,6 @@ class ShopsController < ApplicationController
   def counter
     @people = Person
               .order("lower(name)")
-              .all
     logger.debug "@people: " + @people.inspect
     @drinks = Drink.all
     @buttons = Button
