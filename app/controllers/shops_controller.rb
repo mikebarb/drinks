@@ -7,7 +7,9 @@ class ShopsController < ApplicationController
   # GET /shops/counter
   # GET /shops/counter.json
   def counter
-    @people = Person.all
+    @people = Person
+              .order("lower(name)")
+              .all
     logger.debug "@people: " + @people.inspect
     @drinks = Drink.all
     @buttons = Button

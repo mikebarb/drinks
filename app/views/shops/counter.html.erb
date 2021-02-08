@@ -58,12 +58,12 @@
                             end
                             currentGroup = b.group
     %><!--
-                            --><div id="grpoptions" class="grpoptionsbutton">
+                            --><div id="grpoptions" class="grpoptionsbutton hidemegrp">
                                 <h2><%= b.group %></h2>
     <%
                         end
     %>
-                        <button id="<%= "b" + b.id.to_s %>" class="optionsbutton"><%= b.name %></button>
+                        <button id="<%= "b" + b.id.to_s %>" class="optionsbutton hideme"><%= b.name %></button>
     <%
                     end
     %>
@@ -76,9 +76,9 @@
     --><%
                end
     %><!--
-               --><div id="grpoptions" class="grpoptionsbutton">
+               --><div id="grpoptions" class="grpoptionsbutton hidemegrp">
                    <h2>Other</h2>
-                   <input id="otherInput" class="optionsbutton" type="text" placeholder="Type in your drink description" title="Drink Description">
+                   <input id="otherInput" class="optionsbutton hideme" type="text" placeholder="Type in your drink description" title="Drink Description">
                </div>
             </div>
         </div>    
