@@ -66,7 +66,7 @@
 }
 
 #setbackgroundimage {
-  background-image: image_url('IMG_2284.JPG');
+  background-image: image_url('ready_background.jpg');
   background-repeat:no-repeat;
   background-size:100%;
   z-index: 1;
@@ -138,44 +138,15 @@
 }
 
 .counterstatusnew {
-  background-color: Coral;
-  border: 2px solid Cyan;
-  color: black;
-  padding: 8px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 32px;
-  font-weight: bold;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;  
+  
 }
 
 .counterstatusready {
-  background-color: LightGreen;
-  border: 2px solid Cyan;
-  color: black;
-  padding: 8px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 32px;
-  font-weight: bold;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+
 }
 
 .counterstatusdone {
-  background-color: snow;
-  border: 2px solid black;
-  color: black;
-  padding: 8px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 32px;
-  margin: 4px 2px;
-  cursor: pointer;
-  width: 80px;
+  
 }
 
 .drinkbutton, .optionsbutton {
