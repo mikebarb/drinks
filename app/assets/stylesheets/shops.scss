@@ -237,19 +237,9 @@
   
 }
 
-.hideme {
+#orderstable tr.hideme {
   //visibility: hidden;
   display: none !important;
-}
-
-.hidemegrp {
-  display: none !important;
-  //visibility: hidden;
-}
-
-.showme {
-  visibility: visible;
-  //display: block;
 }
 
 span.myrowleft {
