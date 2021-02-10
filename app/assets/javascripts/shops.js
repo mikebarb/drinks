@@ -202,23 +202,33 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
         Object.keys(updatedFields).forEach(function(key) {
             console.log("updatedField: " + key +  ": " +updatedFields[key]);
             if ( key == "status") {
-                eletds[4].innerText = updatedFields["status"];
+                eletds[5].innerText = updatedFields["status"];
+                // class status is now on the 'tr' tag
+                var classList = eleOrderTableRow.classList;
+                while (classList.length > 0) {
+                  classList.remove(classList.item(0));
+                }
+                eleOrderTableRow.classList.add("counterstatus" + updatedFields["status"]);
+                if(updatedFields["status"] == "done"){
+                  eleOrderTableRow.classList.add("hideme");
+                }
+                
                 // Need to also update the class of the cells in this row
-                var classList = eletds[4].classList;
-                while (classList.length > 0) {
-                  classList.remove(classList.item(0));
-                }
-                eletds[4].classList.add("counterstatus" + updatedFields["status"]);
-                var classList = eletds[2].classList;
-                while (classList.length > 0) {
-                  classList.remove(classList.item(0));
-                }
-                eletds[2].classList.add("counterstatus" + updatedFields["status"]);
-                var classList = eletds[1].classList;
-                while (classList.length > 0) {
-                  classList.remove(classList.item(0));
-                }
-                eletds[1].classList.add("counterstatus" + updatedFields["status"]);
+                //var classList = eletds[4].classList;
+                //while (classList.length > 0) {
+                //  classList.remove(classList.item(0));
+                //}
+                //eletds[4].classList.add("counterstatus" + updatedFields["status"]);
+                //var classList = eletds[2].classList;
+                //while (classList.length > 0) {
+                //  classList.remove(classList.item(0));
+                //}
+                //eletds[2].classList.add("counterstatus" + updatedFields["status"]);
+                //var classList = eletds[1].classList;
+                //while (classList.length > 0) {
+                //  classList.remove(classList.item(0));
+                //}
+                //eletds[1].classList.add("counterstatus" + updatedFields["status"]);
             }
             if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
             if ( key == "drink") {eletds[2].innerHTML = updatedFields[key];}
@@ -427,18 +437,23 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             // the ready page - on the image background
             var className = "class='counterstatus" + status + "'";
             var hf = "";    //HtmlFragment - short name
-            hf = hf + "<td style=display:none;>" + order_id + "</td>";
-            hf = hf + "<td " + className + ">" + person_name + "</td>";
-            hf = hf + "<td " + className + ">" + drink_name + "</td>";
+            hf = hf + "<td>" + "<i class=\"new-icon fas fa-minus\" aria-hidden=\"true\"></i>" + 
+                               "<i class=\"ready-icon fas fa-check\" aria-hidden=\"true\">" +
+                               "::before" + "</i>" + "</td>";
+            hf = hf + "<td style=display:none>" + order_id + "</td>";
+            hf = hf + "<td>" + "<i class=\"fas fa-hiking mr-2\" aria-hidden=\"true\"></i>" + person_name + "</td>";
+            hf = hf + "<td>" + "<i class=\"fas fa-coffee mr-2\" aria-hidden=\"true\"></i>" + drink_name + "</td>";
             hf = hf + "<td style=display:none>" + quantity + "</td>";
-            hf = hf + "<td style=display:none " + className + ">" + status + "</td>";
+            hf = hf + "<td style=display:none>" + status + "</td>";
             //hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';
             //hf = hf + '<td id="t' + order_id + '_ready" onclick="orderUpdate(this);">Ready</td>';
             //hf = hf + '<td id="t' + order_id + '_done" onclick="orderUpdate(this);">Done</td>';
 
-            //console.log("hf: " + hf);
+            console.log("hf: " + hf);
             eletr = document.createElement("tr");
             eletr.setAttribute("id", 't' + order_id );
+            eletr.className = "counterstatus" + status;
+            eletr.style.display = "block";
             eletr.innerHTML = hf;
             eleOrders.appendChild(eletr);
         }

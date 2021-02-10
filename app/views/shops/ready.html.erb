@@ -5,36 +5,45 @@
 <img id="setbackgroundimage" />
 <%= image_tag('IMG_2284.JPG', style: "height: 30px; width: 30px") %>
 -->
-<div>
-  <div id="readyordersnew"   >New</div>
-  <div id="readyordersready" >Ready</div>
-</div>
+
 <div id="statusSelect">
   <% @statusList.each do |sl| %>
     <input id=<%= sl %> type="checkbox" checked >
   <% end %>
 </div>
 <% scrollText = "" %>
-<table id="orderstablet">
-  <tbody id="orderstable">
-    <% @readyorders.each do |order| %>
-      <% className = "class=counterstatus" + order.status %>
-          <tr id=t<%= order.id %>>
-            <td style="display: none;"><%= order.id %></td>
-            <td <%= className %>> <%= order.person.name %></td>
-            <td <%= className %>><%= order.drink %></td>
-            <td style="display: none;"><%= order.quantity %></td>
-            <td style="display: none;" <%= className %>><%= order.status %></td>
-          </tr>
-          <% if order.status == "ready" then
-               if scrollText.length > 0 then 
-                 scrollText = scrollText + " - "
+  <table id="orderstablet">
+    <tbody id="orderstable">
+      <% @readyorders.each do |order| %>
+            <%
+               if order.status == "done" then
+                  className = "hideme counterstatus" + order.status
+               else
+                  className = "counterstatus" + order.status
                end
-               scrollText = scrollText + order.person.name
-             end
-    end %>
-  </tbody>
-</table>
+               
+            %>
+            <!-- <tr id=t<%= order.id %> <%= className %>> -->
+            <tr style="display:block" id=t<%= order.id %> class="<%= className %>">
+              <td>
+                <i class="new-icon fas fa-minus"></i>
+                <i class="ready-icon fas fa-check"></i>
+              </td>
+              <td style="display: none;"><%= order.id %></td>
+              <td><i class="fas fa-hiking mr-2"></i><%= order.person.name %></td>
+              <td><i class="fas fa-coffee mr-2"></i><%= order.drink %></td>
+              <td style="display: none;"><%= order.quantity %></td>
+              <td style="display: none;"><%= order.status %></td>
+            </tr>
+            <% if order.status == "ready" then
+                 if scrollText.length > 0 then 
+                   scrollText = scrollText + " - "
+                 end
+                 scrollText = scrollText + order.person.name
+               end
+      end %>
+    </tbody>
+  </table>
 
 <% scrollText = scrollText #+ "--1--" + scrollText + "--2--" + scrollText %> 
 

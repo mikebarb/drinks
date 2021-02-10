@@ -66,6 +66,7 @@
 }
 
 #setbackgroundimage {
+  padding-top: 100px;
   background-image: image_url('ready_background.jpg');
   background-repeat:no-repeat;
   background-size:100%;
@@ -137,16 +138,77 @@
   color: black;
 }
 
-.counterstatusnew {
-  
+#orderstablet {
+  display: block;
+  width: 80%; 
+  margin-left: auto;
+  margin-right: auto; 
 }
 
-.counterstatusready {
-
+#orderstable {
+  display: block;
 }
 
-.counterstatusdone {
-  
+#orderstable tr {
+  margin-top: 20px;
+  display: flex !important;
+  border-radius: 5px;
+  height: 180px;
+  align-items: center;
+  background-color: white;
+}
+
+#orderstable tr:first-child {
+  margin-top: 0px;
+}
+
+.mr-2 {
+  margin-right: 1rem;
+}
+
+#orderstable i {
+  font-size: 38px;
+}
+
+#orderstable td {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  font-size: 55px;
+  color: #616161;
+  margin-left: 40px;
+}
+
+#orderstable td:first-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 180px;
+  margin-left: 0;
+}
+
+#orderstable td:first-child i {
+  color: white;
+}
+
+.counterstatusnew td:first-child {
+  background-color: grey;
+}
+
+.counterstatusready td:first-child {
+  background-color: #00c853;
+}
+
+.counterstatusready i.new-icon {
+  display: none;
+}
+
+.counterstatusnew i.ready-icon {
+  display: none;
 }
 
 .drinkbutton, .optionsbutton {
@@ -409,10 +471,6 @@ h2 {
 
 #myDrinkName {
   margin-left: 10px;
-}
-
-#orderstablet {
-  width: 100%;
 }
 
 #readyordersnew {
