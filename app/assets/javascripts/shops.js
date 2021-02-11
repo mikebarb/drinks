@@ -209,26 +209,23 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
                   classList.remove(classList.item(0));
                 }
                 eleOrderTableRow.classList.add("counterstatus" + updatedFields["status"]);
-                if(updatedFields["status"] == "done"){
-                  eleOrderTableRow.classList.add("hideme");
+                // Need to hide table rows based on the checkboxes (hidden) i.e. statuses
+                var showme = false;
+                if(document.getElementById("new") &&
+                   updatedFields["status"] == "new"){
+                     showme = true;
                 }
-                
-                // Need to also update the class of the cells in this row
-                //var classList = eletds[4].classList;
-                //while (classList.length > 0) {
-                //  classList.remove(classList.item(0));
-                //}
-                //eletds[4].classList.add("counterstatus" + updatedFields["status"]);
-                //var classList = eletds[2].classList;
-                //while (classList.length > 0) {
-                //  classList.remove(classList.item(0));
-                //}
-                //eletds[2].classList.add("counterstatus" + updatedFields["status"]);
-                //var classList = eletds[1].classList;
-                //while (classList.length > 0) {
-                //  classList.remove(classList.item(0));
-                //}
-                //eletds[1].classList.add("counterstatus" + updatedFields["status"]);
+                if(document.getElementById("ready") &&
+                   updatedFields["status"] == "ready"){
+                     showme = true;
+                }
+                if(document.getElementById("done") &&
+                   updatedFields["status"] == "done"){
+                     showme = true;
+                }
+                if(showme == false){
+                    eleOrderTableRow.classList.add("hideme");
+                }
             }
             if ( key == "person_id") {eletds[1].innerHTML = data.message[2];}
             if ( key == "drink") {eletds[2].innerHTML = updatedFields[key];}
@@ -439,10 +436,17 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             var hf = "";    //HtmlFragment - short name
             hf = hf + "<td>" + "<i class=\"new-icon fas fa-minus\" aria-hidden=\"true\"></i>" + 
                                "<i class=\"ready-icon fas fa-check\" aria-hidden=\"true\">" +
-                               "::before" + "</i>" + "</td>";
+                               "</i>" + "</td>";
             hf = hf + "<td style=display:none>" + order_id + "</td>";
             hf = hf + "<td>" + "<i class=\"fas fa-hiking mr-2\" aria-hidden=\"true\"></i>" + person_name + "</td>";
-            hf = hf + "<td>" + "<i class=\"fas fa-coffee mr-2\" aria-hidden=\"true\"></i>" + drink_name + "</td>";
+            var pageCheck = document.getElementById("pageCheck");
+            // only display drink on the check page, not the ready page.
+            if (pageCheck){
+                hf = hf + "<td>";
+            }else{
+                hf = hf + "<td style=display:none>";
+            }
+            hf = hf + "<i class=\"fas fa-coffee mr-2\" aria-hidden=\"true\"></i>" + drink_name + "</td>";
             hf = hf + "<td style=display:none>" + quantity + "</td>";
             hf = hf + "<td style=display:none>" + status + "</td>";
             //hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';
@@ -453,7 +457,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             eletr = document.createElement("tr");
             eletr.setAttribute("id", 't' + order_id );
             eletr.className = "counterstatus" + status;
-            eletr.style.display = "block";
+            //eletr.style.display = "block";
             eletr.innerHTML = hf;
             eleOrders.appendChild(eletr);
         }
@@ -557,7 +561,7 @@ function selectStatusTable(){
             var tdList = trList[i].getElementsByTagName("td");
             
             //eleListItemStatus = eleListItemStatus1.getElementsByTagName("span")[0];
-            eleListItemStatus = tdList[4].innerText;
+            eleListItemStatus = tdList[5].innerText;
                     
             if(statusCheckString.indexOf("new") > -1){
                 if (eleListItemStatus == 'new'){

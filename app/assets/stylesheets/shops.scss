@@ -151,7 +151,8 @@
 
 #orderstable tr {
   margin-top: 20px;
-  display: flex !important;
+  //display: flex !important;
+  display: flex;
   border-radius: 5px;
   height: 180px;
   align-items: center;
@@ -237,9 +238,17 @@
   
 }
 
-#orderstable tr.hideme {
+//#orderstable tr.hideme {
   //visibility: hidden;
-  display: none !important;
+  //display: none !important;
+//}
+
+.hideme {
+  display: none;
+}
+
+#grpoptions.hidemegrp {
+  display: none;
 }
 
 span.myrowleft {

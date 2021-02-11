@@ -5,6 +5,7 @@
 <img id="setbackgroundimage" />
 <%= image_tag('IMG_2284.JPG', style: "height: 30px; width: 30px") %>
 -->
+<div id="pageCheck"></div>
 <div id="statusSelect">
   <% @statusList.each do |sl| %>
     <input id=<%= sl %> type="checkbox" checked >
@@ -15,6 +16,7 @@
     <tbody id="orderstable">
       <% @readyorders.each do |order| %>
             <% className = "counterstatus" + order.status %>
+            <!-- <tr id=t<%= order.id %> <%= className %>> -->
             <tr id=t<%= order.id %> class="<%= className %>">
               <td>
                 <i class="new-icon fas fa-minus"></i>
@@ -22,7 +24,7 @@
               </td>
               <td style="display: none;"><%= order.id %></td>
               <td><i class="fas fa-hiking mr-2"></i><%= order.person.name %></td>
-              <td style="display: none;"><i class="fas fa-coffee mr-2"></i><%= order.drink %></td>
+              <td><i class="fas fa-coffee mr-2"></i><%= order.drink %></td>
               <td style="display: none;"><%= order.quantity %></td>
               <td style="display: none;"><%= order.status %></td>
             </tr>

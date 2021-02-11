@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'shops/print', as: :shop_print
   get 'shops/orders', as: :shop_orders
   get 'shops/ready', as: :shop_ready
+  get 'shops/check', as: :shop_check
   get 'shops/new', as: :shop_new 
   get 'shops/admin', as: :shop_admin 
   get 'orders/new/:person_id', to: 'orders#new', as: :new_order

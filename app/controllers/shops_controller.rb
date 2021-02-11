@@ -47,9 +47,28 @@ class ShopsController < ApplicationController
 
     logger.debug "@readyorders: " + @readyorders.inspect
     
-    @statusList = ["ready", "new"]
+    @statusList = ["ready"]
     logger.debug "@statusList: " + @statusList.inspect
     @readydisplay = true
+  end
+
+  # GET /shops/check
+  # GET /shops/check.json
+  def check
+    checkTime = 24.hours.ago
+    @readyorders = Order
+              .where("updated_at > ?", 24.hours.ago)
+              .includes(:person)
+              .order(:id)
+
+              #.where("updated_at > ? AND status = ?", 24.hours.ago, "ready")
+
+
+    logger.debug "@readyorders: " + @readyorders.inspect
+    
+    @statusList = ["ready", "new"]
+    logger.debug "@statusList: " + @statusList.inspect
+    @checkdisplay = true
   end
 
   # GET /shops/new
