@@ -431,14 +431,14 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             eletr.setAttribute("id", 't' + order_id );
             eletr.innerHTML = hfao;
         }else{
-            // the ready page - on the image background
+            // the ready or check page - on the image background
             var className = "class='counterstatus" + status + "'";
             var hf = "";    //HtmlFragment - short name
             hf = hf + "<td>" + "<i class=\"new-icon fas fa-minus\" aria-hidden=\"true\"></i>" + 
                                "<i class=\"ready-icon fas fa-check\" aria-hidden=\"true\">" +
                                "</i>" + "</td>";
             hf = hf + "<td style=display:none>" + order_id + "</td>";
-            hf = hf + "<td>" + "<i class=\"fas fa-hiking mr-2\" aria-hidden=\"true\"></i>" + person_name + "</td>";
+            hf = hf + "<td>" + "<i class=\"fas fa-hiking mr-2 hideme\" aria-hidden=\"true\"></i>" + person_name + "</td>";
             var pageCheck = document.getElementById("pageCheck");
             // only display drink on the check page, not the ready page.
             if (pageCheck){
@@ -446,7 +446,7 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             }else{
                 hf = hf + "<td style=display:none>";
             }
-            hf = hf + "<i class=\"fas fa-coffee mr-2\" aria-hidden=\"true\"></i>" + drink_name + "</td>";
+            hf = hf + "<i class=\"fas fa-coffee mr-2 hideme\" aria-hidden=\"true\"></i>(" + drink_name + ")</td>";
             hf = hf + "<td style=display:none>" + quantity + "</td>";
             hf = hf + "<td style=display:none>" + status + "</td>";
             //hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';

@@ -21,8 +21,8 @@
                 <i class="ready-icon fas fa-check"></i>
               </td>
               <td style="display: none;"><%= order.id %></td>
-              <td><i class="fas fa-hiking mr-2"></i><%= order.person.name %></td>
-              <td style="display: none;"><i class="fas fa-coffee mr-2"></i><%= order.drink %></td>
+              <td><i class="fas fa-hiking mr-2 hideme"></i><%= order.person.name %></td>
+              <td style="display: none;"><i class="fas fa-coffee mr-2 hideme"></i>(<%= order.drink %>)</td>
               <td style="display: none;"><%= order.quantity %></td>
               <td style="display: none;"><%= order.status %></td>
             </tr>
