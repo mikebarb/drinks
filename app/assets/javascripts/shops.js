@@ -1115,10 +1115,13 @@ function makeDrinkDescription(){
 
 function actionInput(){
     console.log("key up in other done");
-    if(event.keyCode === 13){
-        console.log("return key pressed.");
-        makeDrinkDescription();
-    }
+    //if(event.keyCode === 13){
+    //    console.log("return key pressed.");
+    //    makeDrinkDescription();
+    //}
+    // For the mobile view to be not confusing,
+    // just continually update.
+    makeDrinkDescription();
 }
 
 // scrolling text on ready screen
