@@ -252,7 +252,23 @@ App.newperson = App.cable.subscriptions.create("NewpersonChannel", {
         eleli.setAttribute("id", person_id );
         eleli.setAttribute("onclick", "counterSelectPerson(this)" );
         eleli.innerHTML = name;
-        elePeople.appendChild(eleli);
+        // Get all the people in the list (all the <li>)
+        var elePersons = elePeople.getElementsByTagName("li");
+        if(elePersons){
+          for (var i = 0; i < elePersons.length; i++) {     // step thu enteries
+            var elePerson = elePersons[i];
+            if(name.toLowerCase() < elePerson.innerText.toLowerCase()){
+                elePeople.insertBefore(eleli, elePerson);  // goes before
+                break;                                     // job done
+            }
+            if(i == elePersons.length - 1){     // at end and not inserted
+              elePeople.appendChild(eleli);     // append
+              break;            // job done - array is now longer so get out
+            }
+          }
+        }else{                                              // no list yet
+          elePeople.appendChild(eleli);                     // so just append
+        }
         submitOrderCheck();
         counterFilterPeople();
     }
