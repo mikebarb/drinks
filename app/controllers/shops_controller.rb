@@ -79,23 +79,30 @@ class ShopsController < ApplicationController
               .includes(:person)
               .order(:id)
 
-  #            .where("status != ?", "done")
-
-    logger.debug "@orders: " + @orders.inspect
-
     @drinks = Drink.all
-    logger.debug "@drinks: " + @drinks.inspect
 
     @orderscount = Order.group(:drink).count
               #.where("status == ?", "new")
               #.includes(:drink)
-    logger.debug "@orderscount" + @orderscount.inspect
 
-    #@statusList = Order
-    #          .select(:status)
-    #          .distinct
     @statusList = ["new", "ready", "done"]
-    logger.debug "@statusList: " + @statusList.inspect
+  end
+  
+  # GET /shops/coffee
+  # GET /shops/coffee.json
+  def coffee
+    @orders = Order
+              .where('updated_at > ?', 24.hours.ago)
+              .includes(:person)
+              .order(:id)
+
+    @drinks = Drink.all
+
+    @orderscount = Order.group(:drink).count
+              #.where("status == ?", "new")
+              #.includes(:drink)
+
+    @statusList = ["new", "ready", "done"]
   end
   
   # GET /shops/print

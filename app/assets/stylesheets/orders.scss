@@ -48,8 +48,22 @@
   color: white;
 }
 
+.orders-left-coffee {
+  width: 90%;
+  background-color: #1a237e;
+  padding: 30px;
+  color: white;
+}
+
+
 .orders-left td {
   font-size: 16px;
+}
+
+.orders-right-coffee {
+  width: 10%;
+  background-color: #eeeeee;
+  padding: 30px;
 }
 
 .orders-right {
@@ -57,6 +71,7 @@
   background-color: #eeeeee;
   padding: 30px;
 }
+
 
 .list-item {
   border-right: 1px solid #d3d3d3;

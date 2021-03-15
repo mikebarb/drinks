@@ -710,11 +710,15 @@ function counterSubmitOrder() {
         success: function(data){
             console.log("order record added by ajax successfully");
             console.log(data);
+            // clear the fields for people with their drinks            
             eleMyPersonId.innerHTML = "";
             eleMyDrink.innerHTML = "";
             document.getElementById("myPersonName").innerHTML = "";
             document.getElementById("myDrinkName").innerHTML = "";
             submitOrderCheck();
+            // put up some feedback to the user that the order is submitted.
+            document.getElementById('submitConfirm').style.display = ""; 
+            setTimeout(function() {document.getElementById('submitConfirm').style.display = "none"},1000);
             // Bill wants a family to quickly submit their orders.
             // Key in family name, and continue to select from filtered list.
             //document.getElementById("personInput").value = "";
