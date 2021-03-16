@@ -28,6 +28,12 @@ $(document).on('turbolinks:load', function(){
     "https://static.googleusercontent.com/media/www.google.com/en//landing/cloudprint/testpage.pdf"
     );
   }
+  
+  //var eleDisplayUrl =  document.getElementById("displayUrl");
+  //if (eleDisplayUrl) {
+  //  var displayUrl = window.location.protocol + window.location.hostname;
+  //  eleDisplayUrl.innerHTML = displayUrl;
+  //}
 
   var thisDrinkArea = document.getElementById("drinkarea");
   if(thisDrinkArea){

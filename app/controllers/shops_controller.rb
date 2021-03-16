@@ -36,14 +36,13 @@ class ShopsController < ApplicationController
   # GET /shops/ready
   # GET /shops/ready.json
   def ready
-    checkTime = 24.hours.ago
+    @myUrl = "#{request.protocol}#{request.host_with_port}"
     @readyorders = Order
               .where("updated_at > ?", 24.hours.ago)
               .includes(:person)
               .order(:id)
 
               #.where("updated_at > ? AND status = ?", 24.hours.ago, "ready")
-
 
     logger.debug "@readyorders: " + @readyorders.inspect
     
