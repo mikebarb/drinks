@@ -36,7 +36,14 @@ class ShopsController < ApplicationController
   # GET /shops/ready
   # GET /shops/ready.json
   def ready
-    @myUrl = "#{request.protocol}#{request.host_with_port}"
+    hostwithport = "#{request.host_with_port}"
+    logger.debug hostwithport
+    #   a10e513aab9647cfae2f94b7015f74e7.vfs.cloud9.us-east-1.amazonaws.com
+    #   drinks.mikebarb.net
+    if hostwithport == "drinks.mikebarb.net" 
+      hostwithport = "www.gcc.org.au/drinks"
+    end
+    @myUrl = "#{request.protocol}" + hostwithport
     @readyorders = Order
               .where("updated_at > ?", 24.hours.ago)
               .includes(:person)
