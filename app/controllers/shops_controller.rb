@@ -41,7 +41,7 @@ class ShopsController < ApplicationController
     #   a10e513aab9647cfae2f94b7015f74e7.vfs.cloud9.us-east-1.amazonaws.com
     #   drinks.mikebarb.net
     if hostwithport == "drinks.mikebarb.net" 
-      hostwithport = "www.gcc.org.au/drinks"
+      hostwithport = "gcc.org.au/drinks"
     end
     @myUrl = "#{request.protocol}" + hostwithport
     @readyorders = Order
@@ -61,7 +61,6 @@ class ShopsController < ApplicationController
   # GET /shops/check
   # GET /shops/check.json
   def check
-    checkTime = 24.hours.ago
     @readyorders = Order
               .where("updated_at > ?", 24.hours.ago)
               .includes(:person)
