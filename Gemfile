@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+# current version of ruby used in the staging server
+ruby "2.6.6"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
