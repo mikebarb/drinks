@@ -18,7 +18,12 @@ ActiveSupport.to_time_preserves_timezone = true
 Rails.application.config.active_record.belongs_to_required_by_default = true
 
 # Do not halt callback chains when a callback returns false. Previous versions had true.
-ActiveSupport.halt_callback_chains_on_return_false = false
+### This is commented out to stop the error on starting rails server giving 
+### "new_framework_defaults.rb:21:in `<top (required)>': undefined method
+### `halt_callback_chains_on_return_false=' for ActiveSupport:Module (NoMethodError)"
+### See https://linuxtut.com/en/500f453c3b24030d800e/
+###  Thus comment out the following line.
+# ActiveSupport.halt_callback_chains_on_return_false = false
 
 # Configure SSL options to enable HSTS with subdomains. Previous versions had false.
 Rails.application.config.ssl_options = { hsts: { subdomains: true } }
