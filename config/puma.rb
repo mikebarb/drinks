@@ -7,13 +7,20 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
 threads threads_count, threads_count
 
+### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+### the following line is added.
+rackup      DefaultRackup
+
 # Specifies the `port` that Puma will listen on to receive requests, default is 3000.
 #
 port        ENV.fetch("PORT") { 3000 }
 
 # Specifies the `environment` that Puma will run in.
 #
-environment ENV.fetch("RAILS_ENV") { "development" }
+### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+### NB exact sample line added! The following line was active
+#environment ENV.fetch("RAILS_ENV") { "development" }
+environment ENV['RACK_ENV'] || 'development'
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
@@ -21,7 +28,11 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+### uncomment this line for Heroku deployment  
+### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+### NB exact sample line added!
+#workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+workers Integer(ENV['WEB_CONCURRENCY'] || 1)
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -30,7 +41,9 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # you need to make sure to reconnect any threads in the `on_worker_boot`
 # block.
 #
-# preload_app!
+### uncomment this line for Heroku deployment  
+### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+preload_app!
 
 # The code in the `on_worker_boot` will be called if you are using
 # clustered mode by specifying a number of `workers`. After each worker
@@ -39,9 +52,11 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # or connections that may have been created at application boot, Ruby
 # cannot share connections between processes.
 #
-# on_worker_boot do
-#   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-# end
+### uncomment this on_worker_boot section for Heroku deployment  
+### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server
+on_worker_boot do
+  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

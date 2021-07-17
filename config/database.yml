@@ -25,7 +25,12 @@ default: &default
   password: pguser
 
   host: localhost
+  
+  ### add the pool entry below to support puma configuration
+  ### see https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server 
+  ### and https://devcenter.heroku.com/articles/concurrency-and-database-connections#threaded-servers
   #pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 5 %>
 
 development:
   <<: *default
