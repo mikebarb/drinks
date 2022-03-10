@@ -15,12 +15,12 @@ $(document).on('turbolinks:load', function(){
   console.log("window.onload function called");
   countDrinks();
   var elePrintLabel =  document.getElementById("printlabel");
-  console.dir(elePrintLabel);
+  //console.dir(elePrintLabel);
   if (elePrintLabel) {
-    console.log("In window.onload for print screen");
+    //console.log("In window.onload for print screen");
     var gadget = new cloudprint.Gadget();
-    console.log("just called cloudprint.Gaget()");
-    console.dir(gadget);
+    //console.log("just called cloudprint.Gaget()");
+    //console.dir(gadget);
     gadget.setPrintButton(
     cloudprint.Gadget.createDefaultPrintButton("print_button_container")); // div id to contain the button
     //gadget.setPrintDocument("[document mimetype]", "[document title]", "[document content]", "[encoding] (optional)");
@@ -29,12 +29,6 @@ $(document).on('turbolinks:load', function(){
     );
   }
   
-  //var eleDisplayUrl =  document.getElementById("displayUrl");
-  //if (eleDisplayUrl) {
-  //  var displayUrl = window.location.protocol + window.location.hostname;
-  //  eleDisplayUrl.innerHTML = displayUrl;
-  //}
-
   var thisDrinkArea = document.getElementById("drinkarea");
   if(thisDrinkArea){
     thisDrinkArea.addEventListener("click", actionDrinkButton);
@@ -58,7 +52,7 @@ $(document).on('turbolinks:load', function(){
     
   var scrollMeObj = document.getElementById("scrollme");
   if(scrollMeObj){
-    console.log("scrollMe - call");
+    //console.log("scrollMe - call");
     scrollMe();
   }
     
@@ -67,19 +61,19 @@ $(document).on('turbolinks:load', function(){
 // Web Socket receives a new message - existing order is deleted.
 App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {  
   received: function(data) {
-    console.log("destroyorders.js - entered ws received function");
-    console.dir(data);
+    //console.log("destroyorders.js - entered ws received function");
+    //console.dir(data);
     var eleTableBody =  document.getElementById("orders");
-    console.dir(eleTableBody);
+    //console.dir(eleTableBody);
     if (eleTableBody) {
         // this element is defined
         //alert("element with id=orders exists on this page");
         var order_id = data.message;
-        console.log("order_id: " + order_id);
+        //console.log("order_id: " + order_id);
         //check if this record is already present 
         // This will be the case for the sender.
         var eleOrderTableRow = document.getElementById(order_id);
-        console.dir(eleOrderTableRow);
+        //console.dir(eleOrderTableRow);
         if(eleOrderTableRow) {
             //is present so can update state (or anything else).
             //alert("This order entry is present - now update on screen");
@@ -91,7 +85,7 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
             return;
         }
         // Simply delete this table row
-        console.dir(eleOrderTableRow);
+        //console.dir(eleOrderTableRow);
         eleOrderTableRow.parentNode.removeChild(eleOrderTableRow);
         countDrinks();
     }
@@ -102,7 +96,7 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
         // this element is defined
         //alert("element with id=orders exists on this page");
         order_id = data.message;
-        console.log("order_id: " + order_id);
+        //console.log("order_id: " + order_id);
         //check if this record is already present 
         // This will be the case for the sender.
         eleOrderTableRow = document.getElementById('t' + order_id);
@@ -122,7 +116,6 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
         eleOrderTableRow.parentNode.removeChild(eleOrderTableRow);
     }
 
-
     return;
   }
 });
@@ -131,19 +124,16 @@ App.destroyorder = App.cable.subscriptions.create("DestroyorderChannel", {
 // a status change.
 App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {  
   received: function(data) {
-    console.log("shops.js - entered ws received function - UpdateOrderChannel");
-    console.dir(data);
+    //console.log("shops.js - entered ws received function - UpdateOrderChannel");
     var eleTableBody =  document.getElementById("orders");
     console.dir(eleTableBody);
     if (eleTableBody) {
         // this element is defined
         //alert("element with id=orders exists on this page");
         var order_id = data.message[0];
-        console.log("order_id: " + order_id);
         //check if this record is already present 
         // This will be the case for the sender.
         var eleOrderTableRow = document.getElementById(order_id);
-        console.dir(eleOrderTableRow);
         if(eleOrderTableRow) {
             //is present so can update state (or anything else).
             //alert("This order entry is present - now update on screen");
@@ -154,13 +144,12 @@ App.updateorder = App.cable.subscriptions.create("UpdateorderChannel", {
             alert("Error - this order entry is not present on this page!");
             return;
         }      
-        //var eletds = eleOrderTableRow.getElementsByTagName("td");
         var updatedFields = data.message[1];
         Object.keys(updatedFields).forEach(function(key) {
-            console.log("updatedField: " + key +  ": " +updatedFields[key]);
+            //console.log("updatedField: " + key +  ": " +updatedFields[key]);
             if ( key == "status") {
-                console.log("about to update status");
-                console.log("got status elements");
+                //console.log("about to update status");
+                //console.log("got status elements");
                 if(eleOrderTableRow.classList.contains("new")) {
                     eleOrderTableRow.classList.remove("new");
                 } else if (eleOrderTableRow.classList.contains("ready")) {
@@ -277,6 +266,7 @@ App.newperson = App.cable.subscriptions.create("NewpersonChannel", {
         }
         submitOrderCheck();
         counterFilterPeople();
+        counterSelectPerson(eleli);
     }
   }
 });
@@ -362,11 +352,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec4.innerText = quantity;
             eleb.appendChild(elec4);
             
-            //var elec5 = document.createElement("span");
-            //elec5.classList.add("counterstatus" + status);
-            //elec5.innerText = status;
-            //eleb.appendChild(elec5);
-
             var elec6 = document.createElement("div");
             elec6.classList.add("ml-auto");
             elec6.classList.add("selection-container");
@@ -384,9 +369,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec6d1e1.classList.add("fa-surprise");
             elec6d1.appendChild(elec6d1e1);
             var elec6d1e2 = document.createElement("span");
-            //elec6d1e2.id = order_id + '_new';
-            //elec6d1e2.classList.add("counterbutton" + status);
-            //elec6d1e2.onclick = function(){orderUpdate(this);};
             elec6d1e2.innerText = "New";
             elec6d1.appendChild(elec6d1e2);
 
@@ -401,9 +383,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec6d2e1.classList.add("fa-stopwatch");
             elec6d2.appendChild(elec6d2e1);
             var elec6d2e2 = document.createElement("span");
-            //elec6d2e2.id = order_id + '_ready';
-            //elec6d2e2.classList.add("counterbutton" + status);
-            //elec6d2e2.onclick = function(){orderUpdate(this);};
             elec6d2e2.innerText = "Ready";
             elec6d2.appendChild(elec6d2e2);
             elec6.appendChild(elec6d2);
@@ -419,9 +398,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             elec6d3e1.classList.add("fa-check");
             elec6d3.appendChild(elec6d3e1);
             var elec6d3e2 = document.createElement("span");
-            //elec6d3e2.id = order_id + '_done';
-            //elec6d3e2.classList.add("counterbutton" + status);
-            //elec6d3e2.onclick = function(){orderUpdate(this);};
             elec6d3e2.innerText = "Done";
             elec6d3.appendChild(elec6d3e2);
             elec6.appendChild(elec6d3);
@@ -471,9 +447,6 @@ App.neworder = App.cable.subscriptions.create("NeworderChannel", {
             hf = hf + "<i class=\"fas fa-coffee mr-2 hideme\" aria-hidden=\"true\"></i>(" + drink_name + ")</td>";
             hf = hf + "<td style=display:none>" + quantity + "</td>";
             hf = hf + "<td style=display:none>" + status + "</td>";
-            //hf = hf + '<td id="t' + order_id + '_new" onclick="orderUpdate(this);">New</td>';
-            //hf = hf + '<td id="t' + order_id + '_ready" onclick="orderUpdate(this);">Ready</td>';
-            //hf = hf + '<td id="t' + order_id + '_done" onclick="orderUpdate(this);">Done</td>';
 
             console.log("hf: " + hf);
             eletr = document.createElement("tr");
@@ -511,8 +484,9 @@ function selectStatusBoth(){
 // this function displays the orders based on the checkbox selections.
 // this one is for the id=orders display area
 function selectStatus(){
-    console.log("enter selectStatus");
-    var i = 0; 
+    //console.log("enter selectStatus");
+    // First action - determine what statuses we are looking for to be displayed
+    var i = 0;
     var statusCheckString = "";
     if(document.getElementById("statusSelect") == null){
         return;
@@ -523,7 +497,22 @@ function selectStatus(){
             statusCheckString = statusCheckString + " " +  statusList[i].id;
         }
     }
-    console.log("statusCheckString:" + statusCheckString);
+    // Next action - determine if we limit the list to be one drink type
+    // If so, keep that type
+    var drinkType = "";
+    var sumTypesParent =  document.getElementById("sumorders");
+    if(sumTypesParent){
+        var sumTypes = sumTypesParent.children;
+        for(i=0; i< sumTypes.length; i++){
+            if (sumTypes[i].classList.contains("typeselected")){
+                drinkType = sumTypes[i].getElementsByTagName("td")[0].innerText;
+            }
+        }
+    }
+
+    //console.log("statusCheckString:" + statusCheckString);
+    // Next action - scan order entries and hid those that do not match
+    // the desired status.
     var eleTableBody =  document.getElementById("orders");
     if(eleTableBody){
         var trList = eleTableBody.getElementsByClassName("list-item");
@@ -544,6 +533,15 @@ function selectStatus(){
                     showme = true;
                 }
             }
+            // This handles condition where only display drinks of the correct
+            // type even if the status would otherwise allow the display.
+            // Thus we still hide this row when the drink type mismatches.
+            if(drinkType){    // drinkType selected
+                var listDrinkType = trList[i].getElementsByClassName("ml-2")[1].textContent;
+                if(!(drinkType === listDrinkType)){
+                    showme = false;
+                }
+            }
             if (showme) {
                 trList[i].style.display = "";
             } else {
@@ -551,13 +549,16 @@ function selectStatus(){
             }
         }
     }
-    console.log("exit selectStatus");
+    //console.log("exit selectStatus");
 }
 
 // this function displays the orders based on the checkbox selections.
 // this one is for the id=orderstable display area
+// Enhanced function to hide entries in table that do not match the 
+// type of drink selected in the left drinks/quantity panel. 
 function selectStatusTable(){
     console.log("enter selectStatusTable");
+    // First action - determine what statuses we are looking for to be displayed
     //var thisStatus;
     var eleListItemStatus;
     var i = 0; 
@@ -572,11 +573,11 @@ function selectStatusTable(){
             statusCheckString = statusCheckString + " " +  statusList[i].id;
         }
     }
+    // Next action - scan order entries and hid those that do not match
+    // the desired status.
     var eleTableBody =  document.getElementById("orderstable");
     if(eleTableBody){
         var trList = eleTableBody.getElementsByTagName("tr");
-        //var eleTableBody =  document.getElementById("orderstable");
-        //var trList = eleTableBody.getElementsByClassName("list-item");
         for(i = 0; i < trList.length; i++) {
             var showme = false;
             //var eleListItemStatus1 = trList[i].getElementsByClassName("w-20")[0];
@@ -601,10 +602,6 @@ function selectStatusTable(){
                     showme = true;
                 }
             }
-            //console.log("selectStatus: " + trList[i].childNodes[4].innerHTML);
-            //console.dir(trList[i].children[4].innerHTML);
-            //thisStatus = trList[i].children[4].innerHTML;
-            //if (statusCheckString.indexOf(thisStatus) > -1) {
             if (showme) {
                 trList[i].style.display = "";
             } else {
@@ -612,7 +609,29 @@ function selectStatusTable(){
             }
         }
     }
-    console.log("exit selectStatusTable");
+    //console.log("exit selectStatusTable");
+}
+
+// This function is called when a status update is requested.
+function typeUpdate(el){
+    console.log("typeUpdate called.");
+    // this function highlights this particular drink type using an added class 
+    var sumTypesParent = el.parentElement;
+    var sumTypes = sumTypesParent.children;
+    for(var i=0; i< sumTypes.length; i++){
+        if(el.isSameNode(sumTypes[i])){
+            if (sumTypes[i].classList.contains("typeselected")){
+                sumTypes[i].classList.remove("typeselected");
+            }else{
+                el.classList.add("typeselected");
+            }
+        }else{
+            if (sumTypes[i].classList.contains("typeselected")){
+                sumTypes[i].classList.remove("typeselected");
+            }
+        }
+    }
+    selectStatus();
 }
 
 // This function is called when a status update is requested.
@@ -647,12 +666,12 @@ function orderUpdate(el){
             //el.parentElement.children[4].innerHTML = newStatus;
             //selectStatus();
             console.log($(el))
-            //$(".selected-button").removeClass("selected-button");
-            //$(el).addClass("selected-button");
-            $(".selected-button").removeClass("new");
-            $(".selected-button").removeClass("ready");
-            $(".selected-button").removeClass("done");
-            $(el).addClass(newStatus);
+            //!!$(".selected-button").removeClass("selected-button");
+            //!!$(el).addClass("selected-button");
+            //$(".selected-button").removeClass("new");
+            //$(".selected-button").removeClass("ready");
+            //$(".selected-button").removeClass("done");
+            //$(el).addClass(newStatus);
             console.log(newStatus);
             countDrinks();
         },
@@ -852,25 +871,7 @@ function counterAddPerson() {
 
     return;
 }
-/*
-// This function filters the selectable drinks
-function counterDrinks() {
-    var input, filter, ul, li, a, i;
-    input = document.getElementById("drinkInput");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("myDrinksUL");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        //a = li[i].getElementsByTagName("a")[0];
-        a = li[i];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
-*/
+
 // This function is called when the drink is selected
 // It displays the name of the drink selected and 
 // populates the form field with the drink_id 
@@ -941,42 +942,78 @@ function highlightPerson(el){
 
 
 // This function counts the drinks types in the orders
+// Since we added the order selection option to reduce the displayed orders
+// based on the selected drink type in this list, we now need to display
+// the ready drinks in this list BUT put no value against them.
 function countDrinks() {
     console.log("countDrinks called");
     var drinktable = document.getElementById("sumorders");
     if(drinktable){
-        var  i, drink_name;
+        var  i, thisItem, drinkName, selectedDrinkName;
         var counts = {};
-        var orderList = document.getElementsByClassName("list-item");
-        for (i = 0; i < orderList.length; i++) {
-            //if (trList[i].classList.contains("new")){
-            if (orderList[i].classList.contains("new")){
-                //var orderListItems = orderList[i].getElementsByClassName("fa-coffee");
-                //var thisItem = orderListItems[0];
-                var thisItem = orderList[i].getElementsByClassName("fa-coffee")[0];
-                //var thisEle = thisItem.parentElement.getElementsByTagName("span")[0];
-                var drink_name = thisItem.parentElement.getElementsByTagName("span")[0].innerText;
-                //if(thisEle.classList.contains("counterstatusnew")){
-                    //drink_name = thisEle.innerText;
-                    if (counts[drink_name]){
-                        counts[drink_name] = counts[drink_name] + 1;
-                    }else{
-                        counts[drink_name] = 1;
-                    }
-                //}
+        var countReadys = {};
+        // Need to see if there already something selected in the drink 
+        // summary pane. If so, keep this so it can be reselected after
+        // refreshing this pane.
+        var eleSumTable = document.getElementById("sumorders");
+        if(eleSumTable){
+            var foundElements = eleSumTable.getElementsByClassName("typeselected");
+            if(foundElements.length > 0){
+                selectedDrinkName = foundElements[0].children[0].innerText;
             }
         }
-        
+        // Now go through the order list and rebuild this summary pane.
+        var orderList = document.getElementsByClassName("list-item");
+        var orderHead = document.getElementById("orders");
+        var orderListNew = orderHead.getElementsByClassName("new");
+        for (i = 0; i < orderListNew.length; i++) {
+            thisItem = orderListNew[i].getElementsByClassName("fa-coffee")[0];
+            drinkName = thisItem.parentElement.getElementsByTagName("span")[0].innerText;
+            if (counts[drinkName]){
+                counts[drinkName] = counts[drinkName] + 1;
+            }else{
+                counts[drinkName] = 1;
+            }
+        }
+        var orderListReady = orderHead.getElementsByClassName("ready");
+        for (i = 0; i < orderListReady.length; i++) {
+            thisItem = orderListReady[i].getElementsByClassName("fa-coffee")[0];
+            drinkName = thisItem.parentElement.getElementsByTagName("span")[0].innerText;
+            if (! counts[drinkName]){   // not already included in new list
+                if(countReadys[drinkName]){
+                    countReadys[drinkName] = countReadys[drinkName] + 1;
+                }else{
+                    countReadys[drinkName] = 1;
+                }
+            }
+        }
+
         // sort array counts by drink name
         var countskeys = Object.keys(counts);
         countskeys.sort();
-        var eleTable = document.getElementById("sumorders");
-        eleTable.innerHTML = '';
+        var countReadyskeys = Object.keys(countReadys);
+        countReadyskeys.sort();
+        // now populate the summary pane
+        eleSumTable.innerHTML = '';
         for (i = 0; i < countskeys.length; i++) {
             var eleTr = document.createElement("tr");
             eleTr.innerHTML = "<td>" + countskeys[i] + "</td>" +
                               "<td>" + counts[countskeys[i]] + "</td>";
-            eleTable.appendChild(eleTr);
+            eleTr.setAttribute("onclick","typeUpdate(this);");
+            if(countskeys[i] == selectedDrinkName){
+                eleTr.classList.add('typeselected');
+            }
+            eleSumTable.appendChild(eleTr);
+        }
+        for (i = 0; i < countReadyskeys.length; i++) {
+            eleTr = document.createElement("tr");
+            eleTr.innerHTML = "<td>" + countReadyskeys[i] + "</td>" +
+                              "<td></td>";
+            eleTr.setAttribute("onclick","typeUpdate(this);");
+            if(countReadyskeys[i] == selectedDrinkName){
+                eleTr.classList.add('typeselected');
+            }
+            eleSumTable.appendChild(eleTr);
         }
     }
 }
