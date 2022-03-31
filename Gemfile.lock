@@ -104,7 +104,7 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     pg (0.21.0)
-    puma (4.3.11)
+    puma (4.3.12)
       nio4r (~> 2.0)
     racc (1.6.0)
     rack (2.2.3)
@@ -189,7 +189,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   pg (~> 0.18)
-  puma (~> 4.3.8)
+  puma (~> 4.3.12)
   rails (~> 5.2.6.2)
   redis (~> 3.0)
   sassc-rails (~> 2.1, >= 2.1.2)
