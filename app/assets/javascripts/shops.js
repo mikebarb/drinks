@@ -713,6 +713,10 @@ function destroyOrder(el){
 
 function counterSubmitOrder() {
     console.log("counterSubmitOrder: called");
+    // Need to prevent the user from resubmitting the order multiple times
+    // so hide the "submit order" button once pressed.
+    document.getElementById("submitOrder").style.display = "none";            
+    // Now process the submission
     var eleMyPersonId = document.getElementById("myPersonId");
     //var eleMyDrinkId = document.getElementById("myDrinkId");
     var eleMyDrink = document.getElementById("myDrinkName");
@@ -761,6 +765,8 @@ function counterSubmitOrder() {
         error: function(){
             console.log("orders ajax update failed");
             alert("failed to add order record");
+            // Allow the user to resubmit the order.
+            document.getElementById("submitOrder").style.display = "";            
         }
     });
 
