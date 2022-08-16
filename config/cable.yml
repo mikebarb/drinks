@@ -12,3 +12,4 @@ production:
   # for the new redis in https://app.redislabs.com/#/subscriptions/subscription/1825196/bdb-view/11171941/configuration
   url: <%= ENV["REDIS_URL"] %>
   password: <%= ENV["REDIS_PASSWORD"] %>
+  channel_prefix: <%= ENV["ACTIONCABLE_CHANNEL_PREFIX"] %>
