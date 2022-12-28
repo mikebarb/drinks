@@ -10,48 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200314004513) do
+ActiveRecord::Schema.define(version: 2020_03_14_004513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "buttons", force: :cascade do |t|
-    t.string   "name"
-    t.string   "group"
-    t.string   "enable"
-    t.integer  "seq"
+  create_table "buttons", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "group"
+    t.string "enable"
+    t.integer "seq"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "drinks", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "seq"
+  create_table "drinks", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "seq"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "orders", force: :cascade do |t|
-    t.integer  "person_id"
-    t.integer  "drink_id"
-    t.integer  "quantity"
-    t.string   "status"
-    t.date     "day"
+  create_table "orders", id: :serial, force: :cascade do |t|
+    t.integer "person_id"
+    t.integer "drink_id"
+    t.integer "quantity"
+    t.string "status"
+    t.date "day"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "drink"
-    t.index ["day"], name: "index_orders_on_day", using: :btree
-    t.index ["drink_id"], name: "index_orders_on_drink_id", using: :btree
-    t.index ["person_id"], name: "index_orders_on_person_id", using: :btree
+    t.string "drink"
+    t.index ["day"], name: "index_orders_on_day"
+    t.index ["drink_id"], name: "index_orders_on_drink_id"
+    t.index ["person_id"], name: "index_orders_on_person_id"
   end
 
-  create_table "people", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-    t.integer  "lastdrinkid"
+  create_table "people", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "lastdrinkid"
     t.datetime "lastdrinktime"
-    t.string   "lastdrink"
+    t.string "lastdrink"
   end
 
   add_foreign_key "orders", "drinks"
