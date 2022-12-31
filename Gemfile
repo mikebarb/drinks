@@ -2,12 +2,14 @@ source 'https://rubygems.org'
 
 # current version of ruby used in the staging server
 ruby "2.6.6"
+#ruby "3.1.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 #gem 'rails', '>= 5.2.4.4'
 #gem 'rails', '~> 5.2.4.4'
-gem 'rails', '~> 5.2.6.2'
+#gem 'rails', '~> 5.2.6.2'
+gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server

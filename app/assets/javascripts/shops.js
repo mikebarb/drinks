@@ -837,6 +837,12 @@ function counterFilterPeople() {
 // then this person can be added by clicking the "add person" button.
 // This function is called to add person to the database.
 function counterAddPerson() {
+    // Hide the "Add Person" button as the action is underway
+    var showButtonAddPerson;
+    showButtonAddPerson = document.getElementById("buttonAddPerson");
+    showButtonAddPerson.className = '';
+    showButtonAddPerson.classList.add("hideme");
+    // Now add the person to the database
     var person_id;
     var name = document.getElementById("personInput").value;
     console.log('addPerson:' + name );

@@ -2,14 +2,9 @@ development:
   adapter: async
 
 test:
-  adapter: async
+  adapter: test
 
 production:
   adapter: redis
-  #url: redis://localhost:6379/1
-  #url: redis://redistogo:e85f6872050575c8a2ff87ae82af2af7@pike.redistogo.com:9511/
-  
-  # for the new redis in https://app.redislabs.com/#/subscriptions/subscription/1825196/bdb-view/11171941/configuration
-  url: <%= ENV["REDIS_URL"] %>
-  password: <%= ENV["REDIS_PASSWORD"] %>
-  channel_prefix: <%= ENV["ACTIONCABLE_CHANNEL_PREFIX"] %>
+  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
+  channel_prefix: <%= ENV.fetch("ACTIONCABLE_CHANNEL_PREFIX") {"drinks"} %>
