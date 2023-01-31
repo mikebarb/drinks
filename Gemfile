@@ -3,13 +3,14 @@ source 'https://rubygems.org'
 # current version of ruby used in the staging server
 ruby "2.6.6"
 #ruby "3.1.0"
+#ruby "3.1.3"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 #gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 #gem 'rails', '>= 5.2.4.4'
 #gem 'rails', '~> 5.2.4.4'
 #gem 'rails', '~> 5.2.6.2'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.0.6'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -50,7 +51,10 @@ gem 'cloudprint'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platform: :mri
+  #gem 'byebug', platform: :mri
+  # This change from byebug to debug was done in ruby 6.0 
+  # - see https://dev.to/thomasvanholder/how-to-upgrade-your-rails-app-to-ruby-31-with-rbenv-5efl
+  gem "debug", ">= 1.0.0"
 end
 
 group :development do
